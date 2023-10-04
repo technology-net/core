@@ -14,7 +14,7 @@
     <!-- Layout styles -->
     <link rel="stylesheet" href="{{ mix('core/css/style.css') }}" />
     <!-- End layout styles -->
-    <link rel="shortcut icon" href="{{ asset('core/images/favicon.png') }}" />
+    <link rel="shortcut icon" href="{{ mix('core/images/favicon.png') }}" />
     @yield('css')
 </head>
 <body>
@@ -37,9 +37,9 @@
 <!-- Custom js for this page -->
 <script src="{{ mix('core/js/dashboard.js') }}"></script>
 <!-- End custom js for this page -->
-<script type="text/javascript" src="{{ asset('core/js/validate.js') }}" defer></script>
-<script type="text/javascript" src="{{ asset('core/js/login.js') }}" defer></script>
-<script type="text/javascript" src="{{ asset('core/js/common.js') }}" defer></script>
+<script type="text/javascript" src="{{ mix('core/js/validate.js') }}" defer></script>
+<script type="text/javascript" src="{{ mix('core/js/login.js') }}" defer></script>
+<script type="text/javascript" src="{{ mix('core/js/common.js') }}" defer></script>
 <script type="text/javascript">
     let dashboard_url = '{{ route('dashboard.index') }}'
     let validateMessage = {!! json_encode(trans('packages/core::validation')) !!}

@@ -14,7 +14,7 @@
     <!-- Layout styles -->
     <link rel="stylesheet" href="{{ mix('core/css/style.css') }}" />
     <!-- End layout styles -->
-    <link rel="shortcut icon" href="{{ asset('core/images/favicon.png') }}" />
+    <link rel="shortcut icon" href="{{ mix('core/images/favicon.png') }}" />
     @yield('css')
 </head>
 <body>
@@ -56,8 +56,8 @@
 <script>
     let validateMessage = {!! json_encode(trans('packages/core::validation')) !!}
 </script>
-<script type="text/javascript" src="{{ asset('core/js/validate.js') }}" defer></script>
-<script type="text/javascript" src="{{ asset('core/js/common.js') }}" defer></script>
+<script type="text/javascript" src="{{ mix('core/js/validate.js') }}" defer></script>
+<script type="text/javascript" src="{{ mix('core/js/common.js') }}" defer></script>
 @yield('js')
 </body>
 </html>
