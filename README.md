@@ -39,8 +39,6 @@ glob.sync(path.resolve(__dirname) + '/vendor/iboot/**/**/webpack.mix.js').forEac
 
 ## Run migration && seeder
 
-- Remove migration `...create_users_table` in your project.
-
 `php artisan migrate && php artisan db:seed --class="IBoot\Core\Database\Seeders\UserSeeder"`
 
 ## File `package.json` and `npm run watch`
