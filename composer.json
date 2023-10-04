@@ -15,7 +15,10 @@
         "psr-4": {
             "IBoot\\Core\\": "src/",
             "IBoot\\Core\\Database\\Seeders\\": "src/database/seeders"
-        }
+        },
+        "files": [
+            "/src/app/Helpers/response.php"
+        ]
     },
     "extra": {
         "laravel": {

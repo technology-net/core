@@ -41,17 +41,13 @@ class LoginController extends Controller
             'status' => User::ACTIVATED,
         ];
 
-        if (!Auth::attempt($credentials)) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Your email or password not correct.'
-            ]);
-        }
+        $data = null;
+        $statusResponse = Auth::attempt($credentials);
+        $message = !Auth::attempt($credentials)
+            ? trans('packages/core::messages.login_failed')
+            : trans('packages/core::messages.login_success');
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Login successfully.'
-        ]);
+        return responseJson($data, $statusResponse, $message);
     }
 
     public function logout(Request $request): Redirector|Application|RedirectResponse
