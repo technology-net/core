@@ -42,3 +42,34 @@ glob.sync(path.resolve(__dirname) + '/packages/**/**/webpack.mix.js').forEach(it
 - Remove migration `...create_users_table` in your project.
 
 `php artisan migrate && php artisan db:seed --class="IBoot\Core\Database\Seeders\UserSeeder"`
+
+## File `package.json` and `npm run watch`
+
+```
+
+{
+    "private": true,
+    "scripts": {
+        "dev": "npm run development",
+        "development": "mix",
+        "watch": "mix watch",
+        "watch-poll": "mix watch -- --watch-options-poll=1000",
+        "hot": "mix watch --hot",
+        "prod": "npm run production",
+        "production": "mix --production"
+    },
+    "devDependencies": {
+        "axios": "^1.1.2",
+        "laravel-mix": "^6.0.49",
+        "laravel-vite-plugin": "^0.8.0",
+        "popper.js": "^1.16.1",
+        "vite": "^4.0.0"
+    },
+    "dependencies": {
+        "autoprefixer": "10.4.5",
+        "glob": "^10.3.10"
+    }
+}
+
+```
+
