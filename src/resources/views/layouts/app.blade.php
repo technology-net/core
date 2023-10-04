@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>ICI Admin</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="{{ mix('core/vendors/css/materialdesignicons.min.css') }}">
+    <link rel="stylesheet" href="{{ mix('core/vendors/css/vendor.bundle.base.css') }}">
+    <link rel="stylesheet" href="{{ mix('core/vendors/css/toastr.min.css') }}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"
+            integrity="sha512-lbwH47l/tPXJYG9AcFNoJaTMhGvYWhVM9YI43CT+uteTRRaiLCui8snIgyAN8XWgNjNhCqlAUdzZptso6OCoFQ=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.css"
+          integrity="sha512-6S2HWzVFxruDlZxI3sXOZZ4/eJ8AcxkQH1+JjSe/ONCEqR9L4Ysq5JdT5ipqtzU7WHalNwzwBv+iE51gNHJNqQ=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <!-- end-inject -->
+    <!-- Layout styles -->
+    <link rel="stylesheet" href="{{ mix('core/css/style.css') }}">
+    <!-- End layout styles -->
+    <link rel="shortcut icon" href="{{ asset('core/images/favicon.png') }}"/>
+</head>
+<body>
+<div class="container-scroller">
+    @yield('content')
+</div>
+<!-- container-scroller -->
+<!-- plugins:js -->
+<script src="{{ mix('core/vendors/js/jquery-3.7.1.min.js') }}"></script>
+<script src="{{ mix('core/vendors/js/vendor.bundle.base.js') }}"></script>
+<script src="{{ mix('core/vendors/js/toastr.min.js') }}"></script>
+<!-- end-inject -->
+<!-- inject:js -->
+<script src="{{ mix('core/js/off-canvas.js') }}"></script>
+<script src="{{ mix('core/js/hoverable-collapse.js') }}"></script>
+<script src="{{ mix('core/js/misc.js') }}"></script>
+<script src="{{ mix('core/js/settings.js') }}"></script>
+<script src="{{ mix('core/js/todolist.js') }}"></script>
+<!-- end-inject -->
+<!-- Custom js for this page -->
+<script src="{{ mix('core/js/dashboard.js') }}"></script>
+<!-- End custom js for this page -->
+<script type="text/javascript" src="{{ asset('core/js/validate.js') }}" defer></script>
+<script type="text/javascript" src="{{ asset('core/js/login.js') }}" defer></script>
+<script type="text/javascript" src="{{ asset('core/js/common.js') }}" defer></script>
+<script type="text/javascript">
+    let dashboard_url = '{{ route('dashboard.index') }}'
+    let validateMessage = {!! json_encode(trans('packages/core::validation')) !!}
+</script>
+</body>
+</html>
