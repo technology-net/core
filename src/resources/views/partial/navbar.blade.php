@@ -1,6 +1,6 @@
 <nav class="navbar p-0 fixed-top d-flex flex-row">
     <div class="navbar-brand-wrapper d-flex d-lg-none align-items-center justify-content-center">
-        <a class="navbar-brand brand-logo-mini" href="/admin/dashboard"><img src="{{ asset('core/images/img.png') }}" alt="logo"/></a>
+        <a class="navbar-brand brand-logo-mini" href="/admin/dashboard"><img src="{{ asset('core/images/img.png') }}" alt="logo" /></a>
     </div>
     <div class="navbar-menu-wrapper flex-grow d-flex align-items-stretch">
         <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
@@ -10,7 +10,7 @@
             <li class="nav-item w-100">
                 <form class="">
                     <label class="nav-link mt-2 mt-md-0 d-none d-lg-flex search">
-                        <input type="text" class="form-control nav-search" placeholder="Search...">
+                        <input type="text" class="form-control nav-search" placeholder="Search..." />
                     </label>
                 </form>
             </li>
@@ -26,11 +26,11 @@
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item preview-item">
                         <div class="preview-thumbnail">
-                            <img src="{{ asset('core/images/faces/face15.jpg') }}" alt="image" class="rounded-circle profile-pic">
+                            <img src="{{ asset('core/images/faces/face15.jpg') }}" alt="image" class="rounded-circle profile-pic" />
                         </div>
                         <div class="preview-item-content">
                             <p class="preview-subject ellipsis mb-1">Mark send you a message</p>
-                            <p class="text-muted mb-0"> 1 Minutes ago </p>
+                            <p class="text-muted mb-0">1 Minutes ago</p>
                         </div>
                     </a>
                     <div class="dropdown-divider"></div>
@@ -53,7 +53,7 @@
                         </div>
                         <div class="preview-item-content">
                             <p class="preview-subject mb-1">Event today</p>
-                            <p class="text-muted ellipsis mb-0"> Just a reminder that you have an event today </p>
+                            <p class="text-muted ellipsis mb-0">Just a reminder that you have an event today</p>
                         </div>
                     </a>
                     <div class="dropdown-divider"></div>
@@ -65,7 +65,7 @@
                         </div>
                         <div class="preview-item-content">
                             <p class="preview-subject mb-1">Settings</p>
-                            <p class="text-muted ellipsis mb-0"> Update dashboard </p>
+                            <p class="text-muted ellipsis mb-0">Update dashboard</p>
                         </div>
                     </a>
                     <div class="dropdown-divider"></div>
@@ -77,7 +77,7 @@
                         </div>
                         <div class="preview-item-content">
                             <p class="preview-subject mb-1">Launch Admin</p>
-                            <p class="text-muted ellipsis mb-0"> New admin wow! </p>
+                            <p class="text-muted ellipsis mb-0">New admin wow!</p>
                         </div>
                     </a>
                     <div class="dropdown-divider"></div>
@@ -87,7 +87,7 @@
             <li class="nav-item dropdown">
                 <a class="nav-link" id="profileDropdown" href="#" data-toggle="dropdown">
                     <div class="navbar-profile">
-                        <img class="img-xs rounded-circle" src="{{ asset('core/images/faces/face15.jpg') }}" alt="">
+                        <img class="img-xs rounded-circle" src="{{ asset('core/images/faces/face15.jpg') }}" alt="" />
                         <p class="mb-0 d-none d-sm-block navbar-profile-name">Tuan Anh</p>
                         <i class="mdi mdi-menu-down d-none d-sm-block"></i>
                     </div>

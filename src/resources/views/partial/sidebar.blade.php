@@ -8,7 +8,7 @@
             <div class="profile-desc">
                 <div class="profile-pic">
                     <div class="count-indicator">
-                        <img class="img-xs rounded-circle " src="{{ asset('core/images/faces/face15.jpg') }}" alt="">
+                        <img class="img-xs rounded-circle" src="{{ asset('core/images/faces/face15.jpg') }}" alt="" />
                         <span class="count bg-success"></span>
                     </div>
                     <div class="profile-name">
@@ -56,9 +56,9 @@
         <li class="nav-item nav-category"></li>
         <li class="nav-item menu-items">
             <a class="nav-link" href="/admin/dashboard">
-              <span class="menu-icon">
-                <i class="mdi mdi-speedometer"></i>
-              </span>
+                <span class="menu-icon">
+                    <i class="mdi mdi-speedometer"></i>
+                </span>
                 <span class="menu-title">Dashboard</span>
             </a>
         </li>

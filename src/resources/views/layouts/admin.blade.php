@@ -2,19 +2,20 @@
 <html lang="en">
 <head>
     <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
     <title>ICI Admin</title>
     <!-- plugins:css -->
-    <link rel="stylesheet" href="{{ mix('core/vendors/css/materialdesignicons.min.css') }}">
-    <link rel="stylesheet" href="{{ mix('core/vendors/css/vendor.bundle.base.css') }}">
-    <link rel="stylesheet" href="{{ mix('core/vendors/css/toastr.min.css') }}">
+    <link rel="stylesheet" href="{{ mix('core/vendors/css/materialdesignicons.min.css') }}" />
+    <link rel="stylesheet" href="{{ mix('core/vendors/css/vendor.bundle.base.css') }}" />
+    <link rel="stylesheet" href="{{ mix('core/vendors/css/toastr.min.css') }}" />
     <!-- end-inject -->
     <!-- Layout styles -->
-    <link rel="stylesheet" href="{{ mix('core/css/style.css') }}">
+    <link rel="stylesheet" href="{{ mix('core/css/style.css') }}" />
     <!-- End layout styles -->
-    <link rel="shortcut icon" href="{{ asset('core/images/favicon.png') }}"/>
+    <link rel="shortcut icon" href="{{ asset('core/images/favicon.png') }}" />
+    @yield('css')
 </head>
 <body>
 <div class="container-scroller">
@@ -26,8 +27,7 @@
         @include('packages/core::partial.navbar')
         <!-- partial -->
         <div class="main-panel">
-            <div class="content-wrapper">
-            </div>
+            <div class="content-wrapper"></div>
             <!-- content-wrapper ends -->
             <!-- partials/footer -->
             @include('packages/core::partial.footer')
@@ -58,5 +58,6 @@
 </script>
 <script type="text/javascript" src="{{ asset('core/js/validate.js') }}" defer></script>
 <script type="text/javascript" src="{{ asset('core/js/common.js') }}" defer></script>
+@yield('js')
 </body>
 </html>
