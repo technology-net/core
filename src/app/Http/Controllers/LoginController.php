@@ -38,7 +38,7 @@ class LoginController extends Controller
         $credentials = [
             'email' => $input['email'],
             'password' => $input['password'],
-            'status' => User::ACTIVATED,
+            'status' => User::STATUS_ACTIVATED,
         ];
 
         $data = null;

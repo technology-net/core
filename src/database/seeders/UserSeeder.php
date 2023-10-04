@@ -18,7 +18,7 @@ class UserSeeder extends Seeder
         User::create([
             'email' => 'admin@icitech.net',
             'name' => 'Admin',
-            'status' => User::ACTIVATED,
+            'status' => User::STATUS_ACTIVATED,
             'username' => 'admin',
             'password' => Hash::make('password'),
         ]);

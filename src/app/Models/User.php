@@ -16,9 +16,8 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    public const ACTIVATED = 'Activated';
-
-    public const DEACTIVATED = 'Deactivated';
+    public const STATUS_ACTIVATED = 'Activated';
+    public const STATUS_DEACTIVATED = 'Deactivated';
 
     /**
      * The attributes that are mass assignable.

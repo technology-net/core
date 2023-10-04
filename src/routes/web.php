@@ -13,6 +13,7 @@ Route::middleware(['web'])->group(function () {
 
             Route::get('/logout', 'LoginController@logout')->name('.logout');
         });
+
         Route::resource('dashboard', 'DashboardController')->only('index')
             ->middleware(Authenticate::class);
     });

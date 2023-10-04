@@ -14,7 +14,8 @@ return new class extends Migration
         if (!Schema::hasColumn('users', 'status')) {
             Schema::table('users', function (Blueprint $table) {
                 $table->string('status')
-                    ->default('Activated')->comment('Activated, Deactivated')
+                    ->default('Activated')
+                    ->comment('Activated, Deactivated')
                     ->after('password');
             });
         }
