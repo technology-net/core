@@ -3,6 +3,8 @@
     <div class="container-fluid page-body-wrapper full-page-wrapper">
         <div class="row w-100 m-0">
             <div class="content-wrapper full-page-wrapper d-flex align-items-center auth login-bg">
+                <i class="fa fa-eye"></i>
+                <i class="fa-solid fa-pen-to-square"></i>
                 <div class="card col-lg-4 mx-auto rounded">
                     <div class="card-body px-5 py-5">
                         <h3 class="card-title text-center mb-3">Login</h3>

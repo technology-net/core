@@ -31,7 +31,8 @@ class CoreServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__ . '/../../database/migrations' => database_path('migrations'),
             __DIR__ . '/../../database/seeders' => database_path('seeders'),
-            __DIR__ . '/../../config/core.php' => config_path('core.php'),
+            __DIR__ . '/../../config' => config_path(),
+            __DIR__ . '/../../lang' => lang_path(),
         ]);
     }
 }

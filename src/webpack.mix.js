@@ -19,12 +19,16 @@ mix
   .js(dir + '/resources/js/login.js', dist + '/core/js').version()
   .copy(source + '/vendors/js/jquery-3.7.1.min.js', dist + '/core/vendors/js')
   .copy(source + '/vendors/toastr/toastr.min.js', dist + '/core/vendors/js')
+  .copy(source + '/vendors/select2/select2.min.js', dist + '/core/vendors/js')
+  .copy(source + '/vendors/sweet-alert/sweetalert2.all.min.js', dist + '/core/vendors/js')
 
   // css
-  .css(source + '/css/style.css', dist + '/core/css').version()
   .css(source + '/vendors/css/vendor.bundle.base.css', dist + '/core/vendors/css').version()
   .css(source + '/vendors/mdi/css/materialdesignicons.min.css', dist + '/core/vendors/css').version()
+  .copy(source + '/css/style.css', dist + '/core/css').version()
   .copy(source + '/vendors/toastr/toastr.min.css', dist + '/core/vendors/css').version()
+  .copy(source + '/vendors/select2/select2.min.css', dist + '/core/vendors/css').version()
+  .copy(source + '/vendors/sweet-alert/sweetalert2.min.css', dist + '/core/vendors/css').version()
 
   // fonts
   .copy(source + '/fonts', dist + '/core/fonts')
