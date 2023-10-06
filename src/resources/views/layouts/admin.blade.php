@@ -27,7 +27,9 @@
         @include('packages/core::partial.navbar')
         <!-- partial -->
         <div class="main-panel">
-            <div class="content-wrapper"></div>
+            <div class="content-wrapper">
+                @yield('content')
+            </div>
             <!-- content-wrapper ends -->
             <!-- partials/footer -->
             @include('packages/core::partial.footer')
