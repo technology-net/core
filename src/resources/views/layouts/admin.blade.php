@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="{{ mix('core/vendors/css/materialdesignicons.min.css') }}" />
     <link rel="stylesheet" href="{{ mix('core/vendors/css/vendor.bundle.base.css') }}" />
     <link rel="stylesheet" href="{{ mix('core/vendors/css/toastr.min.css') }}" />
+    <link rel="stylesheet" href="{{ mix('core/vendors/css/sweetalert2.min.css') }}" />
+    <link rel="stylesheet" href="{{ mix('core/vendors/css/select2.min.css') }}" />
     <!-- end-inject -->
     <!-- Layout styles -->
     <link rel="stylesheet" href="{{ mix('core/css/style.css') }}" />
@@ -44,6 +46,8 @@
 <script src="{{ mix('core/vendors/js/jquery-3.7.1.min.js') }}"></script>
 <script src="{{ mix('core/vendors/js/vendor.bundle.base.js') }}"></script>
 <script src="{{ mix('core/vendors/js/toastr.min.js') }}"></script>
+<script src="{{ mix('core/vendors/js/sweetalert2.all.min.js') }}"></script>
+<script src="{{ mix('core/vendors/js/select2.min.js') }}"></script>
 <!-- end-inject -->
 <!-- inject:js -->
 <script src="{{ mix('core/js/off-canvas.js') }}"></script>
