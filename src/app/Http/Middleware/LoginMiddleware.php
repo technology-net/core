@@ -19,7 +19,7 @@ class LoginMiddleware
      */
     public function handle(Request $request, Closure $next): Response|RedirectResponse
     {
-        if (Auth::id() !== null) {
+        if (Auth::check()) {
             return redirect()->route('dashboard.index');
         }
 

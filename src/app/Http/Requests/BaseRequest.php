@@ -2,7 +2,9 @@
 
 namespace IBoot\Core\app\Http\Requests;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class BaseRequest extends FormRequest
 {
@@ -14,5 +16,26 @@ class BaseRequest extends FormRequest
     public function authorize(): bool
     {
         return true;
+    }
+
+    /**
+     * @return Validator
+     */
+    public function getValidator(): Validator
+    {
+        return $this->validator;
+    }
+
+    /**
+     * @param Validator $validator
+     */
+    protected function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(
+            responseUnprocessableEntity(
+                $validator->errors()->toArray(),
+                trans('messages.validation_error')
+            )
+        );
     }
 }
