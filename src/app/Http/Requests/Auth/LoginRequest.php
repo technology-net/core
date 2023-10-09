@@ -18,5 +18,13 @@ class LoginRequest extends BaseRequest
             'password' => 'required',
         ];
     }
+
+    public function attributes(): array
+    {
+        return [
+            'email' => 'email',
+            'password' => 'password'
+        ];
+    }
 }
 

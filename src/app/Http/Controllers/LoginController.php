@@ -33,7 +33,6 @@ class LoginController extends Controller
      *
      * @param LoginRequest $loginRequest
      * @return JsonResponse
-     * @throws ForbiddenException
      * @throws UnauthorizedException
      */
     public function login(LoginRequest $loginRequest): JsonResponse
@@ -52,6 +51,12 @@ class LoginController extends Controller
         return responseSuccess(null, trans('packages/core::messages.login_success'));
     }
 
+    /**
+     * Logout
+     *
+     * @param Request $request
+     * @return Redirector|Application|RedirectResponse
+     */
     public function logout(Request $request): Redirector|Application|RedirectResponse
     {
         Auth::logout();

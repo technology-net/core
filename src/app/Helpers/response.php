@@ -1,6 +1,5 @@
 <?php
 
-use IBoot\Core\app\Exceptions\ForbiddenException;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Http\JsonResponse;
 
