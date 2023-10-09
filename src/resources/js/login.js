@@ -18,17 +18,19 @@ $(document).ready(function () {
           setTimeout(() => {
             window.location.href = dashboard_url
           }, 1000)
-        } else {
-          toastr.error(response.message)
         }
       },
       error: function(jQxhr, textStatus, errorThrown)
       {
         if (jQxhr.status === 422) {
-          let errors = jQxhr.responseJSON.errors;
+          let errors = jQxhr["responseJSON"].errors ?? jQxhr["responseJSON"].data;
           for (let [key, value] of Object.entries(errors)) {
             showError(key, value[0])
           }
+        }
+
+        if (jQxhr.status === 401) {
+          toastr.error(jQxhr["responseJSON"].message)
         }
       }
     })

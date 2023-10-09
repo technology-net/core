@@ -3,6 +3,8 @@
 namespace IBoot\Core\app\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use IBoot\Core\app\Exceptions\ForbiddenException;
+use IBoot\Core\app\Exceptions\UnauthorizedException;
 use IBoot\Core\app\Http\Requests\Auth\LoginRequest;
 use IBoot\Core\app\Models\User;
 use Illuminate\Contracts\View\Factory;
@@ -31,6 +33,7 @@ class LoginController extends Controller
      *
      * @param LoginRequest $loginRequest
      * @return JsonResponse
+     * @throws UnauthorizedException
      */
     public function login(LoginRequest $loginRequest): JsonResponse
     {
@@ -41,15 +44,19 @@ class LoginController extends Controller
             'status' => User::STATUS_ACTIVATED,
         ];
 
-        $data = null;
-        $statusResponse = Auth::attempt($credentials);
-        $message = !Auth::attempt($credentials)
-            ? trans('packages/core::messages.login_failed')
-            : trans('packages/core::messages.login_success');
+        if(!auth()->attempt($credentials)) {
+            throw new UnauthorizedException(null, trans('packages/core::messages.login_failed'));
+        }
 
-        return responseJson($data, $statusResponse, $message);
+        return responseSuccess(null, trans('packages/core::messages.login_success'));
     }
 
+    /**
+     * Logout
+     *
+     * @param Request $request
+     * @return Redirector|Application|RedirectResponse
+     */
     public function logout(Request $request): Redirector|Application|RedirectResponse
     {
         Auth::logout();
