@@ -14,7 +14,12 @@ Route::middleware(['web'])->group(function () {
             Route::get('/logout', 'LoginController@logout')->name('.logout');
         });
 
-        Route::resource('dashboard', 'DashboardController')->only('index')
-            ->middleware(Authenticate::class);
+        Route::middleware(Authenticate::class)->group(function () {
+            Route::resource('dashboard', 'HomeController')->only('index');
+
+            Route::get('/run-command', 'PluginController@install')->name('install.package');
+
+            Route::resource('/plugins', 'PluginController');
+        });
     });
 });

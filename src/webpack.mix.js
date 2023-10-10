@@ -25,6 +25,7 @@ mix
   // css
   .css(source + '/vendors/css/vendor.bundle.base.css', dist + '/core/vendors/css').version()
   .css(source + '/vendors/mdi/css/materialdesignicons.min.css', dist + '/core/vendors/css').version()
+  .css(dir + '/resources/css/plugin.css', dist + '/core/css').version()
   .copy(source + '/css/style.css', dist + '/core/css').version()
   .copy(source + '/vendors/toastr/toastr.min.css', dist + '/core/vendors/css').version()
   .copy(source + '/vendors/select2/select2.min.css', dist + '/core/vendors/css').version()

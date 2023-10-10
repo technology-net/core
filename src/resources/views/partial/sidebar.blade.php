@@ -54,13 +54,15 @@
             </div>
         </li>
         <li class="nav-item nav-category"></li>
-        <li class="nav-item menu-items">
-            <a class="nav-link" href="/admin/dashboard">
-                <span class="menu-icon">
-                    <i class="mdi mdi-speedometer"></i>
-                </span>
-                <span class="menu-title">Dashboard</span>
-            </a>
-        </li>
+        @foreach($sidebarItems as $sidebarItem)
+            <li class="nav-item menu-items {{ isSidebarMenuActive($sidebarItem['route']) ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route($sidebarItem['route']) }}">
+                    <span class="menu-icon">
+                        {!! $sidebarItem['icon'] !!}
+                    </span>
+                    <span class="menu-title">{{ $sidebarItem['name_package'] }}</span>
+                </a>
+            </li>
+        @endforeach
     </ul>
 </nav>

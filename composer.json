@@ -17,7 +17,8 @@
             "IBoot\\Core\\Database\\Seeders\\": "src/database/seeders"
         },
         "files": [
-            "/src/app/Helpers/response.php"
+            "/src/app/Helpers/response.php",
+            "/src/app/Helpers/common.php"
         ]
     },
     "extra": {
