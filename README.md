@@ -2,7 +2,7 @@
 
 
 ## Description.
-This is a package user management
+This is a core package management
 
 ## Create new project and add file `webpack.mix.js`
 ```
@@ -42,6 +42,8 @@ glob.sync(path.resolve(__dirname) + '/vendor/iboot/**/**/webpack.mix.js').forEac
 `php artisan migrate`
 
 `php artisan db:seed --class="IBoot\Core\Database\Seeders\UserSeeder"`
+
+`php artisan db:seed --class="IBoot\Core\Database\Seeders\PluginSeeder"`
 
 `php artisan vendor:publish --force`
 
