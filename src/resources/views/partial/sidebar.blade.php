@@ -55,14 +55,31 @@
         </li>
         <li class="nav-item nav-category"></li>
         @foreach($sidebarItems as $sidebarItem)
-            <li class="nav-item menu-items {{ isSidebarMenuActive($sidebarItem['route']) ? 'active' : '' }}">
-                <a class="nav-link" href="{{ route($sidebarItem['route']) }}">
-                    <span class="menu-icon">
-                        {!! $sidebarItem['icon'] !!}
-                    </span>
-                    <span class="menu-title">{{ $sidebarItem['name_package'] }}</span>
-                </a>
-            </li>
+            @if($sidebarItem->is_parent)
+                <li class="nav-item menu-items">
+                    <a class="nav-link {{ !empty($sidebarItem['route']) && isSidebarMenuActive($sidebarItem['route'])
+                        ? 'active' : '' }}" data-toggle="collapse" href="#ui-{{ $sidebarItem->id }}"
+                        aria-expanded="false" aria-controls="ui-{{ $sidebarItem->id }}">
+                        <span class="menu-icon">
+                            {!! $sidebarItem['icon'] !!}
+                        </span>
+                        <span class="menu-title">{{ $sidebarItem['name_package'] }}</span>
+                        <i class="menu-arrow"></i>
+                    </a>
+                    @include('packages/core::partial.collapse_menu')
+                </li>
+            @elseif(empty($sidebarItem->child_of))
+                <li class="nav-item menu-items
+                    {{ !empty($sidebarItem['route']) && isSidebarMenuActive($sidebarItem['route'])
+                        ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ !empty($sidebarItem['route']) ? route($sidebarItem['route']) : null }}">
+                        <span class="menu-icon">
+                            {!! $sidebarItem['icon'] !!}
+                        </span>
+                        <span class="menu-title">{{ $sidebarItem['name_package'] }}</span>
+                    </a>
+                </li>
+            @endif
         @endforeach
     </ul>
 </nav>

@@ -14243,3 +14243,53 @@ div.tagsinput span.tag a {
 .nav-item-left {
     border-left: 1px solid #ffffff !important;
 }
+
+.breadcrumb {
+    float: left;
+    background: transparent;
+    margin: 10px 0;
+    font-size: 13px;
+    padding: 0;
+    border-radius: 0;
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+}
+
+.breadcrumb-icon {
+    font-size: 18px;
+    color: #333;
+    margin-right: 3px;
+}
+
+.page-content .breadcrumb {
+    margin-bottom: 10px;
+    margin-top: -15px;
+}
+
+.breadcrumb > li > a {
+    color: #212529;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.breadcrumb-item.active {
+    color: #444444;
+}
+
+.breadcrumb-item+.breadcrumb-item {
+    padding-left: 8px;
+}
+
+
+.breadcrumb > li:first-child:before {
+    font-weight: 900;
+    display: inline-block;
+    padding-right: 4px;
+    color: #333333;
+}
+
+.toast-top-right {
+    top: 70px !important;
+    right: 30px !important;
+}

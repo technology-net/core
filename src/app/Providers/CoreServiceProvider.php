@@ -2,6 +2,8 @@
 
 namespace IBoot\Core\app\Providers;
 
+use IBoot\Core\app\Models\Plugin;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 
 class CoreServiceProvider extends ServiceProvider
@@ -23,6 +25,14 @@ class CoreServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        Paginator::useBootstrapFive();
+
+        $sidebarItems = Plugin::query()
+            ->where('status', Plugin::STATUS_INSTALLED)
+            ->orderBy('order')
+            ->get();
+        view()->share('sidebarItems', $sidebarItems);
+
         $this->loadRoutesFrom(__DIR__ . '/../../routes/web.php');
         $this->loadViewsFrom(__DIR__ . '/../../resources/views', 'packages/core');
         $this->loadMigrationsFrom(__DIR__ . '/../../database/migrations');
@@ -33,6 +43,7 @@ class CoreServiceProvider extends ServiceProvider
             __DIR__ . '/../../database/seeders' => database_path('seeders'),
             __DIR__ . '/../../config' => config_path(),
             __DIR__ . '/../../lang' => lang_path(),
+            __DIR__ . '/../../resources/views' => resource_path('views/users'),
         ]);
     }
 }

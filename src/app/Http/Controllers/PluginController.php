@@ -24,9 +24,9 @@ class PluginController extends Controller
      */
     public function index(): View
     {
-        $sidebarItems = $this->pluginService->getInstalledPlugins();
+        $plugins = $this->pluginService->getAllPlugins();
 
-        return view('packages/core::plugins.index', ['sidebarItems' => $sidebarItems]);
+        return view('packages/core::plugins.index', ['plugins' => $plugins]);
     }
 
     public function install(): string

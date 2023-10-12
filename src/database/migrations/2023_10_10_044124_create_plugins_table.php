@@ -16,10 +16,13 @@ return new class extends Migration
             $table->string('name_package');
             $table->string('version')->nullable();
             $table->string('status')->default('Installed')->comment('Installed, Uninstalled');
+            $table->boolean('is_default')->default(false);
+            $table->boolean('is_parent')->default(true);
+            $table->bigInteger('child_of')->nullable();
             $table->string('scripts')->nullable();
             $table->string('icon')->nullable();
             $table->integer('order')->unique();
-            $table->string('route');
+            $table->string('route')->nullable();
             $table->string('image')->nullable();
             $table->string('description')->nullable();
             $table->timestamps();

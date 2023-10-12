@@ -3,19 +3,17 @@
 namespace IBoot\Core\app\Services;
 
 use IBoot\Core\app\Models\Plugin;
+use Illuminate\Database\Eloquent\Collection;
 
 class PluginService
 {
-    private Plugin $plugin;
-
-    public function __construct(Plugin $plugin)
+    /**
+     * List of plugins
+     *
+     * @return Collection
+     */
+    public function getAllPlugins(): Collection
     {
-        $this->plugin = $plugin;
+        return Plugin::query()->get();
     }
-
-    public function getInstalledPlugins()
-    {
-        return $this->plugin->where('status', Plugin::STATUS_INSTALLED)->get();
-    }
-
 }

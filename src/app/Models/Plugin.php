@@ -19,6 +19,10 @@ class Plugin extends Model
     use HasFactory, Notifiable;
     public const STATUS_INSTALLED = 'Installed';
     public const STATUS_UNINSTALLED = 'Uninstalled';
+    public const IS_DEFAULT = true;
+    public const IS_NOT_DEFAULT = false;
+    public const IS_PARENT = true;
+    public const IS_NOT_PARENT = false;
 
     protected $table = 'plugins';
 
@@ -26,8 +30,19 @@ class Plugin extends Model
         'name_package',
         'version',
         'status',
+        'is_default',
+        'is_parent',
+        'child_of',
         'scripts',
         'icon',
-        'order'
+        'order',
+        'route',
+        'image',
+        'description',
     ];
+
+//    protected $casts = [
+//        'is_default' => 'boolean',
+//        'is_parent' => 'boolean',
+//    ];
 }

@@ -1,5 +1,14 @@
+.app-item {
+    background: #fff;
+    border: none!important;
+    border-radius: 3px;
+    box-shadow: 0 2px 4px rgba(0,0,0,.1);
+    box-sizing: border-box;
+    overflow: hidden;
+    padding: 0;
+}
+
 .app-icon {
-    align-items: center;
     background-color: #7fc8d6;
     background-position: 50%;
     background-repeat: no-repeat;
@@ -7,13 +16,84 @@
     border-radius: 3px 3px 0 0;
     display: flex;
     height: 120px;
-    justify-content: center;
     margin: 0 auto;
     overflow: hidden;
 }
 
-.app-details {
+.app-item .app-details {
     background: #fff;
     padding: 10px 10px 5px;
     position: relative;
+}
+
+.app-item .app-details .app-name {
+    color: #333;
+    font-size: 15px;
+    font-weight: 500;
+    line-height: inherit;
+    margin: 0 0 5px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.app-item:hover .app-name {
+    color: #79ac2a;
+}
+
+.app-footer {
+    background: #f5f5f5;
+    border-top: 1px solid #e8e8e8;
+    padding-bottom: 12px;
+    padding-left: 10px;
+    position: relative;
+}
+
+.app-item .app-footer .app-description {
+    border-top: 1px solid #eee;
+    color: #aaa;
+    height: 30px;
+    margin-left: -10px;
+    overflow: hidden;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 5px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+ .app-item .app-footer .app-description,
+ .app-item .app-footer .app-version {
+     font-size: 14px;
+     line-height: 21px;
+ }
+
+.app-item .app-footer .app-version {
+    color: #333333;
+}
+
+.app-item .app-footer .app-actions {
+    margin-top: 5px;
+}
+
+.note.note-success {
+    background-color: #c0edf1;
+    border-color: #58d0da;
+    color: #111;
+}
+
+.note {
+    border-left: 5px solid #eee;
+    border-radius: 0 4px 4px 0;
+    margin: 0 0 20px;
+    padding: 15px 30px 15px 15px;
+}
+
+.note p:last-child {
+    margin-bottom: 0;
+}
+
+.note p {
+    font-size: 13px;
+    margin: 0;
 }

@@ -17,9 +17,12 @@ Route::middleware(['web'])->group(function () {
         Route::middleware(Authenticate::class)->group(function () {
             Route::resource('dashboard', 'HomeController')->only('index');
 
-            Route::get('/run-command', 'PluginController@install')->name('install.package');
+            Route::group(['as' => 'plugins.', 'prefix' => 'plugins'], function () {
+                Route::resource('/', 'PluginController')->only('index');
+                Route::get('/install', 'PluginController@install')->name('install-packages');
+            });
 
-            Route::resource('/plugins', 'PluginController');
+            Route::resource('users', 'UserController')->except(['show']);
         });
     });
 });
