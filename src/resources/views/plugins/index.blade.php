@@ -43,7 +43,8 @@
                                             ? trans('packages/core::plugin.deactivate')
                                             : trans('packages/core::plugin.activate') }}
                                     </button>
-                                    <button class="btn btn-link text-danger text-decoration-none btn-trigger-remove-plugin"
+                                    <button class="btn btn-link text-danger text-decoration-none btn-trigger-remove-plugin
+                                        {{ $plugin->is_default ? 'disabled' : '' }}"
                                         data-plugin="analytics">{{ trans('packages/core::plugin.remove') }}
                                     </button>
                                 </div>

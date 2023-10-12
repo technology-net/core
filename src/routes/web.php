@@ -19,7 +19,10 @@ Route::middleware(['web'])->group(function () {
 
             Route::group(['as' => 'plugins.', 'prefix' => 'plugins'], function () {
                 Route::resource('/', 'PluginController')->only('index');
-                Route::get('/install', 'PluginController@install')->name('install-packages');
+                Route::get('/installation/{composer_name}', 'PluginController@install')
+                    ->name('install-packages');
+                Route::get('/uninstallation/{composer_name}', 'PluginController@uninstall')
+                    ->name('uninstall-packages');
             });
 
             Route::resource('users', 'UserController')->except(['show']);

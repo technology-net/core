@@ -41,8 +41,8 @@ class Plugin extends Model
         'description',
     ];
 
-//    protected $casts = [
-//        'is_default' => 'boolean',
-//        'is_parent' => 'boolean',
-//    ];
+    protected $casts = [
+        'is_default' => 'boolean',
+        'is_parent' => 'boolean',
+    ];
 }
