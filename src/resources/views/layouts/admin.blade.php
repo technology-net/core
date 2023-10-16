@@ -23,7 +23,7 @@
 <body>
 <div class="container-scroller">
     <!-- partials/sidebar -->
-    @include('packages/core::partial.sidebar')
+    <x-sidebar/>
     <!-- partial -->
     <div class="container-fluid page-body-wrapper">
         <!-- partials/navbar -->

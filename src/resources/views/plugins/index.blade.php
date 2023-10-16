@@ -16,7 +16,7 @@
         </div>
         <div class="row">
             @foreach($plugins as $plugin)
-                <div class="col-12 col-sm-6 col-md-6 col-lg-3">
+                <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-3">
                     <div class="app-item app-{{ $plugin->name_package }}">
                         <div class="card text-black">
                             <div>
@@ -37,15 +37,15 @@
                                 </div>
                                 <div class="app-actions">
                                     <button class="btn btn-warning btn-trigger-change-status"
-                                        {{ $plugin->is_default ? 'disabled' : '' }}
-                                        data-plugin="analytics" data-status="1">
+                                            {{ $plugin->is_default ? 'disabled' : '' }}
+                                            data-plugin="analytics" data-status="1">
                                         {{ $plugin->status === Plugin::STATUS_INSTALLED
                                             ? trans('packages/core::plugin.deactivate')
                                             : trans('packages/core::plugin.activate') }}
                                     </button>
                                     <button class="btn btn-link text-danger text-decoration-none btn-trigger-remove-plugin
                                         {{ $plugin->is_default ? 'disabled' : '' }}"
-                                        data-plugin="analytics">{{ trans('packages/core::plugin.remove') }}
+                                            data-plugin="analytics">{{ trans('packages/core::plugin.remove') }}
                                     </button>
                                 </div>
                             </div>

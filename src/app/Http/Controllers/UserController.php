@@ -32,10 +32,10 @@ class UserController extends Controller
         $users = $this->userService->getUsers();
 
         if ($request->ajax()) {
-            return view('packages/core::platform.user.user_table', ['users' => $users])->render();
+            return view('packages/core::platform.users.user_table', ['users' => $users])->render();
         }
 
-        return view('packages/core::platform.user.index', ['users' => $users]);
+        return view('packages/core::platform.users.index', ['users' => $users]);
     }
 
     /**
@@ -45,7 +45,7 @@ class UserController extends Controller
      */
     public function create(): View
     {
-        return view('packages/core::platform.user.create');
+        return view('packages/core::platform.users.create');
     }
 
     /**
@@ -75,7 +75,7 @@ class UserController extends Controller
     {
         $user = $this->userService->showUser($id);
 
-        return view('packages/core::platform.user.detail', ['user' => $user]);
+        return view('packages/core::platform.users.detail', ['user' => $user]);
     }
 
     /**

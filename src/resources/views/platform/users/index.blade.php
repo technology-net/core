@@ -1,6 +1,6 @@
 @extends('packages/core::layouts.admin')
 @section('css')
-    <link href="{{ mix('core/css/user.css') }}" rel="stylesheet" />
+    <link href="{{ mix('core/css/user.css') }}" rel="stylesheet"/>
 @endsection
 @section('content')
     @include('packages/core::partial.breadcrumb', [
@@ -13,12 +13,12 @@
     ])
     <div class="clearfix"></div>
     <div class="table-wrapper" id="user-table">
-        @include('packages/core::platform.user.user_table')
+        @include('packages/core::platform.users.user_table')
     </div>
 @endsection
 @section('js')
     <script type="text/javascript">
-        let route_index = "{!! route('users.index') !!}"
+      let route_index = "{!! route('users.index') !!}"
     </script>
     <script type="text/javascript" src="{{ mix('core/js/user.js') }}" defer></script>
 @endsection
