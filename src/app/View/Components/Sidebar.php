@@ -3,6 +3,7 @@
 namespace IBoot\Core\app\View\Components;
 
 use Closure;
+use IBoot\Core\app\Models\Menu;
 use IBoot\Core\app\Models\MenuItem;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
@@ -26,7 +27,9 @@ class Sidebar extends Component
             ->whereNull('parent_id')
             ->with('children')
             ->orderBy('order')
-            ->get();
+            ->whereHas('menu', function ($query) {
+                $query->where('menu_type', Menu::TYPE_IS_SIDE_BAR);
+            })->get();
 
         $rangeUrlByParent = $this->getUrlNestedChildren($sidebarMenus);
 

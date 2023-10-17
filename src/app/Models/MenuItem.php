@@ -2,12 +2,11 @@
 
 namespace IBoot\Core\app\Models;
 
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Collection;
 
 class MenuItem extends Model
 {
@@ -24,15 +23,19 @@ class MenuItem extends Model
         'icon',
     ];
 
-//    protected $appends = [
-//        'contain_menus'
-//    ];
-
     /**
      * @return HasMany
      */
     public function children(): HasMany
     {
         return $this->hasMany(MenuItem::class, 'parent_id', 'id')->with('children');
+    }
+
+    /**
+     * @return BelongsTo
+     */
+    public function menu(): BelongsTo
+    {
+        return $this->belongsTo(Menu::class, 'menu_id', 'id');
     }
 }

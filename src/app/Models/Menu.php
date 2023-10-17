@@ -10,6 +10,8 @@ class Menu extends Model
 {
     use HasFactory, Notifiable;
 
+    public const TYPE_IS_SIDE_BAR = 'sidebar';
+
     protected $table = 'menus';
 
     protected $fillable = [

@@ -19,7 +19,7 @@ class MenuItemSeeder extends Seeder
         $now = Carbon::now();
 
         $menu = Menu::query()->create([
-            'menu_type' => 'sidebar',
+            'menu_type' => Menu::TYPE_IS_SIDE_BAR,
         ]);
 
         MenuItem::query()->insert([
