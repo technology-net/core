@@ -55,7 +55,14 @@
         </li>
         <li class="nav-item nav-category"></li>
         @foreach($sidebarMenus as $sidebarMenu)
-            @include('packages/core::components.sidebars.menu', ['sidebarMenu' => $sidebarMenu, 'i' => 1])
+            @include('packages/core::components.sidebars.menu',
+                [
+                    'sidebarMenu' => $sidebarMenu,
+                    'i' => 1,
+                    'parentName' => $sidebarMenu->name,
+                    'rangeUrlByParent' => $rangeUrlByParent
+                ]
+            )
         @endforeach
     </ul>
 </nav>

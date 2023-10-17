@@ -14297,6 +14297,20 @@ div.tagsinput span.tag a {
     margin-left: -25px;
 }
 
-[class*="a-level-"]:not(.a-level-1):not(.a-level-2) {
-    margin-left: -45px;
+[class*="level-"]:not(.level-1):not(.level-2):not(.level-3) {
+    margin-left: -30px;
 }
+
+.sidebar .nav .nav-item.active > .nav-link[class*="level-1"]:before {
+    content: "" !important;
+    width: 3px;
+    height: 100%;
+    background: #0090e7;
+    display: inline-block;
+    position: absolute;
+    left: 0;
+    top: 0; }
+
+.sidebar .nav .nav-item.active > .nav-link[class*="level-"]:not(.level-1) {
+    background: #222D32;
+    position: relative; }

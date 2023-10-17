@@ -3,6 +3,7 @@
 namespace IBoot\Core\Database\Seeders;
 
 use Carbon\Carbon;
+use IBoot\Core\app\Models\Menu;
 use IBoot\Core\app\Models\MenuItem;
 use Illuminate\Database\Seeder;
 
@@ -17,9 +18,13 @@ class MenuItemSeeder extends Seeder
     {
         $now = Carbon::now();
 
+        $menu = Menu::query()->create([
+            'menu_type' => 'sidebar',
+        ]);
+
         MenuItem::query()->insert([
             [
-                'menu_id' => 1,
+                'menu_id' => $menu->id,
                 'name' => 'Dashboard',
                 'parent_id' => null,
                 'slug' => 'dashboard.index',
@@ -29,7 +34,7 @@ class MenuItemSeeder extends Seeder
                 'updated_at' => $now
             ],
             [
-                'menu_id' => 1,
+                'menu_id' => $menu->id,
                 'name' => 'Platform',
                 'parent_id' => null,
                 'slug' => null,
@@ -39,7 +44,7 @@ class MenuItemSeeder extends Seeder
                 'updated_at' => $now
             ],
             [
-                'menu_id' => 1,
+                'menu_id' => $menu->id,
                 'name' => 'Users',
                 'parent_id' => 2,
                 'slug' => 'users.index',
@@ -49,7 +54,7 @@ class MenuItemSeeder extends Seeder
                 'updated_at' => $now
             ],
             [
-                'menu_id' => 1,
+                'menu_id' => $menu->id,
                 'name' => 'Plugins',
                 'parent_id' => null,
                 'slug' => 'plugins.index',
