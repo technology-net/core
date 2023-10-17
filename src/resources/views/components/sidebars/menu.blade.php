@@ -8,13 +8,13 @@
         <span class="menu-icon {{ !empty($sidebarMenu->icon) ? '' : 'd-none' }}">
             {!! $sidebarMenu->icon !!}
         </span>
-        <span class="menu-title">{{ $sidebarMenu->name }}</span>
+        <span class="menu-title parent-{{ $i }}">{{ $sidebarMenu->name }}</span>
         @if($sidebarMenu->children->count())
             <i class="menu-arrow"></i>
         @endif
     </a>
     @if($sidebarMenu->children->count())
-        <div class="collapse" id="ui-{{ $sidebarMenu->id }}">
+        <div class="collapse collapse-{{ $i }}" id="ui-{{ $sidebarMenu->id }}">
             <ul class="nav flex-column sub-menu">
                 @foreach($sidebarMenu->children as $children)
                     @include('packages/core::components.sidebars.menu',
