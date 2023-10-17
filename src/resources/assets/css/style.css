@@ -13851,7 +13851,6 @@ div.tagsinput span.tag a {
     background: #2C3B41;
     position: relative; }
 .sidebar .nav .nav-item.active > .nav-link:before {
-    content: "";
     width: 3px;
     height: 100%;
     background: #0090e7;
@@ -14132,6 +14131,16 @@ div.tagsinput span.tag a {
     .sidebar-icon-only .sidebar .nav .nav-item.hover-open .nav-link .menu-title {
         display: flex;
         align-items: center;
+        background: #222D32;
+        position: absolute;
+        text-align: left;
+        top: 0;
+        bottom: 0;
+        z-index: 1;
+        line-height: 1.8; }
+    .sidebar-icon-only .sidebar .nav .nav-item.hover-open .nav-link .parent-1 {
+        display: flex;
+        align-items: center;
         background: #0f1015;
         padding: 0.5rem 1.4rem;
         left: 70px;
@@ -14139,7 +14148,20 @@ div.tagsinput span.tag a {
         text-align: left;
         top: 0;
         bottom: 0;
-        width: 190px;
+        width: 200px;
+        z-index: 1;
+        line-height: 1.8; }
+    .sidebar-icon-only .sidebar .nav .nav-item.hover-open .nav-link[class*="parent-"]:not(.parent-1) {
+        display: flex;
+        align-items: center;
+        background: #0f1015;
+        padding: 0.5rem 1.4rem;
+        left: 70px;
+        position: absolute;
+        text-align: left;
+        top: 0;
+        bottom: 0;
+        width: 200px;
         z-index: 1;
         line-height: 1.8; }
     .sidebar-dark.sidebar-icon-only .sidebar .nav .nav-item.hover-open .nav-link .menu-title {
@@ -14150,7 +14172,6 @@ div.tagsinput span.tag a {
         text-align: left; }
     .sidebar-icon-only .sidebar .nav .nav-item.hover-open .nav-link .menu-title:after {
         display: none; }
-    .sidebar-icon-only .sidebar .nav .nav-item.hover-open .collapse,
     .sidebar-icon-only .sidebar .nav .nav-item.hover-open .collapsing {
         display: block;
         padding: .5rem 0;
@@ -14158,7 +14179,19 @@ div.tagsinput span.tag a {
         border-radius: 0 0 5px 0;
         position: absolute;
         left: 70px;
-        width: 190px; }
+        width: 200px; }
+    .sidebar-icon-only .sidebar .nav .nav-item.hover-open .collapse-1 {
+        display: block;
+        background: #0f1015;
+        position: absolute;
+        left: 70px;
+        width: 200px; }
+    .sidebar-icon-only .sidebar .nav .nav-item.hover-open [class*=" .collapse-"]:not(.collapse-1) {
+        display: block;
+        background: #0f1015;
+        position: absolute;
+        left: 70px;
+        width: 200px; }
     .sidebar-dark.sidebar-icon-only .sidebar .nav .nav-item.hover-open .collapse, .sidebar-dark.sidebar-icon-only .sidebar .nav .nav-item.hover-open .collapsing {
         background: #191c24; }
     .rtl.sidebar-icon-only .sidebar .nav .nav-item.hover-open .collapse, .rtl.sidebar-icon-only .sidebar .nav .nav-item.hover-open .collapsing {
@@ -14169,7 +14202,8 @@ div.tagsinput span.tag a {
         padding: 0 0 0 1.5rem; }
     .sidebar-icon-only .sidebar .nav.sub-menu .nav-item .nav-link {
         text-align: left;
-        padding-left: 20px; }
+        padding-left: 20px;
+        margin-bottom: 20px; }
     .sidebar-icon-only .sidebar .nav.sub-menu .nav-item .nav-link:before {
         content: "";
         display: inline-block;
@@ -14177,8 +14211,14 @@ div.tagsinput span.tag a {
         height: 5px;
         border-radius: 50%;
         background-color: #6c7293;
+        margin-top: 5px;
         position: absolute;
         left: 0; }
+    .sidebar .nav .nav-item.active > .nav-link [class*="parent-"] {
+        color: #ffffff; }
+    .sidebar .nav .nav-item.hover-open > .nav-link[class*="level-"]:not(.level-1) {
+        background: #222D32;
+        position: relative; }
     .sidebar-icon-only .sidebar .nav.sub-menu .nav-item .nav-link:hover:before {
         background-color: white; }
     .rtl.sidebar-icon-only .sidebar .nav.sub-menu .nav-item {
@@ -14243,3 +14283,75 @@ div.tagsinput span.tag a {
 .nav-item-left {
     border-left: 1px solid #ffffff !important;
 }
+
+.breadcrumb {
+    float: left;
+    background: transparent;
+    margin: 10px 0;
+    font-size: 13px;
+    padding: 0;
+    border-radius: 0;
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+}
+
+.breadcrumb-icon {
+    font-size: 18px;
+    color: #333;
+    margin-right: 3px;
+}
+
+.page-content .breadcrumb {
+    margin-bottom: 10px;
+    margin-top: -15px;
+}
+
+.breadcrumb > li > a {
+    color: #212529;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.breadcrumb-item.active {
+    color: #444444;
+}
+
+.breadcrumb-item+.breadcrumb-item {
+    padding-left: 8px;
+}
+
+
+.breadcrumb > li:first-child:before {
+    font-weight: 900;
+    display: inline-block;
+    padding-right: 4px;
+    color: #333333;
+}
+
+.toast-top-right {
+    top: 70px !important;
+    right: 30px !important;
+}
+
+[class*="level-"]:not(.level-1):not(.level-2) .menu-title {
+    margin-left: -25px;
+}
+
+[class*="level-"]:not(.level-1):not(.level-2):not(.level-3) {
+    margin-left: -30px;
+}
+
+.sidebar .nav .nav-item.active > .nav-link[class*="level-1"]:before {
+    content: "" !important;
+    width: 3px;
+    height: 100%;
+    background: #0090e7;
+    display: inline-block;
+    position: absolute;
+    left: 0;
+    top: 0; }
+
+.sidebar .nav .nav-item.active > .nav-link[class*="level-"]:not(.level-1) {
+    background: #222D32;
+    position: relative; }

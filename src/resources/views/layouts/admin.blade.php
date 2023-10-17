@@ -15,6 +15,7 @@
     <!-- end-inject -->
     <!-- Layout styles -->
     <link rel="stylesheet" href="{{ mix('core/css/style.css') }}" />
+    <link rel="stylesheet" href="{{ mix('core/css/plugin.css') }}"/>
     <!-- End layout styles -->
     <link rel="shortcut icon" href="{{ mix('core/images/favicon.png') }}" />
     @yield('css')
@@ -22,7 +23,7 @@
 <body>
 <div class="container-scroller">
     <!-- partials/sidebar -->
-    @include('packages/core::partial.sidebar')
+    <x-sidebar/>
     <!-- partial -->
     <div class="container-fluid page-body-wrapper">
         <!-- partials/navbar -->
@@ -30,7 +31,9 @@
         <!-- partial -->
         <div class="main-panel">
             <div class="content-wrapper">
-                @yield('content')
+                <div class="page-content">
+                    @yield('content')
+                </div>
             </div>
             <!-- content-wrapper ends -->
             <!-- partials/footer -->

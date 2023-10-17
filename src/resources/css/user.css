@@ -1,0 +1,53 @@
+.pagination {
+    margin-left: 10px;
+}
+
+.status-label {
+    border-radius: 0.25em;
+    color: #fff;
+    display: inline;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1.5;
+    padding: 0.4em 0.7em 0.4em;
+    text-align: center;
+    vertical-align: baseline;
+    white-space: nowrap;
+    background-color: #659be0;
+    border: 1px solid #3a80d7!important;
+}
+
+.user-checkbox {
+    width: 20px !important;
+}
+
+.user-checkbox-label {
+    margin: auto !important;
+}
+
+.btn-create-user {
+    width: 100px;
+    height: 40px;
+}
+
+#mdi-pencil-edit {
+    width: 30px;
+}
+
+.title-create-user {
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: #F2F2F2;
+    color: #000000;
+}
+
+.table-striped tbody tr:nth-of-type(even):hover {
+    background-color: #F2F2F2;
+}
+
+.table {
+    border: 1px solid #eee4e4;
+}

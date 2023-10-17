@@ -3,7 +3,6 @@
 namespace IBoot\Core\app\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use IBoot\Core\app\Exceptions\ForbiddenException;
 use IBoot\Core\app\Exceptions\UnauthorizedException;
 use IBoot\Core\app\Http\Requests\Auth\LoginRequest;
 use IBoot\Core\app\Models\User;

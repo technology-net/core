@@ -54,13 +54,15 @@
             </div>
         </li>
         <li class="nav-item nav-category"></li>
-        <li class="nav-item menu-items">
-            <a class="nav-link" href="/admin/dashboard">
-                <span class="menu-icon">
-                    <i class="mdi mdi-speedometer"></i>
-                </span>
-                <span class="menu-title">Dashboard</span>
-            </a>
-        </li>
+        @foreach($sidebarMenus as $sidebarMenu)
+            @include('packages/core::components.sidebars.menu',
+                [
+                    'sidebarMenu' => $sidebarMenu,
+                    'i' => 1,
+                    'parentName' => $sidebarMenu->name,
+                    'rangeUrlByParent' => $rangeUrlByParent
+                ]
+            )
+        @endforeach
     </ul>
 </nav>
