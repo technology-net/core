@@ -23,6 +23,15 @@ class MenuItem extends Model
         'icon',
     ];
 
+    public static function boot(): void
+    {
+        parent::boot();
+
+        static::deleting(function($menuItem) {
+            $menuItem->children()->delete();
+        });
+    }
+
     /**
      * @return HasMany
      */

@@ -19,13 +19,18 @@ Route::middleware(['web'])->group(function () {
 
             Route::group(['as' => 'plugins.', 'prefix' => 'plugins'], function () {
                 Route::resource('/', 'PluginController')->only('index');
-                Route::get('/installation/{composer_name}', 'PluginController@install')
+                Route::get('/installation', 'PluginController@install')
                     ->name('install-packages');
-                Route::get('/uninstallation/{composer_name}', 'PluginController@uninstall')
+                Route::get('/uninstallation', 'PluginController@uninstall')
                     ->name('uninstall-packages');
             });
 
-            Route::resource('users', 'UserController')->except(['show']);
+
+            Route::group(['as' => 'settings.', 'prefix' => 'settings', 'namespace' => 'Settings'], function () {
+                Route::resource('users', 'UserController')->except(['show']);
+
+                Route::resource('/menus', 'MenuController')->only('index');
+            });
         });
     });
 });

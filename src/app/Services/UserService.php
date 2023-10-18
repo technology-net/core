@@ -19,7 +19,7 @@ class UserService
     public function getUsers(): LengthAwarePaginator
     {
         return User::query()->orderBy('created_at', 'desc')
-            ->paginate(config('platform.user.pagination'));
+            ->paginate(config('core.pagination'));
     }
 
     /**

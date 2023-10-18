@@ -36,16 +36,21 @@
                                 <div class="app-version">Version: {{ $plugin->version ?: '1.0.0' }}
                                 </div>
                                 <div class="app-actions">
-                                    <button class="btn btn-warning btn-trigger-change-status"
-                                            {{ $plugin->is_default ? 'disabled' : '' }}
-                                            data-plugin="analytics" data-status="1">
-                                        {{ $plugin->status === Plugin::STATUS_INSTALLED
-                                            ? trans('packages/core::plugin.deactivate')
-                                            : trans('packages/core::plugin.activate') }}
+                                    <button class="btn btn-warning btn-trigger-change-status
+                                        {{ $plugin->status !== Plugin::STATUS_INSTALLED
+                                            ? 'btn-trigger-install-plugin'
+                                            : 'btn-trigger-uninstall-plugin' }}"
+                                        {{ $plugin->is_default || $plugin->status === Plugin::STATUS_INSTALLED ? 'disabled' : '' }}
+                                            data-plugin_id="{{ $plugin->id }}"
+                                            data-name_package="{{ $plugin->name_package }}"
+                                            data-menu_items="{{ json_encode($plugin->menu_items) }}">
+                                        {{ trans('packages/core::plugin.activate') }}
                                     </button>
-                                    <button class="btn btn-link text-danger text-decoration-none btn-trigger-remove-plugin
-                                        {{ $plugin->is_default ? 'disabled' : '' }}"
-                                            data-plugin="analytics">{{ trans('packages/core::plugin.remove') }}
+                                    <button class="btn btn-danger btn-trigger-remove-plugin
+                                        {{ $plugin->is_default || $plugin->status !== Plugin::STATUS_INSTALLED ? 'disabled' : '' }}"
+                                            data-plugin_id="{{ $plugin->id }}"
+                                            data-name_package="{{ $plugin->name_package }}"
+                                            data-plugin="analytics">{{ trans('packages/core::plugin.deactivate') }}
                                     </button>
                                 </div>
                             </div>
@@ -55,4 +60,11 @@
             @endforeach
         </div>
     </div>
+@endsection
+@section('js')
+    <script type="text/javascript">
+        let route_install_package = "{!! route('plugins.install-packages') !!}"
+        let route_uninstall_package = "{!! route('plugins.uninstall-packages') !!}"
+    </script>
+    <script type="text/javascript" src="{{ mix('core/js/plugin.js') }}" defer></script>
 @endsection

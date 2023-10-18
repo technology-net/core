@@ -1,6 +1,6 @@
 <?php
 
-namespace IBoot\Core\app\Http\Controllers;
+namespace IBoot\Core\app\Http\Controllers\Settings;
 
 use App\Http\Controllers\Controller;
 use IBoot\Core\app\Exceptions\ServerErrorException;
@@ -14,10 +14,9 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-
     private UserService $userService;
 
-    public function __construct(UserService $userService,) {
+    public function __construct(UserService $userService) {
         $this->userService = $userService;
     }
 
@@ -32,10 +31,10 @@ class UserController extends Controller
         $users = $this->userService->getUsers();
 
         if ($request->ajax()) {
-            return view('packages/core::platform.users.user_table', ['users' => $users])->render();
+            return view('packages/core::settings.users.user_table', ['users' => $users])->render();
         }
 
-        return view('packages/core::platform.users.index', ['users' => $users]);
+        return view('packages/core::settings.users.index', ['users' => $users]);
     }
 
     /**
@@ -45,7 +44,7 @@ class UserController extends Controller
      */
     public function create(): View
     {
-        return view('packages/core::platform.users.create');
+        return view('packages/core::settings.users.create');
     }
 
     /**
@@ -59,10 +58,10 @@ class UserController extends Controller
     {
         $user = $this->userService->newUser($request->validated());
         if (!$user) {
-            throw new ServerErrorException(null, trans('packages/core::messages.create_fail'));
+            throw new ServerErrorException(null, trans('packages/core::messages.create_user_fail'));
         }
 
-        return responseSuccess(null, trans('packages/core::messages.create_success'));
+        return responseSuccess(null, trans('packages/core::messages.create_user_success'));
     }
 
     /**
@@ -75,7 +74,7 @@ class UserController extends Controller
     {
         $user = $this->userService->showUser($id);
 
-        return view('packages/core::platform.users.detail', ['user' => $user]);
+        return view('packages/core::settings.users.detail', ['user' => $user]);
     }
 
     /**
@@ -90,10 +89,10 @@ class UserController extends Controller
     {
         $user = $this->userService->updateUser($id, $request->all());
         if (!$user) {
-            throw new ServerErrorException(null, trans('packages/core::messages.delete_fail'));
+            throw new ServerErrorException(null, trans('packages/core::messages.update_user_fail'));
         }
 
-        return responseSuccess(null, trans('packages/core::messages.update_success'));
+        return responseSuccess(null, trans('packages/core::messages.update_user_success'));
     }
 
 
@@ -108,9 +107,9 @@ class UserController extends Controller
     {
         $user = $this->userService->deleteUser($id);
         if (!$user) {
-            throw new ServerErrorException(null, trans('packages/core::messages.delete_fail'));
+            throw new ServerErrorException(null, trans('packages/core::messages.delete_user_fail'));
         }
 
-        return responseSuccess(null, trans('packages/core::messages.delete_success'));
+        return responseSuccess(null, trans('packages/core::messages.delete_user_success'));
     }
 }

@@ -35,31 +35,43 @@ class MenuItemSeeder extends Seeder
             ],
             [
                 'menu_id' => $menu->id,
-                'name' => 'Platform',
+                'name' => 'Plugins',
                 'parent_id' => null,
-                'slug' => null,
-                'icon' => '<i class="mdi mdi-account-group"></i>',
+                'slug' => 'plugins.index',
+                'icon' => '<i class="mdi mdi-arrow-expand-all"></i>',
                 'order' => 2,
+                'created_at' => $now,
+                'updated_at' => $now
+            ],
+        ]);
+
+        $newMenuItem = MenuItem::query()->create([
+            'menu_id' => $menu->id,
+            'name' => 'Settings',
+            'parent_id' => null,
+            'slug' => null,
+            'icon' => '<i class="mdi mdi-settings"></i>',
+            'order' => 3
+        ]);
+
+        MenuItem::query()->insert([
+            [
+                'menu_id' => $menu->id,
+                'name' => 'Menus',
+                'parent_id' => $newMenuItem->id,
+                'slug' => 'settings.menus.index',
+                'icon' => null,
+                'order' => 4,
                 'created_at' => $now,
                 'updated_at' => $now
             ],
             [
                 'menu_id' => $menu->id,
                 'name' => 'Users',
-                'parent_id' => 2,
-                'slug' => 'users.index',
+                'parent_id' => $newMenuItem->id,
+                'slug' => 'settings.users.index',
                 'icon' => null,
-                'order' => 3,
-                'created_at' => $now,
-                'updated_at' => $now
-            ],
-            [
-                'menu_id' => $menu->id,
-                'name' => 'Plugins',
-                'parent_id' => null,
-                'slug' => 'plugins.index',
-                'icon' => '<i class="mdi mdi-arrow-expand-all"></i>',
-                'order' => 4,
+                'order' => 5,
                 'created_at' => $now,
                 'updated_at' => $now
             ],
