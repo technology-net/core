@@ -13,8 +13,9 @@ return new class extends Migration
     {
         Schema::create('plugins', function (Blueprint $table) {
             $table->id();
-            $table->string('name_package');
+            $table->string('name_package')->unique();
             $table->string('composer_name')->nullable();
+            $table->json('menu_items')->nullable();
             $table->string('version')->nullable();
             $table->string('status')->default('Installed')->comment('Installed, Uninstalled');
             $table->boolean('is_default')->default(false);

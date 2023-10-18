@@ -44,8 +44,12 @@
     color: #000000;
 }
 
+.table-striped tbody tr:nth-of-type(odd):hover {
+    background-color: #E1E2E4;
+}
+
 .table-striped tbody tr:nth-of-type(even):hover {
-    background-color: #F2F2F2;
+    background-color: #E1E2E4;
 }
 
 .table {

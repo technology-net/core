@@ -16,4 +16,11 @@ class PluginService
     {
         return Plugin::query()->get();
     }
+
+    public function updateStatusPlugin($id, $status): bool
+    {
+        return Plugin::query()->findOrFail($id)->update([
+            'status' => $status
+        ]);
+    }
 }

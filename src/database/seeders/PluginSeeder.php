@@ -19,50 +19,39 @@ class PluginSeeder extends Seeder
 
         Plugin::query()->insert([
             [
-                'name_package' => 'Dashboard',
+                'name_package' => 'CMS',
                 'version' => null,
-                'composer_name' => null,
-                'status' => Plugin::STATUS_INSTALLED,
-                'is_default' => Plugin::IS_DEFAULT,
-                'scripts' => null,
-                'image' => 'core/images/plugins/dashboard.png',
-                'description' => 'Manage dashboard',
-                'created_at' => $now,
-                'updated_at' => $now
-            ],
-            [
-                'name_package' => 'Platform',
-                'version' => null,
-                'composer_name' => 'iboot/platform',
-                'status' => Plugin::STATUS_INSTALLED,
+                'composer_name' => 'iboot/cms',
+                'menu_items' => json_encode([
+                    'name' => 'CMS',
+                    'slug' => null,
+                    'icon' => '<i class="mdi mdi-content-save-all-outline"></i>',
+                    'children' => [
+                        [
+                            'name' => 'Posts',
+                            'slug' => null,
+                            'icon' => null,
+                            'children' => []
+                        ],
+                        [
+                            "name" => "Categories",
+                            "slug" => null,
+                            "icon" => null,
+                            "children" => []
+                        ],
+                        [
+                            "name" => "Tags",
+                            "slug" => null,
+                            "icon" => null,
+                            "children" => []
+                        ]
+                    ]
+                ]),
+                'status' => Plugin::STATUS_UNINSTALLED,
                 'is_default' => Plugin::IS_NOT_DEFAULT,
                 'scripts' => null,
-                'image' => 'core/images/plugins/platform.png',
-                'description' => 'Manage platform administration',
-                'created_at' => $now,
-                'updated_at' => $now
-            ],
-            [
-                'name_package' => 'Plugins',
-                'version' => null,
-                'composer_name' => null,
-                'status' => Plugin::STATUS_INSTALLED,
-                'is_default' => Plugin::IS_DEFAULT,
-                'scripts' => null,
-                'image' => 'core/images/plugins/plugin.png',
-                'description' => 'Manage plugins (Active, deactivate, install or uninstall a package)',
-                'created_at' => $now,
-                'updated_at' => $now
-            ],
-            [
-                'name_package' => 'Users',
-                'version' => null,
-                'composer_name' => 'iboot/users',
-                'status' => Plugin::STATUS_INSTALLED,
-                'is_default' => Plugin::IS_NOT_DEFAULT,
-                'scripts' => null,
-                'image' => 'core/images/plugins/user.png',
-                'description' => 'Manage users',
+                'image' => 'core/images/plugins/cms.png',
+                'description' => 'Content Management System',
                 'created_at' => $now,
                 'updated_at' => $now
             ],

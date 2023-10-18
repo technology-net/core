@@ -19,6 +19,7 @@ class Plugin extends Model
     protected $fillable = [
         'name_package',
         'composer_name',
+        'menu_items',
         'version',
         'status',
         'is_default',
@@ -29,5 +30,6 @@ class Plugin extends Model
 
     protected $casts = [
         'is_default' => 'boolean',
+        'menu_items' => 'array'
     ];
 }

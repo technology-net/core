@@ -6,8 +6,12 @@
     @include('packages/core::partial.breadcrumb', [
         'breadcrumbs' => [
             [
+                'label' => trans('packages/core::settings.title'),
+                'url' => '#',
+            ],
+            [
                 'label' => trans('packages/core::user.users'),
-                'url' => route('users.index'),
+                'url' => route('settings.users.index'),
             ],
             [
                 'label' => trans('packages/core::user.update_title'),
@@ -21,7 +25,7 @@
             @include('packages/core::partial.note', ['text' => trans('packages/core::user.update_user_note')])
         </div>
         <div class="form-create-user">
-            <form method="POST" action="{{ route('users.update', ['user' => $user]) }}" id="updateFormUser">
+            <form method="POST" action="{{ route('settings.users.update', ['user' => $user]) }}" id="updateFormUser">
                 @csrf
                 @method('PUT')
                 <div class="row border border-white bg-white mx-1">
@@ -88,7 +92,7 @@
 @endsection
 @section('js')
     <script type="text/javascript">
-        let route_index = "{!! route('users.index') !!}"
+        let route_index = "{!! route('settings.users.index') !!}"
     </script>
     <script type="text/javascript" src="{{ mix('core/js/user.js') }}" defer></script>
 @endsection

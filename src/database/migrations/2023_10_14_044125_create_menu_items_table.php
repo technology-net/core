@@ -15,10 +15,10 @@ return new class extends Migration
         Schema::create('menu_items', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Menu::class)->constrained()->cascadeOnDelete();
-            $table->string('name');
+            $table->string('name')->unique();
             $table->integer('parent_id')->nullable();
             $table->string('slug')->nullable();
-            $table->string('order')->unique();
+            $table->integer('order')->unique();
             $table->string('icon')->nullable();
             $table->timestamps();
         });
