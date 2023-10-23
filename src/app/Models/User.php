@@ -2,14 +2,16 @@
 
 namespace IBoot\Core\app\Models;
 
+use IBoot\Core\app\Contracts\HasMedia;
+use IBoot\Core\app\Traits\HasMedia as InteractsWithMedia;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable
+class User extends Authenticatable implements HasMedia
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, InteractsWithMedia;
 
     public const STATUS_ACTIVATED = 'Activated';
     public const STATUS_DEACTIVATED = 'Deactivated';
