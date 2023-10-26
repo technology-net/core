@@ -1,10 +1,10 @@
 <?php
 
-namespace IBoot\Core\app\View\Components;
+namespace IBoot\Core\App\View\Components;
 
 use Closure;
-use IBoot\Core\app\Models\Menu;
-use IBoot\Core\app\Models\MenuItem;
+use IBoot\Core\App\Models\Menu;
+use IBoot\Core\App\Models\MenuItem;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 

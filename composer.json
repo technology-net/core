@@ -14,6 +14,7 @@
     "autoload": {
         "psr-4": {
             "IBoot\\Core\\": "src/",
+            "IBoot\\Core\\App\\": "src/app",
             "IBoot\\Core\\Database\\Seeders\\": "src/database/seeders"
         },
         "files": [
@@ -24,7 +25,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "IBoot\\Core\\app\\Providers\\CoreServiceProvider"
+                "IBoot\\Core\\App\\Providers\\CoreServiceProvider"
             ]
         }
     }

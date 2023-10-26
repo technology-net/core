@@ -1,8 +1,8 @@
 <?php
 
-namespace IBoot\Core\app\Http\Requests\User;
+namespace IBoot\Core\App\Http\Requests\User;
 
-use IBoot\Core\app\Http\Requests\BaseRequest;
+use IBoot\Core\App\Http\Requests\BaseRequest;
 
 class UserRequest extends BaseRequest
 {

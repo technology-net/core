@@ -3,8 +3,8 @@
 namespace IBoot\Core\Database\Seeders;
 
 use Carbon\Carbon;
-use IBoot\Core\app\Models\Menu;
-use IBoot\Core\app\Models\MenuItem;
+use IBoot\Core\App\Models\Menu;
+use IBoot\Core\App\Models\MenuItem;
 use Illuminate\Database\Seeder;
 
 class MenuItemSeeder extends Seeder
@@ -72,6 +72,16 @@ class MenuItemSeeder extends Seeder
                 'slug' => 'settings.users.index',
                 'icon' => null,
                 'order' => 5,
+                'created_at' => $now,
+                'updated_at' => $now
+            ],
+            [
+                'menu_id' => $menu->id,
+                'name' => 'Media',
+                'parent_id' => $newMenuItem->id,
+                'slug' => 'settings.media.index',
+                'icon' => null,
+                'order' => 6,
                 'created_at' => $now,
                 'updated_at' => $now
             ],

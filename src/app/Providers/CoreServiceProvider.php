@@ -1,9 +1,9 @@
 <?php
 
-namespace IBoot\Core\app\Providers;
+namespace IBoot\Core\App\Providers;
 
-use IBoot\Core\app\Models\MenuItem;
-use IBoot\Core\app\View\Components\Sidebar;
+use IBoot\Core\App\Models\MenuItem;
+use IBoot\Core\App\View\Components\Sidebar;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;

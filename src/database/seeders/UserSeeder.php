@@ -2,7 +2,7 @@
 
 namespace IBoot\Core\Database\Seeders;
 
-use IBoot\Core\app\Models\User;
+use IBoot\Core\App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 

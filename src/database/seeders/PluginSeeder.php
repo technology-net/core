@@ -3,7 +3,7 @@
 namespace IBoot\Core\Database\Seeders;
 
 use Carbon\Carbon;
-use IBoot\Core\app\Models\Plugin;
+use IBoot\Core\App\Models\Plugin;
 use Illuminate\Database\Seeder;
 
 class PluginSeeder extends Seeder

@@ -1,11 +1,11 @@
 <?php
 
-namespace IBoot\Core\app\Http\Controllers;
+namespace IBoot\Core\App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use IBoot\Core\app\Exceptions\UnauthorizedException;
-use IBoot\Core\app\Http\Requests\Auth\LoginRequest;
-use IBoot\Core\app\Models\User;
+use IBoot\Core\App\Exceptions\UnauthorizedException;
+use IBoot\Core\App\Http\Requests\Auth\LoginRequest;
+use IBoot\Core\App\Models\User;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;

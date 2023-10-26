@@ -1,4 +1,4 @@
-@php use IBoot\Core\app\Models\Plugin; @endphp
+@php use IBoot\Core\App\Models\Plugin; @endphp
 @extends('packages/core::layouts.admin')
 @section('content')
     @include('packages/core::partial.breadcrumb', [

@@ -1,8 +1,8 @@
 <?php
 
-namespace IBoot\Core\app\Services;
+namespace IBoot\Core\App\Services;
 
-use IBoot\Core\app\Models\User;
+use IBoot\Core\App\Models\User;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;

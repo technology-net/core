@@ -1,9 +1,9 @@
 <?php
 
-namespace IBoot\Core\app\Http\Controllers\Settings;
+namespace IBoot\Core\App\Http\Controllers\Settings;
 
 use App\Http\Controllers\Controller;
-use IBoot\Core\app\Services\MenuService;
+use IBoot\Core\App\Services\MenuService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 
@@ -14,9 +14,11 @@ class MenuController extends Controller
     public function __construct(MenuService $menuService) {
         $this->menuService = $menuService;
     }
+
     /**
      * Get menus
      *
+     * @param Request $request
      * @return View|string
      */
     public function index(Request $request): View|string

@@ -1,13 +1,13 @@
 <?php
 
-namespace IBoot\Core\app\Http\Controllers;
+namespace IBoot\Core\App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Exception;
-use IBoot\Core\app\Exceptions\ServerErrorException;
-use IBoot\Core\app\Models\Plugin;
-use IBoot\Core\app\Services\MenuItemService;
-use IBoot\Core\app\Services\PluginService;
+use IBoot\Core\App\Exceptions\ServerErrorException;
+use IBoot\Core\App\Models\Plugin;
+use IBoot\Core\App\Services\MenuItemService;
+use IBoot\Core\App\Services\PluginService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;

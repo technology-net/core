@@ -1,8 +1,8 @@
 <?php
 
-namespace IBoot\Core\app\Services;
+namespace IBoot\Core\App\Services;
 
-use IBoot\Core\app\Models\MenuItem;
+use IBoot\Core\App\Models\MenuItem;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 

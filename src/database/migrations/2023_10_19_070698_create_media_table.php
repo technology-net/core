@@ -1,6 +1,6 @@
 <?php
 
-use IBoot\Core\app\Models\Menu;
+use IBoot\Core\App\Models\Menu;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -14,14 +14,15 @@ return new class extends Migration
     {
         Schema::create('media', function (Blueprint $table) {
             $table->id();
-            $table->morphs('model');
+            $table->nullableMorphs('model');
             $table->string('name');
             $table->string('disk');
             $table->string('mime_type')->nullable();
-            $table->string('directory');
+            $table->string('directory')->nullable();
             $table->integer('parent_id')->nullable()->index();
             $table->boolean('is_directory')->default(false);
-            $table->unsignedBigInteger('size');
+            $table->text('full_url')->nullable();
+            $table->unsignedBigInteger('size')->nullable();
             $table->timestamps();
         });
     }
