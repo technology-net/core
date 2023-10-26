@@ -39,13 +39,13 @@ glob.sync(path.resolve(__dirname) + '/vendor/iboot/**/**/webpack.mix.js').forEac
 
 ## Run migration && seeder
 
-`php artisan migrate`
-
-`php artisan db:seed --class="IBoot\Core\Database\Seeders\UserSeeder"`
-
-`php artisan db:seed --class="IBoot\Core\Database\Seeders\PluginSeeder"`
-
-`php artisan vendor:publish --force`
+```angular2html
+php artisan migrate
+php artisan db:seed --class="IBoot\Core\Database\Seeders\UserSeeder"
+php artisan db:seed --class="IBoot\Core\Database\Seeders\PluginSeeder"
+php artisan db:seed --class="IBoot\Core\Database\Seeders\SystemSettingSeeder"
+php artisan vendor:publish --provider="IBoot\Core\app\Providers\CoreServiceProvider" --force
+```
 
 ## File `package.json` and `npm run watch`
 
@@ -76,4 +76,3 @@ glob.sync(path.resolve(__dirname) + '/vendor/iboot/**/**/webpack.mix.js').forEac
 }
 
 ```
-
