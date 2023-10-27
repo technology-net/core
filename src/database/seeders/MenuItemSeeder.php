@@ -16,12 +16,12 @@ class MenuItemSeeder extends Seeder
      */
     public function run(): void
     {
+        MenuItem::query()->truncate();
+        Menu::query()->delete();
         $now = Carbon::now();
-
         $menu = Menu::query()->create([
             'menu_type' => Menu::TYPE_IS_SIDE_BAR,
         ]);
-
         MenuItem::query()->insert([
             [
                 'menu_id' => $menu->id,
@@ -77,11 +77,21 @@ class MenuItemSeeder extends Seeder
             ],
             [
                 'menu_id' => $menu->id,
+                'name' => 'System Setting',
+                'parent_id' => $newMenuItem->id,
+                'slug' => 'settings.system_settings.index',
+                'icon' => null,
+                'order' => 6,
+                'created_at' => $now,
+                'updated_at' => $now
+            ],
+            [
+                'menu_id' => $menu->id,
                 'name' => 'Media',
                 'parent_id' => $newMenuItem->id,
                 'slug' => 'settings.media.index',
                 'icon' => null,
-                'order' => 6,
+                'order' => 7,
                 'created_at' => $now,
                 'updated_at' => $now
             ],

@@ -63,7 +63,10 @@
 <script src="{{ mix('core/js/dashboard.js') }}"></script>
 <!-- End custom js for this page -->
 <script>
-    let validateMessage = {!! json_encode(trans('packages/core::validation')) !!}
+    let validateMessage = {!! json_encode(trans('packages/core::validation')) !!};
+    const DELETE_CONFIRM = "{{ trans('packages/core::messages.delete_confirm') }}";
+    const BTN_CONFIRM = "{{ trans('packages/core::common.confirm') }}";
+    const BTN_CANCEL = "{{ trans('packages/core::common.cancel') }}";
 </script>
 <script type="text/javascript" src="{{ mix('core/js/validate.js') }}" defer></script>
 <script type="text/javascript" src="{{ mix('core/js/common.js') }}" defer></script>

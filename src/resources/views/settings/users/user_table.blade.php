@@ -1,28 +1,13 @@
 <div class="table-responsive table-has-actions table-has-filter ">
     <div id="" class="form-inline no-footer">
         <div class="btn-group flex-wrap float-end">
-            <a href="{{ route('settings.users.create') }}">
-                <button class="btn btn-success bg-success action-item btn-primary rounded btn-create-user" tabindex="0" type="button">
-                    <span>
-                        <span data-action="create" data-href="">
-                            <svg xmlns="http://www.w3.org/2000/svg" height="28px" width="20px"
-                                viewBox="0 0 24 24"><title>account-plus-outline</title>
-                                <path
-                                    fill="#ffffff"
-                                    d="M15,4A4,4 0 0,0 11,8A4,4 0 0,0 15,12A4,4 0 0,0 19,8A4,4 0 0,0 15,4M15,
-                                    5.9C16.16,5.9 17.1,6.84 17.1,8C17.1,9.16 16.16,10.1 15,10.1A2.1,2.1 0 0,1 12.9,
-                                    8A2.1,2.1 0 0,1 15,5.9M4,7V10H1V12H4V15H6V12H9V10H6V7H4M15,13C12.33,13 7,14.33 7,
-                                    17V20H23V17C23,14.33 17.67,13 15,13M15,14.9C17.97,14.9 21.1,16.36 21.1,
-                                    17V18.1H8.9V17C8.9,16.36 12,14.9 15,14.9Z"/>
-                            </svg>
-                            {{ trans('packages/core::common.create') }}
-                        </span>
-                    </span>
-                </button>
+            <a href="{{ route('settings.users.create') }}" class="btn btn-success">
+                <span class="mdi mdi-plus"></span>
+                {{ trans('packages/core::common.create') }}
             </a>
         </div>
     </div>
-    <table class="table table-striped table-hover vertical-middle bg-white bg-gradient-primary mt-3"
+    <table class="table table-striped table-secondary table-hover vertical-middle bg-white bg-gradient-primary mt-3"
         id="" role="grid" aria-describedby="">
         <thead>
         <tr role="row">
@@ -73,14 +58,14 @@
                     </span>
                 </td>
                 <td class="text-end">
-                    <a class="btn bg-info btn-view-user" title="View user's profile"
+                    <a class="btn btn-sm bg-info btn-view-user" title="View user's profile"
                        href="{{ route('settings.users.edit', ['user' => $user->id]) }}">
                         <svg xmlns="http://www.w3.org/2000/svg" height="28px" width="20px" viewBox="2 2 20 20"><title>pencil-outline</title>
                             <path
                                 d="M14.06,9L15,9.94L5.92,19H5V18.08L14.06,9M17.66,3C17.41,3 17.15,3.1 16.96,3.29L15.13,5.12L18.88,8.87L20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18.17,3.09 17.92,3 17.66,3M14.06,6.19L3,17.25V21H6.75L17.81,9.94L14.06,6.19Z"/>
                         </svg>
                     </a>
-                    <a class="btn bg-danger btn-delete-user" title="Delete a user"
+                    <a class="btn btn-sm bg-danger btn-delete-user" title="Delete a user"
                        data-bs-original-title="Delete" data-url="{{ route('settings.users.destroy', ['user' => $user->id]) }}"
                        role="button">
                         <svg xmlns="http://www.w3.org/2000/svg" height="28px" width="20px" viewBox="2 2 20 20"><title>delete</title>

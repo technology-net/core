@@ -36,6 +36,8 @@ Route::middleware(['web'])->group(function () {
                     Route::get('/{media}', 'MediaController@show')->name('show');
                     Route::post('/files/upload', 'MediaController@uploadFiles')->name('upload-files');
                 });
+                Route::resource('system_settings', 'SystemSettingController')->except(['show', 'store', 'edit']);
+                Route::post('system_settings/{id}/editable', 'SystemSettingController@editable')->name('system_settings.editable');
             });
         });
     });
