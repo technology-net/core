@@ -11,4 +11,49 @@ $(document).ready(function () {
       $(this).find('.collapse').addClass('show')
     }
   })
+
+  $('body').on('change', '.editable', function () {
+    let value = $(this).val();
+    let label = $(this).attr('label');
+    let id = $(this).attr('data-id');
+    let url = $(this).attr('data-url');
+    let idError = $(this).attr('name') + '-' + id;
+    let messages = '';
+    if (value === '') {
+      messages = validateMessage.required.replace(':attribute', label);
+      showError(idError, messages)
+      return false;
+    }
+    let data = {
+      'field': value
+    }
+
+    $.ajax({
+      type: 'POST',
+      url: url,
+      data: data,
+      success: function (response) {
+        console.log(response)
+        if (response.success) {
+          toastr.success(response.message)
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000)
+        } else {
+          toastr.error(response.message)
+        }
+      },
+      error: function (jQxhr) {
+        if (jQxhr.status === 422) {
+          let errors = jQxhr["responseJSON"].data
+          for (let [key, value] of Object.entries(errors)) {
+            showError(key, value[0])
+          }
+        }
+        if (jQxhr.status === 500) {
+          toastr.error(jQxhr['responseJSON'].message)
+        }
+      }
+    })
+  })
 })

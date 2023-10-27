@@ -23,4 +23,8 @@ return [
     'uninstall_package_success' => 'Uninstalled the :package package successfully!',
     'uninstall_package_fail' => 'Uninstalled the :package package failed!',
     'something_went_wrong' => 'Something went wrong.',
+    'save_success' => 'The data has been save successfully.',
+    'action_error' => 'System error occurred. Please try again later.',
+    'delete_success' => 'The data has been deleted successfully.',
+    'delete_confirm' => 'Are you sure you want to delete record ?',
 ];
