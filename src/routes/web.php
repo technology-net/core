@@ -30,6 +30,8 @@ Route::middleware(['web'])->group(function () {
                 Route::resource('users', 'UserController')->except(['show']);
 
                 Route::resource('/menus', 'MenuController')->only('index');
+                Route::resource('system_settings', 'SystemSettingController')->except(['show', 'store', 'edit']);
+                Route::post('system_settings/{id}/editable', 'SystemSettingController@editable')->name('system_settings.editable');
             });
         });
     });

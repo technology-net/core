@@ -19,6 +19,7 @@ mix
   .js(dir + '/resources/js/login.js', dist + '/core/js').version()
   .js(dir + '/resources/js/user.js', dist + '/core/js').version()
   .js(dir + '/resources/js/plugin.js', dist + '/core/js').version()
+  .js(dir + '/resources/js/system-settings.js', dist + '/core/js').version()
   .copy(source + '/vendors/js/jquery-3.7.1.min.js', dist + '/core/vendors/js')
   .copy(source + '/vendors/toastr/toastr.min.js', dist + '/core/vendors/js')
   .copy(source + '/vendors/select2/select2.min.js', dist + '/core/vendors/js')
