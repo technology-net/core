@@ -21,19 +21,19 @@
             <div class="media-top-header">
                 <div class="media-actions d-flex">
                     <div class='file file--upload mr-2'>
-                        <label for='input-file' class="btn btn-success">
+                        <label for='input-file' class="btn btn-success m-0">
                             <i class="mdi mdi-cloud-upload-outline"></i> Upload
                         </label>
                         <input id='input-file' type='file' name="files[]" multiple class="d-none"/>
                     </div>
-                    <button class="btn btn-success js-download-action d-flex mr-2" type="button">
+                    <button class="btn btn-success js-download-action mr-2" type="button">
                         <i class="mdi mdi-cloud-download-outline"></i>
                         Download
                     </button>
-                    <button class="btn btn-success js-create-folder-action d-flex mr-2" type="button">
+                    <button class="btn btn-success js-create-folder-action mr-2" type="button">
                         <i class="mdi mdi-folder-outline"></i> Create folder
                     </button>
-                    <button class="btn btn-success js-change-action d-flex" data-type="refresh">
+                    <button class="btn btn-success js-change-action" data-type="refresh">
                         <i class="mdi mdi-sync"></i> Refresh
                     </button>
                 </div>

@@ -1,11 +1,11 @@
 <?php
 
-namespace IBoot\Core\app\Http\Controllers\Settings;
+namespace IBoot\Core\App\Http\Controllers\Settings;
 
 use App\Http\Controllers\Controller;
-use IBoot\Core\app\Exceptions\ServerErrorException;
-use IBoot\Core\app\Http\Requests\SystemSettingRequest;
-use IBoot\Core\app\Services\SystemSettingService;
+use IBoot\Core\App\Exceptions\ServerErrorException;
+use IBoot\Core\App\Http\Requests\SystemSettingRequest;
+use IBoot\Core\App\Services\SystemSettingService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;

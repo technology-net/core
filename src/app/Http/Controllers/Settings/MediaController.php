@@ -56,14 +56,11 @@ class MediaController extends Controller
     {
         if ($request->hasFile('files')) {
             $files = $request->file('files');
-            $folderPath = '/uploads';
+            $disk = $this->getDisk();
 
             foreach ($files as $file) {
-                $fileName = time() . '_' . convertText($file->getClientOriginalName());
-
-                $this->mediaService->newMedia($file, $fileName, $folderPath, $request->parent_id);
-
-                $this->saveFile($file, $fileName, $folderPath);
+                $image = $this->saveFile($file, '/uploads/');
+                $this->mediaService->newMedia($file, $image, $disk, $request->parent_id);
             }
 
             return responseSuccess(null, 'Tải lên thành công');

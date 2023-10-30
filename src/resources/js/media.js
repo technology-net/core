@@ -202,7 +202,7 @@ $(document).ready(function () {
       processData: false,
       contentType: false,
       success: function(response) {
-
+          console.log(response)
       },
       error: function(xhr, status, error) {
 

@@ -43,8 +43,9 @@ glob.sync(path.resolve(__dirname) + '/vendor/iboot/**/**/webpack.mix.js').forEac
 php artisan migrate
 php artisan db:seed --class="IBoot\Core\Database\Seeders\UserSeeder"
 php artisan db:seed --class="IBoot\Core\Database\Seeders\PluginSeeder"
+php artisan db:seed --class="IBoot\Core\Database\Seeders\MenuItemSeeder"
 php artisan db:seed --class="IBoot\Core\Database\Seeders\SystemSettingSeeder"
-php artisan vendor:publish --provider="IBoot\Core\app\Providers\CoreServiceProvider" --force
+php artisan vendor:publish --provider="IBoot\Core\App\Providers\CoreServiceProvider" --force
 ```
 
 ## File `package.json` and `npm run watch`

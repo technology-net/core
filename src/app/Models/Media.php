@@ -13,17 +13,7 @@ class Media extends Model
     public const IS_DIRECTORY = true;
     public const IS_NOT_DIRECTORY = false;
 
-    protected $fillable = [
-        'model',
-        'collection_name',
-        'name',
-        'disk',
-        'mime_type',
-        'directory',
-        'parent_id',
-        'is_directory',
-        'size',
-    ];
+    protected $guarded = [];
 
     protected $casts = [
         'is_directory' => 'boolean',
@@ -37,7 +27,10 @@ class Media extends Model
         return $this->hasMany(Media::class, 'parent_id', 'id');
     }
 
-    public function model(): MorphTo
+    /**
+     * @return MorphTo
+     */
+    public function imageable(): MorphTo
     {
         return $this->morphTo();
     }

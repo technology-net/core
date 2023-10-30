@@ -33,16 +33,24 @@ class MediaService
         return Media::query()->find($id);
     }
 
-    public function newMedia($file, $fileName, $folderPath, $parentId): Model
+    public function newMedia($file, $image, $disk, $parentId): Model
     {
+        $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+        $extensions = $file->getClientOriginalExtension();
+        $mimeType = $file->getMimeType();
+        if (in_array($extensions, $allowedExtensions)) {
+            $mimeType = 'image/webp';
+        }
         return Media::query()->create([
-            'name' => $fileName,
-            'disk' => 'public',
-            'mime_type' => $file->getMimeType(),
-            'size' => $file->getSize(),
+            'name' => $file->getClientOriginalName(),
+            'disk' => $disk,
+            'mime_type' => $mimeType,
+            'image_lg' => $image['image_lg']['file_name'],
+            'image_md' => !empty($image['image_md']) ? $image['image_md']['file_name'] : '',
+            'image_sm' => !empty($image['image_sm']) ? $image['image_sm']['file_name'] : '',
+            'size' => collect($image)->sum('file_size'),
             'is_directory' => Media::IS_NOT_DIRECTORY,
-            'parent_id' => $parentId,
-            'directory' => $folderPath . '/'. $fileName
+            'parent_id' => $parentId
         ]);
     }
 }

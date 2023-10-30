@@ -27,4 +27,5 @@ return [
     'action_error' => 'System error occurred. Please try again later.',
     'delete_success' => 'The data has been deleted successfully.',
     'delete_confirm' => 'Are you sure you want to delete record ?',
+    'max_size' => 'File size exceeds maximum limit :num MB',
 ];

@@ -14,14 +14,15 @@ return new class extends Migration
     {
         Schema::create('media', function (Blueprint $table) {
             $table->id();
-            $table->nullableMorphs('model');
+            $table->nullableMorphs('imageable');
             $table->string('name');
             $table->string('disk');
             $table->string('mime_type')->nullable();
-            $table->string('directory')->nullable();
+            $table->string('image_lg');
+            $table->string('image_md')->nullable();
+            $table->string('image_sm')->nullable();
             $table->integer('parent_id')->nullable()->index();
             $table->boolean('is_directory')->default(false);
-            $table->text('full_url')->nullable();
             $table->unsignedBigInteger('size')->nullable();
             $table->timestamps();
         });
