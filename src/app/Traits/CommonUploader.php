@@ -21,11 +21,8 @@ trait CommonUploader
             $originalName = $fileName->getClientOriginalName();
             list($originalName, $extension) = explode('.', $originalName);
             $disk = $this->getDisk();
-            $directory = $this->getDirectory($path);
-            if (in_array($extension, $this->allowedExtensions)) {
-                $directory = $directory . $originalName . '/';
-                $path = $path . $originalName . '/';
-            }
+            $directory = $this->getDirectory($path) . $originalName . '/';
+            $path = $path . $originalName . '/';
             $this->checkMaxSize($fileName);
             // Create a folder if it doesn't exist
             if (!Storage::disk($disk)->exists($directory)) {
@@ -35,15 +32,15 @@ trait CommonUploader
             if (in_array($extension, $this->allowedExtensions)) {
                 $imageName = $this->convertImageToWebp($contents, $directory, $originalName, $path,);
                 $imageMd = $this->generateVariantsImage($contents, $directory, $originalName, $path, ['width' => 800, 'height' => 450]);
-                $imageSm = $this->generateVariantsImage($contents, $directory, $originalName, $path, ['width' => 200, 'height' => 200]);
+                $imageSm = $this->generateVariantsImage($contents, $directory, $originalName, $path, ['width' => 150, 'height' => 150], true);
             } else {
                 $imageName = [
-                    'file_name' => $path . $originalName . '-' . time() . '.' . $extension,
+                    'file_path' => $originalName . '-' . time() . '.' . $extension,
                     'file_size' => $fileName->getSize(),
                 ];
+                // Save the image to the specified directory on the selected disk
+                Storage::disk($disk)->put($directory . $imageName['file_path'], $contents);
             }
-            // Save the image to the specified directory on the selected disk
-            Storage::disk($disk)->put($directory . $imageName['file_name'], $contents);
 
             return [
                 'image_lg' => $imageName,
@@ -55,14 +52,17 @@ trait CommonUploader
         return '';
     }
 
+
     /**
      * @param $contents
      * @param $directory
      * @param $originalName
+     * @param $path
      * @param array $sizes
-     * @return array
+     * @param bool $isThumbnail
+     * @return array{file_path: string, file_size: false|int}
      */
-    public function generateVariantsImage($contents, $directory, $originalName, $path, array $sizes = array()): array
+    public function generateVariantsImage($contents, $directory, $originalName, $path, array $sizes = array(), bool $isThumbnail = false): array
     {
         $disk = $this->getDisk();
         // Load the original image
@@ -80,20 +80,41 @@ trait CommonUploader
         $originalRatio = $originalWidth / $originalHeight;
         $desiredRatio = $width / $height;
 
-        if ($originalRatio > $desiredRatio) {
+        if ($isThumbnail && ($originalWidth / $originalHeight != 1)) {
+            // Determine whether to crop from the top or sides
+            if ($originalWidth > $originalHeight) {
+                $cropWidth = $originalHeight;
+                $cropHeight = $originalHeight;
+                $cropX = ($originalWidth - $originalHeight) / 2;
+                $cropY = 0;
+            } else {
+                $cropWidth = $originalWidth;
+                $cropHeight = $originalWidth;
+                $cropX = 0;
+                $cropY = ($originalHeight - $originalWidth) / 2;
+            }
+
             $newWidth = $width;
-            $newHeight = round($width / $originalRatio);
-        } else {
-            $newWidth = round($height * $originalRatio);
             $newHeight = $height;
+            // Create an empty square thumbnail image
+            $variantsImage = imagecreatetruecolor($newWidth, $newHeight);
+            imagecopyresampled($variantsImage, $originalImage, 0, 0, $cropX, $cropY, $newWidth, $newHeight, $cropWidth, $cropHeight);
+        } else {
+            if ($originalRatio > $desiredRatio) {
+                $newWidth = $width;
+                $newHeight = round($width / $originalRatio);
+            } else {
+                $newWidth = round($height * $originalRatio);
+                $newHeight = $height;
+            }
+
+            $variantsImage = imagecreatetruecolor($newWidth, $newHeight);
+            // Resize the original image to fit the thumbnail dimensions
+            imagecopyresampled($variantsImage, $originalImage, 0, 0, 0, 0, $newWidth, $newHeight, $originalWidth, $originalHeight);
         }
 
         // Create an empty thumbnail image
-        $variantsImage = imagecreatetruecolor($newWidth, $newHeight);
         $variantsImageName = $originalName . '-' . time() . '-' . $newWidth . 'x' . $newHeight . '.webp';
-
-        // Resize the original image to fit the thumbnail dimensions
-        imagecopyresampled($variantsImage, $originalImage, 0, 0, 0, 0, $newWidth, $newHeight, $originalWidth, $originalHeight);
         imagejpeg($variantsImage, Storage::disk($disk)->path($directory . $variantsImageName));
 
         $filePath = Storage::disk($disk)->path($directory . $variantsImageName);
@@ -104,7 +125,7 @@ trait CommonUploader
         imagedestroy($variantsImage);
 
         return [
-            'file_name' => $path . $variantsImageName,
+            'file_path' => $path . $variantsImageName,
             'file_size' => $fileSize,
         ];
     }
@@ -190,7 +211,7 @@ trait CommonUploader
         imagedestroy($originalImage);
 
         return [
-            'file_name' => $path . $imageName,
+            'file_path' => $path . $imageName,
             'file_size' => $fileSize,
         ];
     }

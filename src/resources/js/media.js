@@ -5,7 +5,7 @@ $(document).ready(function () {
   getFolders(folderId, page)
     .then(res => {
       if (res.data.data.length > 0) {
-        $('#fill-media').html(res.html)
+        $('#fill-media').html(res.html);
       }
     })
 
@@ -42,15 +42,12 @@ $(document).ready(function () {
     $('.media-description').removeClass('d-none')
     getInfoFolder(folderId, page)
       .then(function(result) {
+        console.log(result)
         getListOrGrid()
-        if (result['is_directory']) {
-          $('.media-thumbnail').addClass('item-border-bottom').find('i').removeClass('mdi-image').addClass('mdi-folder')
-        } else {
-          $('.media-thumbnail').addClass('item-border-bottom').find('i').removeClass('mdi-folder').addClass('mdi-image')
-        }
+        let showItem = result.is_directory ? `<i class="mdi mdi-folder folder-icon-color"></i>` : `<img width="150" src="${result.image_medium}" alt="${result.name}">`;
+        $('.media-thumbnail').html(showItem)
         $('.media-name').find('p').html(result['name'])
         $('.media-size').find('p').html($(`.folder-container-${result['id']}`).find('.folder-size').text())
-        // $('.media-full-url').find('p').html(result['full_url'])
         $('.media-uploaded-at').find('p').html(result['created_at'])
         $('.media-modified-at').find('p').html(result['updated_at'])
       })
@@ -105,14 +102,14 @@ $(document).ready(function () {
   }
 
   function resetInfoFolder() {
-    page = 1
-    folderId = $("#fill-media").attr("data-parent_id")
-    $('#fill-media').html('')
-    $('.media-name').find('p').html('')
-    $('.media-size').find('p').html('')
-    // $('.media-full-url').find('p').html(result['full_url'])
-    $('.media-uploaded-at').find('p').html('')
-    $('.media-modified-at').find('p').html('')
+    page = 1;
+    folderId = $("#fill-media").attr("data-parent_id");
+    $('#fill-media').html('');
+    $('.media-name').find('p').html('');
+    $('.media-size').find('p').html('');
+    $('.media-uploaded-at').find('p').html('');
+    $('.media-modified-at').find('p').html('');
+    $('.media-thumbnail').html(`<i class="mdi mdi-image"></i>`);
   }
 
   function activeList() {
@@ -202,7 +199,30 @@ $(document).ready(function () {
       processData: false,
       contentType: false,
       success: function(response) {
-          console.log(response)
+        let html = ``;
+        if (response.success) {
+          $.each(response.data, function (_i, _item) {
+            let showItem = _item.is_directory ? `<i class="mdi mdi-folder folder-icon-color"></i>` : `<img src="${_item.image_thumbnail}" alt="${_item.name}">`;
+            html += `
+              <div class="col-1 p-0 pt-1 grid-view">
+                <div class="folder-item" title="${_item.name}">
+                  <button class="folder-container folder-container-${_item.id}"
+                    data-is_directory="${_item.is_directory}" data-id="${_item.id}">
+                    <div class="folder-icon">${showItem}</div>
+                    <div class="folder-content">
+                      <div class="folder-name folder-name-grid">${_item.name_truncates}</div>
+                      <div class="more-info-folder d-none">
+                        <div class="folder-size">${_item.size_format}</div>
+                        <div class="folder-created-at float-right">${_item.created_at}</div>
+                      </div>
+                    </div>
+                  </button>
+                </div>
+              </div>
+            `;
+          })
+        }
+        $('#fill-media').append(html);
       },
       error: function(xhr, status, error) {
 

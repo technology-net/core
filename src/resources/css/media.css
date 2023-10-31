@@ -10,11 +10,10 @@
     margin-left: 1rem;
     margin-right: 1rem;
     margin-bottom: 1.5rem;
-    width: 100px;
-    padding: 5px 0 0 0;
+    padding: 0;
     align-self: start;
     background: #F4F4F4;
-    border: 1px solid #ffffff;
+    border: none;
     outline-color: transparent !important;
     cursor: pointer;
 }
@@ -22,6 +21,10 @@
 .folder-icon {
     font-size: 3em;
     line-height: 1.25em;
+}
+
+.folder-icon img {
+    width: 100px;
 }
 
 .folder-icon-color {
@@ -33,11 +36,12 @@
     font-size: 13px;
     overflow-wrap: break-word;
     word-wrap: break-word;
+    -webkit-hyphens: auto;
     hyphens: auto;
 }
 
 .folder-name-grid {
-    border: 1px solid #ffffff;
+    border-top: 1px solid #ffffff;
     background: #DDDDDD;
     padding: 5px;
 }
@@ -45,15 +49,15 @@
 .flex-column .folder-container {
     display: flex;
     align-items: center;
-    justify-content: flex-start;
     background: #ffffff;
     border: none;
-    width: 98%;
+    width: 100%;
+    margin: 0;
+    padding: 0 20px;
 }
 
 .flex-column .folder-container:hover {
     background: #efefef;
-    width: 98%;
 }
 
 .flex-column .folder-container-back {
@@ -72,10 +76,12 @@
     margin-right: 1rem;
 }
 
+.flex-column .folder-icon img {
+    width: 50px;
+}
+
 .folder-breadcrumb {
-    display: -ms-flexbox;
     display: flex;
-    -ms-flex-wrap: wrap;
     flex-wrap: wrap;
     padding: 10px 0 0;
     list-style: none;
@@ -156,7 +162,6 @@ div.no-items {
 
 .list-view {
     width: 100%;
-    max-height: 50px;
 }
 
 .grid-view {
@@ -176,11 +181,6 @@ div.no-items {
     max-height: 650px
 }
 
-.flex-column .folder-container {
-    display: flex;
-    align-items: center;
-}
-
 .flex-column .folder-content {
     display: flex;
     justify-content: space-between;
@@ -197,6 +197,8 @@ div.no-items {
 .file > label {
     cursor: pointer;
     outline: 0;
+    -webkit-user-select: none;
+    -moz-user-select: none;
     user-select: none;
     display: flex;
     justify-content: center;

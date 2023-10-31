@@ -25,13 +25,13 @@
                         @if($item->is_directory)
                             <i class="mdi mdi-folder folder-icon-color"></i>
                         @else
-                            <img width="50" src="{{ asset('storage' . $item->image_sm) }}" alt="{{ $item->name }}">
+                            <img src="{{ $item->image_thumbnail }}" alt="{{ $item->name }}">
                         @endif
                     </div>
                     <div class="folder-content">
-                        <div class="folder-name folder-name-grid">{{ \Illuminate\Support\Str::limit($item->name, 8, $end='...') }}</div>
+                        <div class="folder-name folder-name-grid">{{ $item->name_truncates }}</div>
                         <div class="more-info-folder d-none">
-                            <div class="folder-size">{{ convertSize($item) }} </div>
+                            <div class="folder-size">{{ $item->size_format }}</div>
                             <div class="folder-created-at float-right">{{ $item->created_at }}</div>
                         </div>
                     </div>

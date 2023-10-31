@@ -2,9 +2,11 @@
 
 namespace IBoot\Core\App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Illuminate\Support\Str;
 
 class Media extends Model
 {
@@ -17,6 +19,13 @@ class Media extends Model
 
     protected $casts = [
         'is_directory' => 'boolean',
+    ];
+
+    protected $appends = [
+        'image_thumbnail',
+        'image_medium',
+        'size_format',
+        'name_truncates',
     ];
 
     /**
@@ -33,5 +42,80 @@ class Media extends Model
     public function imageable(): MorphTo
     {
         return $this->morphTo();
+    }
+
+    /**
+     * @return Attribute
+     */
+    protected function imageThumbnail(): Attribute
+    {
+        $mimeType = explode('/', $this->mime_type);
+        $image = asset('core/images/icons/txt.webp');
+        if ($mimeType[1] === 'webp') {
+            $image = asset('storage' . $this->image_sm);
+        }
+        $image = $this->getDefaultImage($mimeType[1], $image);
+
+        return new Attribute(
+            get: fn () => $image,
+        );
+    }
+    /**
+     * @return Attribute
+     */
+    protected function imageMedium(): Attribute
+    {
+        $mimeType = explode('/', $this->mime_type);
+        $image = asset('core/images/icons/txt.webp');
+        if ($mimeType[1] === 'webp') {
+            $image = asset('storage' . $this->image_md);
+        }
+        $image = $this->getDefaultImage($mimeType[1], $image);
+
+        return new Attribute(
+            get: fn () => $image,
+        );
+    }
+    /**
+     * @return Attribute
+     */
+    protected function sizeFormat(): Attribute
+    {
+        return new Attribute(
+            get: fn () => convertSize($this),
+        );
+    }
+
+    /**
+     * @return Attribute
+     */
+    protected function nameTruncates(): Attribute
+    {
+        return new Attribute(
+            get: fn () => Str::limit($this->name, 8, '...'),
+        );
+    }
+
+    /**
+     * @param $mimeType
+     * @param $image
+     * @return mixed
+     */
+    private function getDefaultImage ($mimeType, $image): mixed
+    {
+        if (in_array($mimeType, ['doc', 'ms-doc', 'msword', 'wordprocessingml.document'])) {
+            $image = asset('core/images/icons/docs.webp');
+        }
+        if (in_array($mimeType, ['excel', 'vnd.ms-excel', 'x-excel', 'x-msexcel', 'spreadsheetml.sheet'])) {
+            $image = asset('core/images/icons/xls.webp');
+        }
+        if (in_array($mimeType, ['mspowerpoint', 'powerpoint', 'vnd.ms-powerpoint', 'x-mspowerpoint', 'presentationml.presentation'])) {
+            $image = asset('core/images/icons/ppt.webp');
+        }
+        if ($mimeType === 'pdf') {
+            $image = asset('core/images/icons/pdf.webp');
+        }
+
+        return $image;
     }
 }

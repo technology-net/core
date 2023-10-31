@@ -52,18 +52,19 @@ class MediaController extends Controller
     /**
      * @throws Exception
      */
-    public function uploadFiles(Request $request): JsonResponse
+    public function uploadFiles(Request $request)
     {
         if ($request->hasFile('files')) {
             $files = $request->file('files');
             $disk = $this->getDisk();
+            $medias = [];
 
             foreach ($files as $file) {
                 $image = $this->saveFile($file, '/uploads/');
-                $this->mediaService->newMedia($file, $image, $disk, $request->parent_id);
+                $medias[] = $this->mediaService->newMedia($file, $image, $disk, $request->parent_id);
             }
 
-            return responseSuccess(null, 'Tải lên thành công');
+            return responseSuccess($medias, 'Tải lên thành công');
         }
     }
 }

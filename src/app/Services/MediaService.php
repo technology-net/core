@@ -38,16 +38,19 @@ class MediaService
         $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
         $extensions = $file->getClientOriginalExtension();
         $mimeType = $file->getMimeType();
+        $name = $file->getClientOriginalName();
         if (in_array($extensions, $allowedExtensions)) {
             $mimeType = 'image/webp';
+            $originalName = explode('.', $name);
+            $name = $originalName[0] . '.webp';
         }
         return Media::query()->create([
-            'name' => $file->getClientOriginalName(),
+            'name' => $name,
             'disk' => $disk,
             'mime_type' => $mimeType,
-            'image_lg' => $image['image_lg']['file_name'],
-            'image_md' => !empty($image['image_md']) ? $image['image_md']['file_name'] : '',
-            'image_sm' => !empty($image['image_sm']) ? $image['image_sm']['file_name'] : '',
+            'image_lg' => $image['image_lg']['file_path'],
+            'image_md' => !empty($image['image_md']) ? $image['image_md']['file_path'] : '',
+            'image_sm' => !empty($image['image_sm']) ? $image['image_sm']['file_path'] : '',
             'size' => collect($image)->sum('file_size'),
             'is_directory' => Media::IS_NOT_DIRECTORY,
             'parent_id' => $parentId

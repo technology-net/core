@@ -1,6 +1,7 @@
 @extends('packages/core::layouts.admin')
 @section('css')
     <link href="{{ mix('core/css/media.css') }}" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
 @endsection
 @section('content')
     @include('packages/core::partial.breadcrumb', [
@@ -71,6 +72,7 @@
                         <div id="scroll-folder" class="col-10 p-0 item-border-right">
                             <div class="container-fluid">
                                 <div class="row p-2" id="fill-media" data-parent_id="">
+                                    {{--appen js--}}
                                 </div>
                             </div>
                         </div>
@@ -114,5 +116,6 @@
         let route_index = "{!! route('settings.media.index') !!}"
         let upload_file_url = "{!! route('settings.media.upload-files') !!}"
     </script>
+    <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
     <script type="text/javascript" src="{{ mix('core/js/media.js') }}" defer></script>
 @endsection
