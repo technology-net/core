@@ -42,7 +42,6 @@ $(document).ready(function () {
     $('.media-description').removeClass('d-none')
     getInfoFolder(folderId, page)
       .then(function(result) {
-        console.log(result)
         getListOrGrid()
         let showItem = result.is_directory ? `<i class="mdi mdi-folder folder-icon-color"></i>` : `<img width="150" src="${result.image_medium}" alt="${result.name}">`;
         $('.media-thumbnail').html(showItem)
@@ -113,19 +112,19 @@ $(document).ready(function () {
   }
 
   function activeList() {
-    $('#main-folders').addClass('flex-column').find('.grid-view').removeClass('col-1 grid-view').addClass('col-12 list-view')
-    $('.more-info-folder').removeClass('d-none')
-    $('.folder-name-grid').removeClass('folder-name-grid')
-    $(this).removeClass('active')
-    $(this).addClass('active')
+    $('#main-folders').addClass('flex-column').find('.grid-view').removeClass('col-1 grid-view').addClass('col-12 list-view');
+    $('.more-info-folder').removeClass('d-none');
+    $('.folder-name-grid').removeClass('folder-name-grid').removeClass('text-ellipsis');
+    $(this).removeClass('active');
+    $(this).addClass('active');
   }
 
   function activeGrid() {
-    $('#main-folders').removeClass('flex-column').find('.list-view').removeClass('col-12 list-view').addClass('col-1 grid-view')
-    $('.more-info-folder').addClass('d-none')
-    $('.folder-name').addClass('folder-name-grid')
-    $(this).removeClass('active')
-    $(this).addClass('active')
+    $('#main-folders').removeClass('flex-column').find('.list-view').removeClass('col-12 list-view').addClass('col-1 grid-view');
+    $('.more-info-folder').addClass('d-none');
+    $('.folder-name').addClass('folder-name-grid').addClass('text-ellipsis');
+    $(this).removeClass('active');
+    $(this).addClass('active');
   }
 
   function getInfoFolder(folderId) {
@@ -149,6 +148,7 @@ $(document).ready(function () {
 
   $('#scroll-folder').on('scroll', function () {
     if($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight - 10) {
+      console.log(page)
       if (page < lastPage) {
         page++
         getFolders(folderId, page)
@@ -199,34 +199,75 @@ $(document).ready(function () {
       processData: false,
       contentType: false,
       success: function(response) {
-        let html = ``;
         if (response.success) {
-          $.each(response.data, function (_i, _item) {
-            let showItem = _item.is_directory ? `<i class="mdi mdi-folder folder-icon-color"></i>` : `<img src="${_item.image_thumbnail}" alt="${_item.name}">`;
-            html += `
-              <div class="col-1 p-0 pt-1 grid-view">
-                <div class="folder-item" title="${_item.name}">
-                  <button class="folder-container folder-container-${_item.id}"
-                    data-is_directory="${_item.is_directory}" data-id="${_item.id}">
-                    <div class="folder-icon">${showItem}</div>
-                    <div class="folder-content">
-                      <div class="folder-name folder-name-grid">${_item.name_truncates}</div>
-                      <div class="more-info-folder d-none">
-                        <div class="folder-size">${_item.size_format}</div>
-                        <div class="folder-created-at float-right">${_item.created_at}</div>
-                      </div>
-                    </div>
-                  </button>
-                </div>
-              </div>
-            `;
-          })
+          $('#fill-media').html(response.html);
+          toastr.success(response.message);
+          page = 1;
+        } else {
+          toastr.error(response.message)
         }
-        $('#fill-media').append(html);
       },
       error: function(xhr, status, error) {
-
+        if (xhr.status === 500) {
+          toastr.error(xhr['responseJSON'].message)
+        }
       }
     });
+  });
+
+  $('body').on('submit', '#create-folder-form', function (e) {
+    e.preventDefault();
+    let form = $(this);
+    let formData = new FormData(form[0]);
+    formData.append('parent_id', $('#fill-media').attr('data-parent_id'))
+
+    $.ajax({
+      type: form.attr('method'),
+      url: form.attr('action'),
+      data: formData,
+      cache: false,
+      contentType: false,
+      processData: false,
+      success: function (response) {
+        $('#makeFolder').modal('hide');
+        form[0].reset();
+        if (response.success) {
+          $('#fill-media').html(response.html);
+          toastr.success(response.message);
+          page = 1;
+        } else {
+          toastr.error(response.message);
+        }
+      },
+      error: function (jQxhr) {
+        if (jQxhr.status === 500) {
+          toastr.error(jQxhr['responseJSON'].message);
+        }
+      }
+    })
+  });
+
+  function renderHtml(item) {
+    let showItem = item.is_directory ? `<i class="mdi mdi-folder folder-icon-color"></i>` : `<img src="${item.image_thumbnail}" alt="${item.name}">`;
+    return `
+      <div class="col-1 p-0 pt-1 grid-view">
+        <div class="folder-item" title="${item.name}">
+          <button class="folder-container folder-container-${item.id}"
+            data-is_directory="${item.is_directory}" data-id="${item.id}">
+            <div class="folder-icon">${showItem}</div>
+            <div class="folder-content">
+              <div class="folder-name folder-name-grid text-ellipsis">${item.name}</div>
+              <div class="more-info-folder d-none">
+                <div class="folder-size">${item.size_format}</div>
+                <div class="folder-created-at float-right">${item.created_at}</div>
+              </div>
+            </div>
+          </button>
+        </div>
+      </div>
+    `;
+  }
+  $('body').on('hidden.bs.modal', '#makeFolder', function () {
+    $('#create-folder-form')[0].reset();
   });
 })

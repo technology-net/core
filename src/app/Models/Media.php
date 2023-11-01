@@ -10,7 +10,7 @@ use Illuminate\Support\Str;
 
 class Media extends Model
 {
-    protected $table = 'media';
+    protected $table = 'medias';
 
     public const IS_DIRECTORY = true;
     public const IS_NOT_DIRECTORY = false;
@@ -25,7 +25,6 @@ class Media extends Model
         'image_thumbnail',
         'image_medium',
         'size_format',
-        'name_truncates',
     ];
 
     /**
@@ -49,13 +48,14 @@ class Media extends Model
      */
     protected function imageThumbnail(): Attribute
     {
-        $mimeType = explode('/', $this->mime_type);
         $image = asset('core/images/icons/txt.webp');
-        if ($mimeType[1] === 'webp') {
-            $image = asset('storage' . $this->image_sm);
+        if (empty($this->is_directory)) {
+            $mimeType = explode('/', $this->mime_type);
+            if ($mimeType[1] === 'webp') {
+                $image = asset('storage' . $this->image_sm);
+            }
+            $image = $this->getDefaultImage($mimeType[1], $image);
         }
-        $image = $this->getDefaultImage($mimeType[1], $image);
-
         return new Attribute(
             get: fn () => $image,
         );
@@ -65,12 +65,14 @@ class Media extends Model
      */
     protected function imageMedium(): Attribute
     {
-        $mimeType = explode('/', $this->mime_type);
         $image = asset('core/images/icons/txt.webp');
-        if ($mimeType[1] === 'webp') {
-            $image = asset('storage' . $this->image_md);
+        if (empty($this->is_directory)) {
+            $mimeType = explode('/', $this->mime_type);
+            if ($mimeType[1] === 'webp') {
+                $image = asset('storage' . $this->image_md);
+            }
+            $image = $this->getDefaultImage($mimeType[1], $image);
         }
-        $image = $this->getDefaultImage($mimeType[1], $image);
 
         return new Attribute(
             get: fn () => $image,
@@ -81,18 +83,13 @@ class Media extends Model
      */
     protected function sizeFormat(): Attribute
     {
+        if (empty($this->is_directory)) {
+            return new Attribute(
+                get: fn () => convertSize($this),
+            );
+        }
         return new Attribute(
-            get: fn () => convertSize($this),
-        );
-    }
-
-    /**
-     * @return Attribute
-     */
-    protected function nameTruncates(): Attribute
-    {
-        return new Attribute(
-            get: fn () => Str::limit($this->name, 8, '...'),
+            get: fn () => '',
         );
     }
 

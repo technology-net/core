@@ -1,7 +1,7 @@
 @extends('packages/core::layouts.admin')
 @section('css')
     <link href="{{ mix('core/css/media.css') }}" rel="stylesheet"/>
-    <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
+    <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css"/>
 @endsection
 @section('content')
     @include('packages/core::partial.breadcrumb', [
@@ -31,8 +31,9 @@
                         <i class="mdi mdi-cloud-download-outline"></i>
                         Download
                     </button>
-                    <button class="btn btn-success js-create-folder-action mr-2" type="button">
-                        <i class="mdi mdi-folder-outline"></i> Create folder
+                    <button class="btn btn-success js-create-folder-action mr-2" type="button" data-toggle="modal"
+                            data-target="#makeFolder">
+                        <i class="mdi mdi-folder-outline"></i> {{ trans('packages/core::common.f_folder', ['field' => trans('packages/core::common.create')]) }}
                     </button>
                     <button class="btn btn-success js-change-action" data-type="refresh">
                         <i class="mdi mdi-sync"></i> Refresh
@@ -77,29 +78,30 @@
                             </div>
                         </div>
                         <div class="media-details col-2 p-0 text-black">
-                            <div class="media-thumbnail d-flex justify-content-center align-items-center item-border-bottom">
+                            <div
+                                class="media-thumbnail d-flex justify-content-center align-items-center item-border-bottom">
                                 <i class="mdi mdi-image"></i>
                             </div>
                             <div class="media-description mx-2 mt-2">
                                 <div class="media-name">
                                     <span>Name: </span>
-                                    <p title=""> </p>
+                                    <p title=""></p>
                                 </div>
                                 <div class="media-size">
                                     <span>Size: </span>
-                                    <p title=""> </p>
+                                    <p title=""></p>
                                 </div>
                                 <div class="media-full-url d-none">
                                     <span>Full URL: </span>
-                                    <p title=""> </p>
+                                    <p title=""></p>
                                 </div>
                                 <div class="media-uploaded-at">
                                     <span>Uploaded at: </span>
-                                    <p title=""> </p>
+                                    <p title=""></p>
                                 </div>
                                 <div class="media-modified-at">
                                     <span>Modified at: </span>
-                                    <p title=""> </p>
+                                    <p title=""></p>
                                 </div>
                             </div>
                         </div>
@@ -109,6 +111,7 @@
             <!-- End Folders Container -->
         </div>
     </div>
+    @include('packages/core::settings.media.include._modal-make-folder')
 @endsection
 @section('js')
     <script>

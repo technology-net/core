@@ -47,7 +47,7 @@
 <!-- container-scroller -->
 <!-- plugins:js -->
 <script src="{{ mix('core/vendors/js/jquery-3.7.1.min.js') }}"></script>
-<script src="{{ mix('core/vendors/js/vendor.bundle.base.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js" integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+" crossorigin="anonymous"></script>
 <script src="{{ mix('core/vendors/js/toastr.min.js') }}"></script>
 <script src="{{ mix('core/vendors/js/sweetalert2.all.min.js') }}"></script>
 <script src="{{ mix('core/vendors/js/select2.min.js') }}"></script>

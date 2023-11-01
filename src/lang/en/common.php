@@ -8,4 +8,6 @@ return [
     'confirm' => 'Confirm',
     'cancel' => 'Cancel',
     'back' => 'Back',
+    'f_folder' => ':field folder',
+    'name' => 'Name',
 ];

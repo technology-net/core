@@ -5633,15 +5633,21 @@ a.close.disabled {
 
 .modal-header {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     justify-content: space-between;
     padding: 1rem 1rem;
     border-bottom: 1px solid #2c2e33;
     border-top-left-radius: calc(0.3rem - 1px);
     border-top-right-radius: calc(0.3rem - 1px); }
 .modal-header .close {
-    padding: 1rem 1rem;
-    margin: -25px -26px -25px auto; }
+    border: none;
+    background: transparent;
+    box-shadow: none; }
+
+.modal-header .close span {
+    font-size: 25px;
+    font-weight: 400;
+    color: #dddddd;}
 
 .modal-title {
     margin-bottom: 0;

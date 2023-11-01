@@ -4,6 +4,7 @@ namespace IBoot\Core\App\Http\Controllers\Settings;
 
 use App\Http\Controllers\Controller;
 use Exception;
+use IBoot\Core\App\Exceptions\ServerErrorException;
 use IBoot\Core\App\Services\MediaService;
 use IBoot\Core\App\Traits\CommonUploader;
 use Illuminate\Contracts\View\Factory;
@@ -11,6 +12,8 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class MediaController extends Controller
 {
@@ -54,17 +57,57 @@ class MediaController extends Controller
      */
     public function uploadFiles(Request $request)
     {
-        if ($request->hasFile('files')) {
-            $files = $request->file('files');
-            $disk = $this->getDisk();
-            $medias = [];
+        DB::beginTransaction();
+        try {
+            if ($request->hasFile('files')) {
+                $files = $request->file('files');
+                $disk = $this->getDisk();
 
-            foreach ($files as $file) {
-                $image = $this->saveFile($file, '/uploads/');
-                $medias[] = $this->mediaService->newMedia($file, $image, $disk, $request->parent_id);
+                foreach ($files as $file) {
+                    $image = $this->saveFile($file, '/uploads/');
+                    $this->mediaService->newMedia($file, $image, $disk, $request->parent_id);
+                }
+                DB::commit();
+
+                $medias = $this->mediaService->getMedia($request->parent_id);
+
+                return response()->json([
+                    'success' => true,
+                    'message' => trans('packages/core::messages.save_success'),
+                    'html' => view('packages/core::settings.media.show_folder', ['media' => $medias, 'id' => $request->parent_id])->render()
+                ]);
             }
+        } catch (Exception $e) {
+            DB::rollback();
+            Log::error($e->getMessage(), ['file' => __FILE__, 'line' => __LINE__]);
+            throw new ServerErrorException(null, trans('packages/core::messages.action_error'));
+        }
+    }
 
-            return responseSuccess($medias, 'Tải lên thành công');
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     * @throws ServerErrorException
+     */
+    public function createFolder(Request $request): JsonResponse
+    {
+        DB::beginTransaction();
+        try {
+            $this->mediaService->makeFolder($request->all());
+            DB::commit();
+
+            $medias = $this->mediaService->getMedia($request->parent_id);
+
+            return response()->json([
+                'success' => true,
+                'message' => trans('packages/core::messages.save_success'),
+                'html' => view('packages/core::settings.media.show_folder', ['media' => $medias, 'id' => $request->parent_id])->render()
+            ]);
+
+        } catch (Exception $e) {
+            DB::rollback();
+            Log::error($e->getMessage(), ['file' => __FILE__, 'line' => __LINE__]);
+            throw new ServerErrorException(null, trans('packages/core::messages.action_error'));
         }
     }
 }

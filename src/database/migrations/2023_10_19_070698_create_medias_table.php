@@ -12,13 +12,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('media', function (Blueprint $table) {
+        Schema::create('medias', function (Blueprint $table) {
             $table->id();
             $table->nullableMorphs('imageable');
             $table->string('name');
-            $table->string('disk');
+            $table->string('disk')->nullable();
             $table->string('mime_type')->nullable();
-            $table->string('image_lg');
+            $table->string('image_lg')->nullable();
             $table->string('image_md')->nullable();
             $table->string('image_sm')->nullable();
             $table->integer('parent_id')->nullable()->index();
@@ -33,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('media');
+        Schema::dropIfExists('medias');
     }
 };

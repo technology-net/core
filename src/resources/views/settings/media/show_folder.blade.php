@@ -29,7 +29,7 @@
                         @endif
                     </div>
                     <div class="folder-content">
-                        <div class="folder-name folder-name-grid">{{ $item->name_truncates }}</div>
+                        <div class="folder-name folder-name-grid text-ellipsis">{{ $item->name }}</div>
                         <div class="more-info-folder d-none">
                             <div class="folder-size">{{ $item->size_format }}</div>
                             <div class="folder-created-at float-right">{{ $item->created_at }}</div>

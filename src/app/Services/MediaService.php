@@ -7,6 +7,7 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Arr;
 
 class MediaService
 {
@@ -19,7 +20,8 @@ class MediaService
     public function getMedia($id): LengthAwarePaginator
     {
         return Media::query()->where('parent_id', $id)
-            ->orderBy('name', 'desc')
+            ->orderBy('is_directory', 'desc')
+            ->orderBy('created_at', 'desc')
             ->with('children')
             ->paginate(config('core.core.media_pagination'));
     }
@@ -55,5 +57,55 @@ class MediaService
             'is_directory' => Media::IS_NOT_DIRECTORY,
             'parent_id' => $parentId
         ]);
+    }
+
+    /**
+     * @param array $inputs
+     * @return null
+     */
+    public function makeFolder(array $inputs = array())
+    {
+        $name = Arr::get($inputs, 'name', '');
+        $parent = Arr::get($inputs, 'parent_id', null);
+        if (!empty($name)) {
+            $existingFolders = Media::query()
+                ->where('parent_id', $parent)
+                ->where('name', 'LIKE', $name . '%')
+                ->get();
+
+            if ($existingFolders->isNotEmpty()) {
+                $maxIdx = 0;
+                foreach ($existingFolders as $item) {
+                    if (preg_match('/\((\d+)\)$/', $item->name, $matches)) {
+                        $index = (int)$matches[1];
+                        if ($index > $maxIdx) {
+                            $maxIdx = $index;
+                        }
+                    }
+                }
+                $name = $name . '(' . ($maxIdx + 1) . ')';
+            }
+
+            return $this->createOrUpdate(
+                ['id' => 0],
+                [
+                    'name' => $name,
+                    'parent_id' => $parent,
+                    'is_directory' => Media::IS_DIRECTORY,
+                ]
+            );
+        }
+
+        return null;
+    }
+
+    /**
+     * @param array $conditions
+     * @param array $datas
+     * @return Model|Builder
+     */
+    private function createOrUpdate(array $conditions = array(), array $datas = array()): Model|Builder
+    {
+        return Media::query()->updateOrCreate($conditions, $datas);
     }
 }
