@@ -99,6 +99,8 @@ trait CommonUploader
                 $newHeight = $height;
                 // Create an empty square thumbnail image
                 $variantsImage = imagecreatetruecolor($newWidth, $newHeight);
+                $transparentColor = imagecolorallocatealpha($variantsImage, 255, 255, 255, 127);
+                imagefill($variantsImage, 0, 0, $transparentColor);
                 imagecopyresampled($variantsImage, $originalImage, 0, 0, $cropX, $cropY, $newWidth, $newHeight, $cropWidth, $cropHeight);
             } else {
                 if ($originalRatio > $desiredRatio) {
@@ -110,13 +112,16 @@ trait CommonUploader
                 }
 
                 $variantsImage = imagecreatetruecolor($newWidth, $newHeight);
-                // Resize the original image to fit the thumbnail dimensions
+                $transparentColor = imagecolorallocatealpha($variantsImage, 255, 255, 255, 127);
+                imagefill($variantsImage, 0, 0, $transparentColor);
                 imagecopyresampled($variantsImage, $originalImage, 0, 0, 0, 0, $newWidth, $newHeight, $originalWidth, $originalHeight);
             }
         } else {
             $newWidth = $originalWidth;
             $newHeight = $originalHeight;
             $variantsImage = imagecreatetruecolor($newWidth, $newHeight);
+            $transparentColor = imagecolorallocatealpha($variantsImage, 255, 255, 255, 127);
+            imagefill($variantsImage, 0, 0, $transparentColor);
             imagecopyresampled($variantsImage, $originalImage, 0, 0, 0, 0, $newWidth, $newHeight, $originalWidth, $originalHeight);
         }
 
