@@ -41,7 +41,7 @@ class MediaService
         $extensions = $file->getClientOriginalExtension();
         $mimeType = $file->getMimeType();
         $name = $file->getClientOriginalName();
-        if (in_array($extensions, $allowedExtensions)) {
+        if (in_array(strtolower($extensions), $allowedExtensions)) {
             $mimeType = 'image/webp';
             $originalName = explode('.', $name);
             $name = $originalName[0] . '.webp';

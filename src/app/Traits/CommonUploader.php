@@ -29,7 +29,7 @@ trait CommonUploader
                 Storage::disk($disk)->makeDirectory($directory);
             }
             $contents = file_get_contents($fileName->getRealPath());
-            if (in_array($extension, $this->allowedExtensions)) {
+            if (in_array(strtolower($extension), $this->allowedExtensions)) {
                 $imageName = $this->generateVariantsImage($contents, $directory, $originalName, $path,);
                 $imageMd = $this->generateVariantsImage($contents, $directory, $originalName, $path, ['width' => 800, 'height' => 450]);
                 $imageSm = $this->generateVariantsImage($contents, $directory, $originalName, $path, ['width' => 150, 'height' => 150], true);
