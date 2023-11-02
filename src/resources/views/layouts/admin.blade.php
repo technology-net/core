@@ -22,6 +22,11 @@
 </head>
 <body>
 <div class="container-scroller">
+    <div id="overlay">
+        <div class="cv-spinner">
+            <span class="spinner"></span>
+        </div>
+    </div>
     <!-- partials/sidebar -->
     <x-sidebar/>
     <!-- partial -->

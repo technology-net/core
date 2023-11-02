@@ -203,7 +203,7 @@ $(document).ready(function () {
     for (let i = 0; i < files.length; i++) {
       formData.append('files[]', files[i]);
     }
-
+    showLoading();
     $.ajax({
       url: upload_file_url,
       type: 'POST',
@@ -229,6 +229,7 @@ $(document).ready(function () {
       },
       complete: function () {
         $('#input-file').val('');
+        hideLoading();
       }
     });
   });

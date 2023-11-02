@@ -61,3 +61,11 @@ $(document).ready(function () {
 formatDateString = function (dateString) {
   return dateString.replace("T", " ").replace(".000000Z", "");
 }
+
+showLoading = function () {
+  $("#overlay").fadeIn(300);
+}
+
+hideLoading = function () {
+  $("#overlay").fadeOut(300);
+}
