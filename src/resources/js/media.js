@@ -1,8 +1,9 @@
 $(document).ready(function () {
-  let page = 1
-  let lastPage = 1
-  let folderId = null
-  getFolders(folderId, page)
+  let page = 1;
+  let lastPage = 1;
+  let folderId = null;
+  let parent = null;
+  getFolders(folderId, page, parent)
     .then(res => {
       if (res.data.data.length > 0) {
         $('#fill-media').html(res.html);
@@ -12,7 +13,7 @@ $(document).ready(function () {
   $(document).on('click', '#btn-list', function () {
     resetInfoFolder()
     activeList()
-    getFolders(folderId, page)
+    getFolders(folderId, page, parent)
       .then(res => {
         if (res.data.data.length > 0) {
           $('#fill-media').append(res.html)
@@ -26,7 +27,7 @@ $(document).ready(function () {
   $(document).on('click', '#btn-grid', function () {
     resetInfoFolder()
     activeGrid()
-    getFolders(folderId, page)
+    getFolders(folderId, page, parent)
       .then(res => {
         if (res.data.data.length > 0) {
           $('#fill-media').append(res.html)
@@ -54,13 +55,15 @@ $(document).ready(function () {
 
   $(document).on('dblclick', 'button.folder-container', function () {
     page = 1
+    let lastElement = $(".breadcrumb-item:last");
+    parent = lastElement.find("a").attr("data-folder");
     let folderName = $(this).find('.folder-name').text()
-    folderId = $(this).attr('data-id')
+    folderId = $(this).attr('data-id');
     $("#fill-media").attr("data-parent_id", folderId)
     let isDirectory = $(this).attr('data-is_directory')
     if (isDirectory) {
       $('.media-description').removeClass('d-none')
-      getFolders(folderId, page)
+      getFolders(folderId, page, parent)
         .then(res => {
           $('#fill-media').html(res.html)
           getListOrGrid()
@@ -71,6 +74,7 @@ $(document).ready(function () {
           html: $('<a/>', {
             href: '#',
             'data-folder': folderId,
+            'class': 'change-folder',
             text: folderName
           })
         })
@@ -82,14 +86,21 @@ $(document).ready(function () {
     page = 1
     folderId = $(this).attr('data-folder')
     $("#fill-media").attr("data-parent_id", folderId)
-    getFolders(folderId, page)
+    // remove breadcrumbs
+    $(".change-folder").each(function() {
+      if ($(this).data("folder") == folderId) {
+        $(this).parent().nextAll().remove();
+      }
+    });
+    let lastElement = $(".breadcrumb-item:last");
+    parent = lastElement.prev().find("a").attr("data-folder");
+    getFolders(folderId, page, parent)
       .then(res => {
         if (res.data.data.length > 0) {
           $('#fill-media').html(res.html)
           getListOrGrid()
         }
       })
-    $('li.breadcrumb-item.mt-1.active').remove()
   })
 
   function getListOrGrid() {
@@ -148,10 +159,9 @@ $(document).ready(function () {
 
   $('#scroll-folder').on('scroll', function () {
     if($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight - 10) {
-      console.log(page)
       if (page < lastPage) {
         page++
-        getFolders(folderId, page)
+        getFolders(folderId, page, parent)
           .then(res => {
             if (res.data.data.length > 0) {
               $('#fill-media').append(res.html)
@@ -162,13 +172,14 @@ $(document).ready(function () {
     }
   })
 
-  function getFolders(folderId, page) {
+  function getFolders(folderId, page, parent) {
     return new Promise(function(resolve, reject) {
       $.ajax({
         type: 'GET',
         url: route_index,
         data: {
           id: folderId,
+          parent: parent,
           page
         },
         success: function(response)
@@ -187,6 +198,7 @@ $(document).ready(function () {
     let formData = new FormData();
     let files = $(this)[0].files;
     formData.append('parent_id', $('#fill-media').attr('data-parent_id'))
+    formData.append('parent', parent);
 
     for (let i = 0; i < files.length; i++) {
       formData.append('files[]', files[i]);
@@ -203,9 +215,13 @@ $(document).ready(function () {
           $('#fill-media').html(response.html);
           toastr.success(response.message);
           page = 1;
+          if ($('#btn-list').hasClass('active')) {
+            $('#btn-list').trigger('click');
+          }
         } else {
           toastr.error(response.message)
         }
+        $('#input-file').val('');
       },
       error: function(xhr, status, error) {
         if (xhr.status === 500) {
@@ -220,6 +236,7 @@ $(document).ready(function () {
     let form = $(this);
     let formData = new FormData(form[0]);
     formData.append('parent_id', $('#fill-media').attr('data-parent_id'))
+    formData.append('parent', parent);
 
     $.ajax({
       type: form.attr('method'),
@@ -235,6 +252,9 @@ $(document).ready(function () {
           $('#fill-media').html(response.html);
           toastr.success(response.message);
           page = 1;
+          if ($('#btn-list').hasClass('active')) {
+            $('#btn-list').trigger('click');
+          }
         } else {
           toastr.error(response.message);
         }
@@ -247,26 +267,6 @@ $(document).ready(function () {
     })
   });
 
-  function renderHtml(item) {
-    let showItem = item.is_directory ? `<i class="mdi mdi-folder folder-icon-color"></i>` : `<img src="${item.image_thumbnail}" alt="${item.name}">`;
-    return `
-      <div class="col-1 p-0 pt-1 grid-view">
-        <div class="folder-item" title="${item.name}">
-          <button class="folder-container folder-container-${item.id}"
-            data-is_directory="${item.is_directory}" data-id="${item.id}">
-            <div class="folder-icon">${showItem}</div>
-            <div class="folder-content">
-              <div class="folder-name folder-name-grid text-ellipsis">${item.name}</div>
-              <div class="more-info-folder d-none">
-                <div class="folder-size">${item.size_format}</div>
-                <div class="folder-created-at float-right">${item.created_at}</div>
-              </div>
-            </div>
-          </button>
-        </div>
-      </div>
-    `;
-  }
   $('body').on('hidden.bs.modal', '#makeFolder', function () {
     $('#create-folder-form')[0].reset();
   });

@@ -1,7 +1,7 @@
 @if(!empty($id))
     <div class="col-1 p-0 pt-1 grid-view">
         <div class="folder-item">
-            <button class="folder-container-back">
+            <button class="folder-container-back change-folder" data-folder="{{ $parent }}">
                 <div class="folder-icon">
                     <i class="mdi mdi-keyboard-return"></i>
                 </div>

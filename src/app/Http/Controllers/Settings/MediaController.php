@@ -38,7 +38,11 @@ class MediaController extends Controller
 
             return response()->json([
                 'data' => $media,
-                'html' => view('packages/core::settings.media.show_folder', ['media' => $media, 'id' => $request->id])->render()
+                'html' => view('packages/core::settings.media.show_folder', [
+                    'media' => $media,
+                    'id' => $request->id,
+                    'parent' => $request->parent,
+                ])->render()
             ]);
         }
 
@@ -69,13 +73,7 @@ class MediaController extends Controller
                 }
                 DB::commit();
 
-                $medias = $this->mediaService->getMedia($request->parent_id);
-
-                return response()->json([
-                    'success' => true,
-                    'message' => trans('packages/core::messages.save_success'),
-                    'html' => view('packages/core::settings.media.show_folder', ['media' => $medias, 'id' => $request->parent_id])->render()
-                ]);
+                return $this->responseHtml($request->all());
             }
         } catch (Exception $e) {
             DB::rollback();
@@ -96,18 +94,31 @@ class MediaController extends Controller
             $this->mediaService->makeFolder($request->all());
             DB::commit();
 
-            $medias = $this->mediaService->getMedia($request->parent_id);
-
-            return response()->json([
-                'success' => true,
-                'message' => trans('packages/core::messages.save_success'),
-                'html' => view('packages/core::settings.media.show_folder', ['media' => $medias, 'id' => $request->parent_id])->render()
-            ]);
+            return $this->responseHtml($request->all());
 
         } catch (Exception $e) {
             DB::rollback();
             Log::error($e->getMessage(), ['file' => __FILE__, 'line' => __LINE__]);
             throw new ServerErrorException(null, trans('packages/core::messages.action_error'));
         }
+    }
+
+    /**
+     * @param array $inputs
+     * @return JsonResponse
+     */
+    private function responseHtml(array $inputs = array()): JsonResponse
+    {
+        $medias = $this->mediaService->getMedia($inputs['parent_id']);
+
+        return response()->json([
+            'success' => true,
+            'message' => trans('packages/core::messages.save_success'),
+            'html' => view('packages/core::settings.media.show_folder', [
+                'media' => $medias,
+                'id' => $inputs['parent_id'],
+                'parent' => $inputs['parent']
+            ])->render()
+        ]);
     }
 }
