@@ -48,8 +48,8 @@ $(document).ready(function () {
         $('.media-thumbnail').html(showItem)
         $('.media-name').find('p').html(result['name'])
         $('.media-size').find('p').html($(`.folder-container-${result['id']}`).find('.folder-size').text())
-        $('.media-uploaded-at').find('p').html(result['created_at'])
-        $('.media-modified-at').find('p').html(result['updated_at'])
+        $('.media-uploaded-at').find('p').html(formatDateString(result['created_at']))
+        $('.media-modified-at').find('p').html(formatDateString(result['updated_at']))
       })
   })
 
@@ -221,12 +221,14 @@ $(document).ready(function () {
         } else {
           toastr.error(response.message)
         }
-        $('#input-file').val('');
       },
       error: function(xhr, status, error) {
         if (xhr.status === 500) {
           toastr.error(xhr['responseJSON'].message)
         }
+      },
+      complete: function () {
+        $('#input-file').val('');
       }
     });
   });

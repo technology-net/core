@@ -57,3 +57,7 @@ $(document).ready(function () {
     })
   })
 })
+
+formatDateString = function (dateString) {
+  return dateString.replace("T", " ").replace(".000000Z", "");
+}

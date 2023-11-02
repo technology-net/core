@@ -30,7 +30,7 @@ trait CommonUploader
             }
             $contents = file_get_contents($fileName->getRealPath());
             if (in_array($extension, $this->allowedExtensions)) {
-                $imageName = $this->convertImageToWebp($contents, $directory, $originalName, $path,);
+                $imageName = $this->generateVariantsImage($contents, $directory, $originalName, $path,);
                 $imageMd = $this->generateVariantsImage($contents, $directory, $originalName, $path, ['width' => 800, 'height' => 450]);
                 $imageSm = $this->generateVariantsImage($contents, $directory, $originalName, $path, ['width' => 150, 'height' => 150], true);
             } else {
@@ -72,44 +72,51 @@ trait CommonUploader
         $originalWidth = imagesx($originalImage);
         $originalHeight = imagesy($originalImage);
 
-        // Define the dimensions for your thumbnail
-        $width = $sizes['width'];
-        $height = $sizes['height'];
+        if (!empty($sizes)) {
+            // Define the dimensions for your thumbnail
+            $width = $sizes['width'];
+            $height = $sizes['height'];
 
-        // Calculate the aspect ratios of the original image and the desired dimensions
-        $originalRatio = $originalWidth / $originalHeight;
-        $desiredRatio = $width / $height;
+            // Calculate the aspect ratios of the original image and the desired dimensions
+            $originalRatio = $originalWidth / $originalHeight;
+            $desiredRatio = $width / $height;
 
-        if ($isThumbnail && ($originalWidth / $originalHeight != 1)) {
-            // Determine whether to crop from the top or sides
-            if ($originalWidth > $originalHeight) {
-                $cropWidth = $originalHeight;
-                $cropHeight = $originalHeight;
-                $cropX = ($originalWidth - $originalHeight) / 2;
-                $cropY = 0;
-            } else {
-                $cropWidth = $originalWidth;
-                $cropHeight = $originalWidth;
-                $cropX = 0;
-                $cropY = ($originalHeight - $originalWidth) / 2;
-            }
+            if ($isThumbnail && ($originalWidth / $originalHeight != 1)) {
+                // Determine whether to crop from the top or sides
+                if ($originalWidth > $originalHeight) {
+                    $cropWidth = $originalHeight;
+                    $cropHeight = $originalHeight;
+                    $cropX = ($originalWidth - $originalHeight) / 2;
+                    $cropY = 0;
+                } else {
+                    $cropWidth = $originalWidth;
+                    $cropHeight = $originalWidth;
+                    $cropX = 0;
+                    $cropY = ($originalHeight - $originalWidth) / 2;
+                }
 
-            $newWidth = $width;
-            $newHeight = $height;
-            // Create an empty square thumbnail image
-            $variantsImage = imagecreatetruecolor($newWidth, $newHeight);
-            imagecopyresampled($variantsImage, $originalImage, 0, 0, $cropX, $cropY, $newWidth, $newHeight, $cropWidth, $cropHeight);
-        } else {
-            if ($originalRatio > $desiredRatio) {
                 $newWidth = $width;
-                $newHeight = round($width / $originalRatio);
-            } else {
-                $newWidth = round($height * $originalRatio);
                 $newHeight = $height;
-            }
+                // Create an empty square thumbnail image
+                $variantsImage = imagecreatetruecolor($newWidth, $newHeight);
+                imagecopyresampled($variantsImage, $originalImage, 0, 0, $cropX, $cropY, $newWidth, $newHeight, $cropWidth, $cropHeight);
+            } else {
+                if ($originalRatio > $desiredRatio) {
+                    $newWidth = $width;
+                    $newHeight = round($width / $originalRatio);
+                } else {
+                    $newWidth = round($height * $originalRatio);
+                    $newHeight = $height;
+                }
 
+                $variantsImage = imagecreatetruecolor($newWidth, $newHeight);
+                // Resize the original image to fit the thumbnail dimensions
+                imagecopyresampled($variantsImage, $originalImage, 0, 0, 0, 0, $newWidth, $newHeight, $originalWidth, $originalHeight);
+            }
+        } else {
+            $newWidth = $originalWidth;
+            $newHeight = $originalHeight;
             $variantsImage = imagecreatetruecolor($newWidth, $newHeight);
-            // Resize the original image to fit the thumbnail dimensions
             imagecopyresampled($variantsImage, $originalImage, 0, 0, 0, 0, $newWidth, $newHeight, $originalWidth, $originalHeight);
         }
 
@@ -186,46 +193,5 @@ trait CommonUploader
         if ($file->getSize() > $size) {
             throw new Exception(trans('packages/core::messages.max_size', [ 'num' => $megabyte]));
         }
-    }
-
-    /**
-     * @param $imageString
-     * @param $directory
-     * @param $originalName
-     * @return array
-     */
-    private function convertImageToWebp ($imageString, $directory, $originalName, $path): array
-    {
-        $disk = $this->getDisk();
-        // Create a new image from the image stream in the string
-        $originalImage = imagecreatefromstring($imageString);
-        // Converts a palette based image to true color
-        imagepalettetotruecolor($originalImage);
-        $size = $this->getSizeImage($imageString);
-        $imageName = $originalName . '-' . time() . '-' . $size . '.webp';
-        // Convert file to webp
-        imagewebp($originalImage, Storage::path($directory . $imageName));
-        $filePath = Storage::disk($disk)->path($directory . $imageName);
-        $fileSize = filesize($filePath);
-        // Frees image object memory
-        imagedestroy($originalImage);
-
-        return [
-            'file_path' => $path . $imageName,
-            'file_size' => $fileSize,
-        ];
-    }
-
-    /**
-     * @param $strDecodeBase64
-     * @return string
-     */
-    private function getSizeImage($strDecodeBase64): string
-    {
-        $image = imagecreatefromstring($strDecodeBase64);
-        $width = imagesx($image);
-        $height = imagesy($image);
-
-        return $width . 'x' . $height;
     }
 }
