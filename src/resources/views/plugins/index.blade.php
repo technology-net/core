@@ -43,12 +43,16 @@
                                         {{ $plugin->is_default || $plugin->status === Plugin::STATUS_INSTALLED ? 'disabled' : '' }}
                                             data-plugin_id="{{ $plugin->id }}"
                                             data-name_package="{{ $plugin->name_package }}"
+                                            data-composer_name="{{ $plugin->composer_name }}"
+                                            data-version="{{ $plugin->version }}"
                                             data-menu_items="{{ json_encode($plugin->menu_items) }}">
                                         {{ trans('packages/core::plugin.activate') }}
                                     </button>
                                     <button class="btn btn-danger btn-trigger-remove-plugin"
                                         {{ $plugin->is_default || $plugin->status !== Plugin::STATUS_INSTALLED ? 'disabled' : '' }}
                                             data-plugin_id="{{ $plugin->id }}"
+                                            data-composer_name="{{ $plugin->composer_name }}"
+                                            data-version="{{ $plugin->version }}"
                                             data-name_package="{{ $plugin->name_package }}"
                                             data-plugin="analytics">{{ trans('packages/core::plugin.deactivate') }}
                                     </button>

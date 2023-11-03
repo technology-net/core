@@ -46,6 +46,7 @@ php artisan db:seed --class="IBoot\Core\Database\Seeders\PluginSeeder"
 php artisan db:seed --class="IBoot\Core\Database\Seeders\MenuItemSeeder"
 php artisan db:seed --class="IBoot\Core\Database\Seeders\SystemSettingSeeder"
 php artisan vendor:publish --provider="IBoot\Core\App\Providers\CoreServiceProvider" --force
+php artisan storage:link
 ```
 
 ## File `package.json` and `npm run watch`
@@ -76,4 +77,11 @@ php artisan vendor:publish --provider="IBoot\Core\App\Providers\CoreServiceProvi
     }
 }
 
+```
+
+## The Public Disk
+
+- To create the symbolic link, you may use the storage:link Artisan command:
+```angular2html
+php artisan storage:link
 ```
