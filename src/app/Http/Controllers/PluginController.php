@@ -54,14 +54,8 @@ class PluginController extends Controller
 
         try {
             DB::beginTransaction();
-            // Todo
-            /**
-             * This below code for install a package
-             *
-             * $command = ['composer', 'install', $input->composer_name];
-             *
-             * $this->installPackage($command);
-             */
+            $command = ['composer', 'install', $input->composer_name];
+            $this->installPackage($command);
             $this->storeMenuItems($menuItem, null, $namePackage);
             $this->pluginService->updateStatusPlugin($pluginId, Plugin::STATUS_INSTALLED);
             DB::commit();
@@ -126,14 +120,8 @@ class PluginController extends Controller
 
         try {
             DB::beginTransaction();
-            // Todo
-            /**
-             * This below code for remove a package
-             *
-             * $command = ['composer', 'remove', $input->composer_name];
-             *
-             * $this->installPackage($command);
-             */
+            $command = ['composer', 'remove', $input->composer_name];
+            $this->installPackage($command);
             $this->menuItemService->removeMenu($namePackage);
             $this->pluginService->updateStatusPlugin($pluginId, Plugin::STATUS_UNINSTALLED);
             DB::commit();
