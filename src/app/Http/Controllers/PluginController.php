@@ -121,7 +121,7 @@ class PluginController extends Controller
 
         try {
             DB::beginTransaction();
-            $command = ['composer', 'remove', $input->composer_name];
+            $command = ['composer', 'remove', $input['composer_name']];
             $this->installPackage($command);
             $this->menuItemService->removeMenu($namePackage);
             $this->pluginService->updateStatusPlugin($pluginId, Plugin::STATUS_UNINSTALLED);
