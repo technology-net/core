@@ -51,6 +51,8 @@ $(document).ready(function () {
         $('.media-uploaded-at').find('p').html(formatDateString(result['created_at']))
         $('.media-modified-at').find('p').html(formatDateString(result['updated_at']))
       })
+    $('button.folder-container').removeAttr('style');
+    $(this).css('border', 'solid 2px #00d25b');
   })
 
   $(document).on('dblclick', 'button.folder-container', function () {
