@@ -19,6 +19,7 @@ $(document).ready(function () {
 
   $('.btn-trigger-remove-plugin').on('click', function(e) {
     e.preventDefault()
+    let menu_items = $(this).attr('data-menu_items')
     let name_package = $(this).attr('data-name_package')
     let plugin_id = $(this).attr('data-plugin_id')
     let composer_name = $(this).attr('data-composer_name')
@@ -35,6 +36,7 @@ $(document).ready(function () {
   })
 
   function callAjax(url, data) {
+    showLoading();
     $.ajax({
       type: 'GET',
       url: url,
@@ -53,6 +55,9 @@ $(document).ready(function () {
         if (jQxhr.status === 500) {
           toastr.error(jQxhr['responseJSON'].message)
         }
+      },
+      complete: function () {
+        hideLoading();
       }
     })
   }

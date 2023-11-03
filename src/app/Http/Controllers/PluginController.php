@@ -51,10 +51,11 @@ class PluginController extends Controller
         $menuItem = json_decode($input['menu_items'], true);
         $namePackage = $input['name_package'];
         $pluginId = $input['plugin_id'];
+        $composer_name = !empty($input['version']) ? $input['composer_name'] . ':' . $input['version'] : $input['composer_name'];
 
         try {
             DB::beginTransaction();
-            $command = ['composer', 'install', $input->composer_name];
+            $command = ['composer', 'require', $composer_name];
             $this->installPackage($command);
             $this->storeMenuItems($menuItem, null, $namePackage);
             $this->pluginService->updateStatusPlugin($pluginId, Plugin::STATUS_INSTALLED);
