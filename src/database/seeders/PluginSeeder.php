@@ -32,18 +32,6 @@ class PluginSeeder extends Seeder
                             'slug' => null,
                             'icon' => null,
                             'children' => []
-                        ],
-                        [
-                            "name" => "Categories",
-                            "slug" => null,
-                            "icon" => null,
-                            "children" => []
-                        ],
-                        [
-                            "name" => "Tags",
-                            "slug" => null,
-                            "icon" => null,
-                            "children" => []
                         ]
                     ]
                 ]),
