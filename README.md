@@ -4,36 +4,6 @@
 ## Description.
 This is a core package management
 
-## Create new project and add file `webpack.mix.js`
-```
-const mix = require('laravel-mix');
-const glob = require('glob');
-const path = require('path');
-
-/*
- |--------------------------------------------------------------------------
- | Mix Asset Management
- |--------------------------------------------------------------------------
- |
- | Mix provides a clean, fluent API for defining some Webpack build steps
- | for your Laravel applications. By default, we are compiling the CSS
- | file for the application as well as bundling up all the JS files.
- |
- */
-
-mix.options({
-  processCssUrls: false,
-  clearConsole: true,
-  terser: {
-    extractComments: false,
-  }
-})
-
-// Run all webpack.mix.js in app
-glob.sync(path.resolve(__dirname) + '/vendor/iboot/**/**/webpack.mix.js').forEach(item => require(item))
-
-```
-
 ## How to install?
 `composer require iboot/core`
 
@@ -46,6 +16,12 @@ php artisan db:seed --class="IBoot\Core\Database\Seeders\PluginSeeder"
 php artisan db:seed --class="IBoot\Core\Database\Seeders\MenuItemSeeder"
 php artisan db:seed --class="IBoot\Core\Database\Seeders\SystemSettingSeeder"
 php artisan vendor:publish --provider="IBoot\Core\App\Providers\CoreServiceProvider" --force
+```
+
+## The Public Disk
+
+- To create the symbolic link, you may use the storage:link Artisan command:
+```angular2html
 php artisan storage:link
 ```
 
@@ -79,9 +55,32 @@ php artisan storage:link
 
 ```
 
-## The Public Disk
+## Create new project and add file `webpack.mix.js`
+```
+const mix = require('laravel-mix');
+const glob = require('glob');
+const path = require('path');
 
-- To create the symbolic link, you may use the storage:link Artisan command:
-```angular2html
-php artisan storage:link
+/*
+ |--------------------------------------------------------------------------
+ | Mix Asset Management
+ |--------------------------------------------------------------------------
+ |
+ | Mix provides a clean, fluent API for defining some Webpack build steps
+ | for your Laravel applications. By default, we are compiling the CSS
+ | file for the application as well as bundling up all the JS files.
+ |
+ */
+
+mix.options({
+  processCssUrls: false,
+  clearConsole: true,
+  terser: {
+    extractComments: false,
+  }
+})
+
+// Run all webpack.mix.js in app
+glob.sync(path.resolve(__dirname) + '/vendor/iboot/**/**/webpack.mix.js').forEach(item => require(item))
+
 ```

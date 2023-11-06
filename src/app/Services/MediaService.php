@@ -23,7 +23,7 @@ class MediaService
             ->orderBy('is_directory', 'desc')
             ->orderBy('created_at', 'desc')
             ->with('children')
-            ->paginate(config('core.core.media_pagination'));
+            ->paginate(config('core.media_pagination'));
     }
 
     /**
