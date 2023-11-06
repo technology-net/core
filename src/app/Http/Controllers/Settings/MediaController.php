@@ -72,9 +72,11 @@ class MediaController extends Controller
                     $image = $this->saveFile($file, '/uploads/');
                     $datas[] = $this->mediaService->newMedia($file, $image, $disk, $request->parent_id);
                 }
+                $medias = collect($datas)->sortByDesc('created_at')->sortByDesc('id');
+
                 DB::commit();
 
-                return $this->responseHtml(collect($datas)->last(), $request->all());
+                return $this->responseHtml($request->all(), $medias->first());
             }
         } catch (Exception $e) {
             DB::rollback();
@@ -109,7 +111,7 @@ class MediaController extends Controller
      * @param array $inputs
      * @return JsonResponse
      */
-    private function responseHtml($data = null, array $inputs = array()): JsonResponse
+    private function responseHtml(array $inputs = array(), $data = null): JsonResponse
     {
         $medias = $this->mediaService->getMedia($inputs['parent_id']);
 

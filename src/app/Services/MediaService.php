@@ -22,6 +22,7 @@ class MediaService
         return Media::query()->where('parent_id', $id)
             ->orderBy('is_directory', 'desc')
             ->orderBy('created_at', 'desc')
+            ->orderBy('id', 'desc')
             ->with('children')
             ->paginate(config('core.media_pagination'));
     }

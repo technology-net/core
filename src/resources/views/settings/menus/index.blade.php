@@ -16,7 +16,6 @@
         ]
     ])
     <div class="clearfix"></div>
-    <a href="javascript:void(0)" id="openMedia">openMedia</a>
     <div class="table-wrapper" id="menus-table">
         @include('packages/core::settings.menus.menus_table')
     </div>
