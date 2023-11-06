@@ -20,7 +20,9 @@
         <div class="col-1 p-0 pt-1 grid-view">
             <div class="folder-item" title="{{ $item->name }}">
                 <button class="folder-container folder-container-{{$item->id}}"
-                    data-is_directory="{{ $item->is_directory }}" data-id="{{ $item->id }}">
+                    data-is_directory="{{ $item->is_directory }}" data-id="{{ $item->id }}"
+                    data-media="{{ @json_encode($item->getAttributes()) }}">
+                    <i class="mdi mdi-check-circle-outline icon-check"></i>
                     <div class="folder-icon">
                         @if($item->is_directory)
                             <i class="mdi mdi-folder folder-icon-color"></i>

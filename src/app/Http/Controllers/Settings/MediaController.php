@@ -66,14 +66,15 @@ class MediaController extends Controller
             if ($request->hasFile('files')) {
                 $files = $request->file('files');
                 $disk = $this->getDisk();
+                $datas = [];
 
                 foreach ($files as $file) {
                     $image = $this->saveFile($file, '/uploads/');
-                    $this->mediaService->newMedia($file, $image, $disk, $request->parent_id);
+                    $datas[] = $this->mediaService->newMedia($file, $image, $disk, $request->parent_id);
                 }
                 DB::commit();
 
-                return $this->responseHtml($request->all());
+                return $this->responseHtml(collect($datas)->last(), $request->all());
             }
         } catch (Exception $e) {
             DB::rollback();
@@ -104,15 +105,17 @@ class MediaController extends Controller
     }
 
     /**
+     * @param null $data
      * @param array $inputs
      * @return JsonResponse
      */
-    private function responseHtml(array $inputs = array()): JsonResponse
+    private function responseHtml($data = null, array $inputs = array()): JsonResponse
     {
         $medias = $this->mediaService->getMedia($inputs['parent_id']);
 
         return response()->json([
             'success' => true,
+            'data' => $data,
             'message' => trans('packages/core::messages.save_success'),
             'html' => view('packages/core::settings.media.show_folder', [
                 'media' => $medias,

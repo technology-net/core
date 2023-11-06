@@ -16,6 +16,16 @@
     border: none;
     outline-color: transparent !important;
     cursor: pointer;
+    position: relative;
+}
+
+.folder-container .icon-check {
+    display: none;
+    position: absolute;
+    top: -2px;
+    right: 5px;
+    font-size: 24px;
+    color: #0090e7;
 }
 
 .folder-icon {

@@ -3,12 +3,15 @@ $(document).ready(function () {
   let lastPage = 1;
   let folderId = null;
   let parent = null;
-  getFolders(folderId, page, parent)
-    .then(res => {
-      if (res.data.data.length > 0) {
-        $('#fill-media').html(res.html);
-      }
-    })
+
+  if (typeof IS_MEDIA !== 'undefined') {
+    getFolders(folderId, page, parent)
+      .then(res => {
+        if (res.data.data.length > 0) {
+          $('#fill-media').html(res.html);
+        }
+      });
+  }
 
   $(document).on('click', '#btn-list', function () {
     resetInfoFolder()
@@ -38,9 +41,9 @@ $(document).ready(function () {
     $(this).addClass('active')
   })
 
-  $(document).on('click', 'button.folder-container', function () {
-    folderId = $(this).attr('data-id')
-    $('.media-description').removeClass('d-none')
+  $(document).on('click', 'button.folder-container', function (event) {
+    folderId = $(this).attr('data-id');
+    $('.media-description').removeClass('d-none');
     getInfoFolder(folderId, page)
       .then(function(result) {
         getListOrGrid()
@@ -50,10 +53,29 @@ $(document).ready(function () {
         $('.media-size').find('p').html($(`.folder-container-${result['id']}`).find('.folder-size').text())
         $('.media-uploaded-at').find('p').html(formatDateString(result['created_at']))
         $('.media-modified-at').find('p').html(formatDateString(result['updated_at']))
-      })
-    $('button.folder-container').removeAttr('style');
-    $(this).css('border', 'solid 2px #00d25b');
+      });
+    // handle btn shift
+    if (event.shiftKey) {
+      $(this).addClass('active-item');
+    } else {
+      if ($(event.target).hasClass('icon-check')) {
+        // If clicking on the icon-check, remove the active-item class of that item
+        $(this).removeClass('active-item');
+      } else {
+        // Remove the active-item class from all button.folder-container elements
+        $('button.folder-container').removeClass('active-item');
+        // Add the active-item class to the current item
+        $(this).addClass('active-item');
+      }
+    }
   })
+
+  $(document).on('click', function (event) {
+    if (!$(event.target).closest('button.folder-container').length) {
+      $('button.folder-container').removeClass('active-item');
+      resetBlockThumbnail();
+    }
+  });
 
   $(document).on('dblclick', 'button.folder-container', function () {
     page = 1
@@ -117,6 +139,10 @@ $(document).ready(function () {
     page = 1;
     folderId = $("#fill-media").attr("data-parent_id");
     $('#fill-media').html('');
+    resetBlockThumbnail();
+  }
+
+  function resetBlockThumbnail() {
     $('.media-name').find('p').html('');
     $('.media-size').find('p').html('');
     $('.media-uploaded-at').find('p').html('');
@@ -144,7 +170,7 @@ $(document).ready(function () {
     return new Promise(function(resolve, reject) {
       $.ajax({
         type: 'GET',
-        url: route_show.replace('__folderId', folderId),
+        url: ROUTE_SHOW.replace('__folderId', folderId),
         data: {
           id: folderId
         },
@@ -178,7 +204,7 @@ $(document).ready(function () {
     return new Promise(function(resolve, reject) {
       $.ajax({
         type: 'GET',
-        url: route_index,
+        url: ROUTE_INDEX,
         data: {
           id: folderId,
           parent: parent,
@@ -207,7 +233,7 @@ $(document).ready(function () {
     }
     showLoading();
     $.ajax({
-      url: upload_file_url,
+      url: UPLOAD_FILE_URL,
       type: 'POST',
       data: formData,
       processData: false,
@@ -222,6 +248,11 @@ $(document).ready(function () {
           }
         } else {
           toastr.error(response.message)
+        }
+
+        let id = response.data ? response.data.id : '';
+        if (id) {
+          $(`button.folder-container-${id}`).trigger('click');
         }
       },
       error: function(xhr, status, error) {
@@ -274,5 +305,26 @@ $(document).ready(function () {
 
   $('body').on('hidden.bs.modal', '#makeFolder', function () {
     $('#create-folder-form')[0].reset();
+  });
+
+  $('body').on('click', '#openMedia', function () {
+    getFolders(folderId, page, parent)
+      .then(res => {
+        if (res.data.data.length > 0) {
+          $('#fill-media').html(res.html);
+        }
+      });
+    $('#modalOpenMedia').modal('show');
+  });
+
+  $('body').on('click', '.modal-insert', function () {
+    let mediaActive = $(".folder-container.active-item");
+    let objMedia = [];
+    $.each($(mediaActive), function (_i, _item) {
+      if (!$(_item).attr('data-is_directory')) {
+        objMedia.push($(_item).data('media'))
+      }
+    });
+    console.log(objMedia)
   });
 })

@@ -19,6 +19,7 @@
     <!-- End layout styles -->
     <link rel="shortcut icon" href="{{ mix('core/images/favicon.png') }}" />
     @yield('css')
+    @yield('media-css')
 </head>
 <body>
 <div class="container-scroller">
@@ -76,5 +77,6 @@
 <script type="text/javascript" src="{{ mix('core/js/validate.js') }}" defer></script>
 <script type="text/javascript" src="{{ mix('core/js/common.js') }}" defer></script>
 @yield('js')
+@yield('media-js')
 </body>
 </html>
