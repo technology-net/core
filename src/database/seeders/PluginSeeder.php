@@ -24,12 +24,18 @@ class PluginSeeder extends Seeder
                 'composer_name' => 'iboot/cms',
                 'menu_items' => json_encode([
                     'name' => 'CMS',
-                    'slug' => null,
+                    'url' => null,
                     'icon' => '<i class="mdi mdi-content-save-all-outline"></i>',
                     'children' => [
                         [
+                            'name' => 'Categories',
+                            'url' => 'categories.index',
+                            'icon' => null,
+                            'children' => []
+                        ],
+                        [
                             'name' => 'Posts',
-                            'slug' => null,
+                            'url' => 'posts.index',
                             'icon' => null,
                             'children' => []
                         ]

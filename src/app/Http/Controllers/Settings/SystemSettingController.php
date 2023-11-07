@@ -88,10 +88,12 @@ class SystemSettingController extends Controller
      */
     public function editable(Request $request, $id): JsonResponse
     {
-        $cleanedJsonString = parseHtmlToJson($request['field']);
+        $cleanedJsonString = parseHtmlToJson($request['value']);
+        $request['value'] = $cleanedJsonString;
+        
         DB::beginTransaction();
         try {
-            $this->systemSetting->createOrUpdateSystemSettings($id, ['value' => $cleanedJsonString]);
+            $this->systemSetting->createOrUpdateSystemSettings($id, $request->all());
             DB::commit();
 
             return responseSuccess(null, trans('packages/core::messages.save_success'));

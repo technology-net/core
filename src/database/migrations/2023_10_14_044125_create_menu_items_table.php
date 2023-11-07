@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignIdFor(Menu::class)->constrained()->cascadeOnDelete();
             $table->string('name')->unique();
             $table->integer('parent_id')->nullable();
-            $table->string('slug')->nullable();
+            $table->string('url')->nullable();
             $table->integer('order')->unique();
             $table->string('icon')->nullable();
             $table->timestamps();

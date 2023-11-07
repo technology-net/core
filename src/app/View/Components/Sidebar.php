@@ -63,9 +63,9 @@ class Sidebar extends Component
      */
     private function getUrlNestedEachChild($menuItem, array $urlNestedMenuItems = []): array
     {
-        if(!empty($menuItem->slug)) {
+        if(!empty($menuItem->url)) {
             $urlNestedMenuItems = [
-                $menuItem->slug
+                $menuItem->url
             ];
         }
 

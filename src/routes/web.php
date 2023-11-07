@@ -5,7 +5,8 @@ use IBoot\Core\App\Http\Middleware\LoginMiddleware;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['web'])->group(function () {
-    Route::group(['namespace' => 'IBoot\Core\App\Http\Controllers', 'prefix'=>'admin'], function () {
+    $prefix = config('core.route_prefix', 'admin');
+    Route::group(['namespace' => 'IBoot\Core\App\Http\Controllers', 'prefix'=> $prefix], function () {
         Route::group(['as' => 'auth', 'prefix' => 'login'], function () {
             Route::get('', 'LoginController@index')->name('.index')
                 ->middleware(LoginMiddleware::class);

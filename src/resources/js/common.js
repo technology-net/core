@@ -15,9 +15,10 @@ $(document).ready(function () {
   $('body').on('change', '.editable', function () {
     let value = $(this).val();
     let label = $(this).attr('label');
+    let name = $(this).attr('name');
     let id = $(this).attr('data-id');
     let url = $(this).attr('data-url');
-    let idError = $(this).attr('name') + '-' + id;
+    let idError = name + '-' + id;
     let messages = '';
     if (value === '') {
       messages = validateMessage.required.replace(':attribute', label);
@@ -25,7 +26,7 @@ $(document).ready(function () {
       return false;
     }
     let data = {
-      'field': value
+      [name]: value
     }
 
     $.ajax({
@@ -33,7 +34,6 @@ $(document).ready(function () {
       url: url,
       data: data,
       success: function (response) {
-        console.log(response)
         if (response.success) {
           toastr.success(response.message)
           setTimeout(() => {

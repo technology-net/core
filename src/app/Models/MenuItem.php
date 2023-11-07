@@ -14,14 +14,7 @@ class MenuItem extends Model
 
     protected $table = 'menu_items';
 
-    protected $fillable = [
-        'menu_id',
-        'name',
-        'parent_id',
-        'slug',
-        'order',
-        'icon',
-    ];
+    protected $guarded = [];
 
     public static function boot(): void
     {

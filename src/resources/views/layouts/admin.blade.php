@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="csrf-token" content="{{ csrf_token() }}" />
-    <title>ICI Admin</title>
+    <title>@yield('title', config('app.name', 'ICI Admin'))</title>
     <!-- plugins:css -->
     <link rel="stylesheet" href="{{ mix('core/vendors/css/materialdesignicons.min.css') }}" />
     <link rel="stylesheet" href="{{ mix('core/vendors/css/vendor.bundle.base.css') }}" />

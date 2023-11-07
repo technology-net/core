@@ -9,8 +9,8 @@ use Illuminate\Notifications\Notifiable;
 class Plugin extends Model
 {
     use HasFactory, Notifiable;
-    public const STATUS_INSTALLED = 'Installed';
-    public const STATUS_UNINSTALLED = 'Uninstalled';
+    public const STATUS_INSTALLED = 1;
+    public const STATUS_UNINSTALLED = 0;
     public const IS_DEFAULT = true;
     public const IS_NOT_DEFAULT = false;
 

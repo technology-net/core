@@ -1,8 +1,8 @@
-<li class="nav-item menu-items {{ isSidebarMenuActive($rangeUrlByParent, $parentName, $sidebarMenu->slug) ? 'active' : '' }}">
+<li class="nav-item menu-items {{ isSidebarMenuActive($rangeUrlByParent, $parentName, $sidebarMenu->url) ? 'active' : '' }}">
     <a class="nav-link level-{{$i}}"
         data-toggle="{{ $sidebarMenu->children->count() ? 'collapse' : '' }}"
         href="{{ !$sidebarMenu->children->count()
-        ? (!empty($sidebarMenu->slug) ? route($sidebarMenu->slug) : null)
+        ? (!empty($sidebarMenu->url) ? route($sidebarMenu->url) : null)
         : '#ui-' . $sidebarMenu->id }}"
         aria-expanded="false" >
         <span class="menu-icon {{ !empty($sidebarMenu->icon) ? '' : 'd-none' }}">
