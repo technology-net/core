@@ -3,10 +3,9 @@
 namespace IBoot\Core\App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 
-class Plugin extends Model
+class Plugin extends BaseModel
 {
     use HasFactory, Notifiable;
     public const STATUS_INSTALLED = 1;

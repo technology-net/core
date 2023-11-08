@@ -3,10 +3,9 @@
 namespace IBoot\Core\App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 
-class SystemSetting extends Model
+class SystemSetting extends BaseModel
 {
     use HasFactory, Notifiable;
     protected $guarded = [];

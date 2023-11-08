@@ -3,10 +3,9 @@
 namespace IBoot\Core\App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 
-class Menu extends Model
+class Menu extends BaseModel
 {
     use HasFactory, Notifiable;
 
