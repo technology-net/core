@@ -204,7 +204,7 @@ $(document).ready(function () {
     return new Promise(function(resolve, reject) {
       $.ajax({
         type: 'GET',
-        url: ROUTE_INDEX,
+        url: ROUTE_IDX,
         data: {
           id: folderId,
           parent: parent,
@@ -241,13 +241,13 @@ $(document).ready(function () {
       success: function(response) {
         if (response.success) {
           $('#fill-media').html(response.html);
-          toastr.success(response.message);
+          showMessages(response.message);
           page = 1;
           if ($('#btn-list').hasClass('active')) {
             $('#btn-list').trigger('click');
           }
         } else {
-          toastr.error(response.message)
+          showNotify(response.message, 'error');
         }
 
         let id = response.data ? response.data.id : '';
@@ -257,7 +257,7 @@ $(document).ready(function () {
       },
       error: function(xhr, status, error) {
         if (xhr.status === 500) {
-          toastr.error(xhr['responseJSON'].message)
+          showNotify(xhr['responseJSON'].message, 'error');
         }
       },
       complete: function () {
@@ -286,18 +286,18 @@ $(document).ready(function () {
         form[0].reset();
         if (response.success) {
           $('#fill-media').html(response.html);
-          toastr.success(response.message);
+          showMessages(response.message);
           page = 1;
           if ($('#btn-list').hasClass('active')) {
             $('#btn-list').trigger('click');
           }
         } else {
-          toastr.error(response.message);
+          showNotify(response.message, 'error');;
         }
       },
       error: function (jQxhr) {
         if (jQxhr.status === 500) {
-          toastr.error(jQxhr['responseJSON'].message);
+          showNotify(jQxhr['responseJSON'].message, 'error');;
         }
       }
     })
@@ -327,4 +327,14 @@ $(document).ready(function () {
     });
     console.log(objMedia)
   });
+
+  function showMessages(message) {
+    Swal.fire({
+      position: "center",
+      icon: 'success',
+      title: message,
+      showConfirmButton: false,
+      timer: 1000,
+    });
+  }
 })

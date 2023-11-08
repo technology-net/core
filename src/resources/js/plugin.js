@@ -44,16 +44,15 @@ $(document).ready(function () {
       success: function(response)
       {
         if (response.success) {
-          toastr.success(response.message)
-          setTimeout(() => {
-            window.location.reload()
-          }, 1000)
+          showNotify(response.message, 'success', true);
+        } else {
+          showNotify(response.message, 'error');
         }
       },
       error: function(jQxhr, textStatus, errorThrown)
       {
         if (jQxhr.status === 500) {
-          toastr.error(jQxhr['responseJSON'].message)
+          showNotify(jQxhr['responseJSON'].message, 'error');
         }
       },
       complete: function () {

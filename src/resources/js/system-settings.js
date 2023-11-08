@@ -13,12 +13,9 @@ $(document).ready(function () {
       processData: false,
       success: function (response) {
         if (response.success) {
-          toastr.success(response.message)
-          setTimeout(() => {
-            window.location.href = ROUTE_IDX
-          }, 2000)
+          showNotify(response.message, 'success');
         } else {
-          toastr.error(response.message)
+          showNotify(response.message, 'error');
         }
       },
       error: function (jQxhr) {
@@ -29,45 +26,9 @@ $(document).ready(function () {
           }
         }
         if (jQxhr.status === 500) {
-          toastr.error(jQxhr['responseJSON'].message)
+          showNotify(jQxhr['responseJSON'].message, 'error');
         }
       }
     })
   })
-
-  $('body').on('click', '.btn-delete', function() {
-    Swal.fire({
-      text: DELETE_CONFIRM,
-      icon: 'error',
-      showCancelButton: true,
-      confirmButtonText: BTN_CONFIRM,
-      cancelButtonText: BTN_CANCEL,
-      reverseButtons: true,
-    }).then((result) => {
-      if (result.isConfirmed) {
-        $.ajax({
-          url: $(this).data('url'),
-          method: 'Delete',
-          cache: false,
-          contentType: false,
-          processData: false,
-          success: function (response) {
-            if (response.success) {
-              toastr.success(response.message)
-              setTimeout(() => {
-                window.location.href = ROUTE_IDX
-              }, 2000)
-            } else {
-              toastr.error(response.message)
-            }
-          },
-          error: function (jQxhr, textStatus, errorThrown) {
-            if (jQxhr.status === 500) {
-              toastr.error(jQxhr['responseJSON'].message)
-            }
-          }
-        });
-      }
-    });
-  });
 });

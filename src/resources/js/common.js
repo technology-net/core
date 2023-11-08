@@ -35,12 +35,9 @@ $(document).ready(function () {
       data: data,
       success: function (response) {
         if (response.success) {
-          toastr.success(response.message)
-          setTimeout(() => {
-            window.location.reload();
-          }, 2000)
+          showNotify(response.message, 'success', true);
         } else {
-          toastr.error(response.message)
+          showNotify(response.message, 'error');
         }
       },
       error: function (jQxhr) {
@@ -51,11 +48,44 @@ $(document).ready(function () {
           }
         }
         if (jQxhr.status === 500) {
-          toastr.error(jQxhr['responseJSON'].message)
+          showNotify(jQxhr['responseJSON'].message, 'error');
         }
       }
     })
   })
+
+  $('body').on('click', '.btn-delete', function() {
+    Swal.fire({
+      text: DELETE_CONFIRM,
+      icon: 'error',
+      showCancelButton: true,
+      confirmButtonText: BTN_CONFIRM,
+      cancelButtonText: BTN_CANCEL,
+      reverseButtons: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        $.ajax({
+          url: $(this).data('url'),
+          method: 'Delete',
+          cache: false,
+          contentType: false,
+          processData: false,
+          success: function (response) {
+            if (response.success) {
+              showNotify(response.message, 'success', true);
+            } else {
+              showNotify(response.message, 'error');
+            }
+          },
+          error: function (jQxhr, textStatus, errorThrown) {
+            if (jQxhr.status === 500) {
+              showNotify(jQxhr['responseJSON'].message, 'error');
+            }
+          }
+        });
+      }
+    });
+  });
 })
 
 formatDateString = function (dateString) {
@@ -68,4 +98,25 @@ showLoading = function () {
 
 hideLoading = function () {
   $("#overlay").fadeOut(300);
+}
+
+showNotify = function (title, icon, isReload = false) {
+  Swal.fire({
+    position: "center",
+    icon: icon,
+    title: title,
+    timer: 2000,
+    timerProgressBar: true,
+    showConfirmButton: false
+  }).then((result) => {
+    if (result.dismiss === Swal.DismissReason.timer) {
+      if (icon === 'success') {
+        if (isReload ) {
+          location.reload();
+        } else {
+          location.href = ROUTE_IDX
+        }
+      }
+    }
+  });
 }
