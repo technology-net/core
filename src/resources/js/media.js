@@ -204,7 +204,7 @@ $(document).ready(function () {
     return new Promise(function(resolve, reject) {
       $.ajax({
         type: 'GET',
-        url: ROUTE_IDX,
+        url: MEDIA_IDX,
         data: {
           id: folderId,
           parent: parent,

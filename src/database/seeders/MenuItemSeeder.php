@@ -79,7 +79,7 @@ class MenuItemSeeder extends Seeder
                 'menu_id' => $menu->id,
                 'name' => 'System Setting',
                 'parent_id' => $newMenuItem->id,
-                'url' => 'settings.categories.index',
+                'url' => 'settings.system_settings.index',
                 'icon' => null,
                 'order' => 6,
                 'created_at' => $now,

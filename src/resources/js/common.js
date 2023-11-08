@@ -92,10 +92,14 @@ $(document).ready(function () {
   $('body').on('change', '.input-check-all', function () {
     if ($(this).is(':checked')) {
       $('.checkboxes').prop('checked', true);
-      $('.delete-all').removeClass('d-none');
       selectedValues = $('.checkboxes:checked').map(function() {
           return $(this).val();
       }).get();
+      if (selectedValues.length > 0) {
+        $(".delete-all").removeClass("d-none");
+      } else {
+        $(".delete-all").addClass("d-none");
+      }
     } else {
       $('.checkboxes').prop('checked', false);
       $('.delete-all').addClass('d-none');

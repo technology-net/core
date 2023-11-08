@@ -102,7 +102,7 @@
 @section('media-js')
     <script>
         let ROUTE_SHOW = "{!! route('settings.media.show', ['media' => '__folderId']) !!}";
-        let ROUTE_IDX = "{!! route('settings.media.index') !!}";
+        let MEDIA_IDX = "{!! route('settings.media.index') !!}";
         let UPLOAD_FILE_URL = "{!! route('settings.media.upload-files') !!}";
     </script>
     <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>

@@ -89,7 +89,7 @@ class PluginController extends Controller
                 'icon' => $menuItem['icon'],
                 'parent_id' => $parentId,
                 'order' => $maxOrderNow + 1,
-                'slug' => $menuItem['slug'],
+                'url' => $menuItem['url'],
             ];
 
             $newMenuItem = $this->menuItemService->storeMenu($input);
