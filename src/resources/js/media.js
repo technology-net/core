@@ -326,6 +326,7 @@ $(document).ready(function () {
         objMedia.push($(_item).data('media'))
       }
     });
+    console.log(objMedia)
     if (objMedia.length) {
       showLoading();
     }
@@ -359,6 +360,12 @@ $(document).ready(function () {
     });
   });
 
+  if ($("#wrap-preview .preview-image img:first").attr("alt") !== 'image-default') {
+    if ($('#wrap-preview').height() >= 260) {
+      $('#wrap-preview').addClass('thumbnail-scroll');
+    }
+    $('#wrap-preview').find('.remove-preview').show();
+  }
   $('body').on('click', '.remove-preview', function () {
     $(this).hide().closest('.item-thumbnail').remove();
     if ($('#wrap-preview img').length < 7) {

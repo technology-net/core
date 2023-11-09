@@ -246,10 +246,13 @@ div.no-items {
     text-overflow: ellipsis;
 }
 
+#wrap-preview {
+    margin-bottom: 10px;
+}
+
 .preview-image {
     position: relative;
     border: 1px solid #dddddd;
-    margin-bottom: 10px;
 }
 
 .preview-image .remove-preview {

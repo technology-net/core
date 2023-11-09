@@ -14,7 +14,6 @@ return new class extends Migration
     {
         Schema::create('medias', function (Blueprint $table) {
             $table->id();
-            $table->nullableMorphs('imageable');
             $table->string('name');
             $table->string('disk')->nullable();
             $table->string('mime_type')->nullable();
@@ -24,6 +23,7 @@ return new class extends Migration
             $table->integer('parent_id')->nullable()->index();
             $table->boolean('is_directory')->default(false);
             $table->unsignedBigInteger('size')->nullable();
+            $table->integer('sequence')->default(1);
             $table->timestamps();
         });
     }
