@@ -1,8 +1,8 @@
 <?php
 
-namespace IBoot\Core\app\Services;
+namespace IBoot\Core\App\Services;
 
-use IBoot\Core\app\Models\SystemSetting;
+use IBoot\Core\App\Models\SystemSetting;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;

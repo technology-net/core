@@ -10,5 +10,8 @@ return [
         'key' => 'Key',
         'value' => 'Value',
         'note' => ':field setting for the system.',
+    ],
+    'media' => [
+        'title' => 'Media Gallery'
     ]
 ];

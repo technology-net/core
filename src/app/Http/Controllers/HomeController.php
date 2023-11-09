@@ -1,6 +1,6 @@
 <?php
 
-namespace IBoot\Core\app\Http\Controllers;
+namespace IBoot\Core\App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Contracts\View\View;

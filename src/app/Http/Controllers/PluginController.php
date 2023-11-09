@@ -1,13 +1,13 @@
 <?php
 
-namespace IBoot\Core\app\Http\Controllers;
+namespace IBoot\Core\App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Exception;
-use IBoot\Core\app\Exceptions\ServerErrorException;
-use IBoot\Core\app\Models\Plugin;
-use IBoot\Core\app\Services\MenuItemService;
-use IBoot\Core\app\Services\PluginService;
+use IBoot\Core\App\Exceptions\ServerErrorException;
+use IBoot\Core\App\Models\Plugin;
+use IBoot\Core\App\Services\MenuItemService;
+use IBoot\Core\App\Services\PluginService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -51,17 +51,12 @@ class PluginController extends Controller
         $menuItem = json_decode($input['menu_items'], true);
         $namePackage = $input['name_package'];
         $pluginId = $input['plugin_id'];
+        $composer_name = !empty($input['version']) ? $input['composer_name'] . ':' . $input['version'] : $input['composer_name'];
 
         try {
             DB::beginTransaction();
-            // Todo
-            /**
-             * This below code for install a package
-             *
-             * $command = ['composer', 'install', $input->composer_name];
-             *
-             * $this->installPackage($command);
-             */
+            $command = ['composer', 'require', $composer_name];
+            $this->installPackage($command);
             $this->storeMenuItems($menuItem, null, $namePackage);
             $this->pluginService->updateStatusPlugin($pluginId, Plugin::STATUS_INSTALLED);
             DB::commit();
@@ -94,7 +89,7 @@ class PluginController extends Controller
                 'icon' => $menuItem['icon'],
                 'parent_id' => $parentId,
                 'order' => $maxOrderNow + 1,
-                'slug' => $menuItem['slug'],
+                'url' => $menuItem['url'],
             ];
 
             $newMenuItem = $this->menuItemService->storeMenu($input);
@@ -126,14 +121,8 @@ class PluginController extends Controller
 
         try {
             DB::beginTransaction();
-            // Todo
-            /**
-             * This below code for remove a package
-             *
-             * $command = ['composer', 'remove', $input->composer_name];
-             *
-             * $this->installPackage($command);
-             */
+            $command = ['composer', 'remove', $input['composer_name']];
+            $this->installPackage($command);
             $this->menuItemService->removeMenu($namePackage);
             $this->pluginService->updateStatusPlugin($pluginId, Plugin::STATUS_UNINSTALLED);
             DB::commit();

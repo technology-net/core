@@ -3,11 +3,15 @@ $(document).ready(function () {
     e.preventDefault()
     let menu_items = $(this).attr('data-menu_items')
     let name_package = $(this).attr('data-name_package')
-    let pluginId = $(this).attr('data-plugin_id')
+    let plugin_id = $(this).attr('data-plugin_id')
+    let composer_name = $(this).attr('data-composer_name')
+    let version = $(this).attr('data-version')
     let data = {
-      plugin_id: pluginId,
+      plugin_id,
       menu_items,
-      name_package
+      name_package,
+      composer_name,
+      version
     }
 
     callAjax(route_install_package, data)
@@ -15,17 +19,24 @@ $(document).ready(function () {
 
   $('.btn-trigger-remove-plugin').on('click', function(e) {
     e.preventDefault()
+    let menu_items = $(this).attr('data-menu_items')
     let name_package = $(this).attr('data-name_package')
-    let pluginId = $(this).attr('data-plugin_id')
+    let plugin_id = $(this).attr('data-plugin_id')
+    let composer_name = $(this).attr('data-composer_name')
+    let version = $(this).attr('data-version')
     let data = {
-      plugin_id: pluginId,
-      name_package
+      plugin_id,
+      menu_items,
+      name_package,
+      composer_name,
+      version
     }
 
     callAjax(route_uninstall_package, data)
   })
 
   function callAjax(url, data) {
+    showLoading();
     $.ajax({
       type: 'GET',
       url: url,
@@ -33,17 +44,19 @@ $(document).ready(function () {
       success: function(response)
       {
         if (response.success) {
-          toastr.success(response.message)
-          setTimeout(() => {
-            window.location.reload()
-          }, 1000)
+          showNotify(response.message, 'success', true);
+        } else {
+          showNotify(response.message, 'error');
         }
       },
       error: function(jQxhr, textStatus, errorThrown)
       {
         if (jQxhr.status === 500) {
-          toastr.error(jQxhr['responseJSON'].message)
+          showNotify(jQxhr['responseJSON'].message, 'error');
         }
+      },
+      complete: function () {
+        hideLoading();
       }
     })
   }

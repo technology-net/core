@@ -14,12 +14,9 @@ $(document).ready(function () {
       processData: false,
       success: function (response) {
         if (response.success) {
-          toastr.success(response.message)
-          setTimeout(() => {
-            window.location.href = route_index
-          }, 2000)
+          showNotify(response.message, 'success');
         } else {
-          toastr.error(response.message)
+          showNotify(response.message, 'error');
         }
       },
       error: function (jQxhr, textStatus, errorThrown) {
@@ -31,7 +28,7 @@ $(document).ready(function () {
         }
 
         if (jQxhr.status === 500) {
-          toastr.error(jQxhr['responseJSON'].message)
+          showNotify(jQxhr['responseJSON'].message, 'error');
         }
       }
     })
@@ -61,12 +58,9 @@ $(document).ready(function () {
       processData: false,
       success: function (response) {
         if (response.success) {
-          toastr.success(response.message)
-          setTimeout(() => {
-            window.location.href = route_index
-          }, 2000)
+          showNotify(response.message, 'success');
         } else {
-          toastr.error(response.message)
+          showNotify(response.message, 'error');
         }
       },
       error: function (jQxhr, textStatus, errorThrown) {
@@ -78,7 +72,7 @@ $(document).ready(function () {
         }
 
         if (jQxhr.status === 500) {
-          toastr.error(jQxhr['responseJSON'].message)
+          showNotify(jQxhr['responseJSON'].message, 'error');
         }
       }
     })
@@ -107,7 +101,7 @@ $(document).ready(function () {
           processData: false,
           success: function (response) {
             if (response.success) {
-              toastr.success(response.message)
+              showMessages(response.message);
               if (rowIndex === 0 && page !== 1) {
                 parent.closest('tr').remove()
                 page--
@@ -116,12 +110,12 @@ $(document).ready(function () {
                 parent.closest('tr').remove()
               }
             } else {
-              toastr.error(response.message)
+              showNotify(response.message, 'error');
             }
           },
           error: function (jQxhr, textStatus, errorThrown) {
             if (jQxhr.status === 422 || jQxhr.status === 500) {
-              toastr.error(jQxhr["responseJSON"].message)
+              showNotify(jQxhr['responseJSON'].message, 'error');
             }
           }
         })
@@ -134,10 +128,20 @@ $(document).ready(function () {
   function getMoreUsers(page) {
     $.ajax({
       type: "GET",
-      url: route_index + "?page=" + page,
+      url: ROUTE_IDX + "?page=" + page,
       success:function(data) {
         $('#user-table').html(data)
       }
     })
+  }
+
+  function showMessages(message) {
+    Swal.fire({
+      position: "center",
+      icon: 'success',
+      title: message,
+      showConfirmButton: false,
+      timer: 1000,
+    });
   }
 })

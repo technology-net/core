@@ -15,9 +15,10 @@ $(document).ready(function () {
   $('body').on('change', '.editable', function () {
     let value = $(this).val();
     let label = $(this).attr('label');
+    let name = $(this).attr('name');
     let id = $(this).attr('data-id');
     let url = $(this).attr('data-url');
-    let idError = $(this).attr('name') + '-' + id;
+    let idError = name + '-' + id;
     let messages = '';
     if (value === '') {
       messages = validateMessage.required.replace(':attribute', label);
@@ -25,7 +26,7 @@ $(document).ready(function () {
       return false;
     }
     let data = {
-      'field': value
+      [name]: value
     }
 
     $.ajax({
@@ -33,14 +34,10 @@ $(document).ready(function () {
       url: url,
       data: data,
       success: function (response) {
-        console.log(response)
         if (response.success) {
-          toastr.success(response.message)
-          setTimeout(() => {
-            window.location.reload();
-          }, 2000)
+          showNotify(response.message, 'success', true);
         } else {
-          toastr.error(response.message)
+          showNotify(response.message, 'error');
         }
       },
       error: function (jQxhr) {
@@ -51,9 +48,148 @@ $(document).ready(function () {
           }
         }
         if (jQxhr.status === 500) {
-          toastr.error(jQxhr['responseJSON'].message)
+          showNotify(jQxhr['responseJSON'].message, 'error');
         }
       }
     })
   })
+
+  $('body').on('click', '.btn-delete', function() {
+    Swal.fire({
+      text: DELETE_CONFIRM,
+      icon: 'error',
+      showCancelButton: true,
+      confirmButtonText: BTN_CONFIRM,
+      cancelButtonText: BTN_CANCEL,
+      reverseButtons: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        $.ajax({
+          url: $(this).data('url'),
+          method: 'Delete',
+          cache: false,
+          contentType: false,
+          processData: false,
+          success: function (response) {
+            if (response.success) {
+              showNotify(response.message, 'success', true);
+            } else {
+              showNotify(response.message, 'error');
+            }
+          },
+          error: function (jQxhr, textStatus, errorThrown) {
+            if (jQxhr.status === 500) {
+              showNotify(jQxhr['responseJSON'].message, 'error');
+            }
+          }
+        });
+      }
+    });
+  });
+
+  var selectedValues = [];
+  // Click event for the "input-check-all" checkbox
+  $('body').on('change', '.input-check-all', function () {
+    if ($(this).is(':checked')) {
+      $('.checkboxes').prop('checked', true);
+      selectedValues = $('.checkboxes:checked').map(function() {
+          return $(this).val();
+      }).get();
+      if (selectedValues.length > 0) {
+        $(".delete-all").removeClass("d-none");
+      } else {
+        $(".delete-all").addClass("d-none");
+      }
+    } else {
+      $('.checkboxes').prop('checked', false);
+      $('.delete-all').addClass('d-none');
+      selectedValues = [];
+    }
+  });
+
+  // Click event for individual checkboxes
+  $('body').on('change', '.checkboxes',function () {
+    let value = $(this).val();
+    if ($(this).is(':checked')) {
+      selectedValues.push(value);
+    } else {
+      let index = selectedValues.indexOf(value);
+      if (index !== -1) {
+          selectedValues.splice(index, 1);
+      }
+    }
+    if (selectedValues.length > 0) {
+      $('.delete-all').removeClass('d-none');
+    } else {
+      $('.delete-all').addClass('d-none');
+      $('.input-check-all').prop('checked', false);
+    }
+  });
+
+  // Click event for the "delete-all" button
+  $('body').on('click', '.delete-all',function () {
+    Swal.fire({
+      text: DELETE_CONFIRM,
+      icon: 'error',
+      showCancelButton: true,
+      confirmButtonText: BTN_CONFIRM,
+      cancelButtonText: BTN_CANCEL,
+      reverseButtons: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        $.ajax({
+          url: $(this).data('url'),
+          method: 'POST',
+          data: {
+            ids: selectedValues
+          },
+          success: function (response) {
+            if (response.success) {
+              showNotify(response.message, 'success', true);
+            } else {
+              showNotify(response.message, 'error');
+            }
+          },
+          error: function (jQxhr, textStatus, errorThrown) {
+            if (jQxhr.status === 500) {
+              showNotify(jQxhr['responseJSON'].message, 'error');
+            }
+          }
+        });
+      }
+    });
+  });
 })
+
+formatDateString = function (dateString) {
+  return dateString.replace("T", " ").replace(".000000Z", "");
+}
+
+showLoading = function () {
+  $("#overlay").fadeIn(300);
+}
+
+hideLoading = function () {
+  $("#overlay").fadeOut(300);
+}
+
+showNotify = function (title, icon, isReload = false) {
+  Swal.fire({
+    position: "center",
+    icon: icon,
+    title: title,
+    timer: 2000,
+    timerProgressBar: true,
+    showConfirmButton: false
+  }).then((result) => {
+    if (result.dismiss === Swal.DismissReason.timer) {
+      if (icon === 'success') {
+        if (isReload ) {
+          location.reload();
+        } else {
+          location.href = ROUTE_IDX
+        }
+      }
+    }
+  });
+}

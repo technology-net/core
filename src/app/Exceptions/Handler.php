@@ -1,6 +1,6 @@
 <?php
 
-namespace IBoot\Core\app\Exceptions;
+namespace IBoot\Core\App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;

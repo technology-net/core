@@ -91,7 +91,7 @@
 @endsection
 @section('js')
     <script type="text/javascript">
-        let route_index = "{!! route('settings.users.index') !!}"
+        let ROUTE_IDX = "{!! route('settings.users.index') !!}"
     </script>
     <script type="text/javascript" src="{{ mix('core/js/user.js') }}" defer></script>
 @endsection

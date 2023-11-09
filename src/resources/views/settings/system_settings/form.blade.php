@@ -21,9 +21,7 @@
     ])
     <div class="clearfix"></div>
     <div>
-        <div class="mx-1">
-            @include('packages/core::partial.note', ['text' => trans('packages/core::settings.system_settings.note', ['field' => $label])])
-        </div>
+        @include('packages/core::partial.note', ['text' => trans('packages/core::settings.system_settings.note', ['field' => $label])])
         <div class="form-create-user">
             <form method="POST" action="{{ route('settings.system_settings.update', $systemSetting->id ?? 0) }}" id="formSubmit">
                 @csrf
@@ -32,7 +30,7 @@
                 <div class="border-white bg-white p-5">
                     <div class="container">
                         <div class="row">
-                            <div class="form-group pb-4 col-md-6">
+                            <div class="form-group col-md-6">
                                 <label for="{{ trans('packages/core::settings.system_settings.key') }}" class="control-label text-black" aria-required="true">
                                     {{ trans('packages/core::settings.system_settings.key') }}
                                     <strong class="text-required text-danger">*</strong>
@@ -41,7 +39,7 @@
                                        validate-pattern="required" name="key" type="text" value="{{ old('key', $systemSetting->key ?? null) }}">
                                 <div id="error_key"></div>
                             </div>
-                            <div class="form-group pb-4 col-md-6">
+                            <div class="form-group col-md-6">
                                 <label for="{{ trans('packages/core::settings.system_settings.value') }}" class="control-label required text-black" aria-required="true">
                                     {{ trans('packages/core::settings.system_settings.value') }}
                                     <strong class="text-required text-danger">*</strong>

@@ -14,10 +14,17 @@ $(document).ready(function () {
       success: function(response)
       {
         if (response.success) {
-          toastr.success(response.message)
-          setTimeout(() => {
-            window.location.href = dashboard_url
-          }, 1000)
+          Swal.fire({
+            position: "center",
+            icon: 'success',
+            title: response.message,
+            showConfirmButton: false,
+            timer: 1000,
+          }).then((result) => {
+            if (result.dismiss === Swal.DismissReason.timer) {
+              location.href = dashboard_url
+            }
+          });
         }
       },
       error: function(jQxhr, textStatus, errorThrown)
@@ -30,7 +37,7 @@ $(document).ready(function () {
         }
 
         if (jQxhr.status === 401) {
-          toastr.error(jQxhr["responseJSON"].message)
+          showNotify(jQxhr["responseJSON"].message, 'error');
         }
       }
     })

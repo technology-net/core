@@ -1,27 +1,19 @@
 <?php
 
-namespace IBoot\Core\app\Models;
+namespace IBoot\Core\App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Notifications\Notifiable;
 
-class MenuItem extends Model
+class MenuItem extends BaseModel
 {
     use HasFactory, Notifiable;
 
     protected $table = 'menu_items';
 
-    protected $fillable = [
-        'menu_id',
-        'name',
-        'parent_id',
-        'slug',
-        'order',
-        'icon',
-    ];
+    protected $guarded = [];
 
     public static function boot(): void
     {

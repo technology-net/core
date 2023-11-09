@@ -2,7 +2,7 @@
 
 namespace IBoot\Core\Database\Seeders;
 
-use IBoot\Core\app\Models\SystemSetting;
+use IBoot\Core\App\Models\SystemSetting;
 use Illuminate\Database\Seeder;
 
 class SystemSettingSeeder extends Seeder

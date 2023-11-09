@@ -1,9 +1,9 @@
 <?php
 
-namespace IBoot\Core\app\Providers;
+namespace IBoot\Core\App\Providers;
 
-use IBoot\Core\app\Models\MenuItem;
-use IBoot\Core\app\View\Components\Sidebar;
+use IBoot\Core\App\Models\MenuItem;
+use IBoot\Core\App\View\Components\Sidebar;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
@@ -17,7 +17,9 @@ class CoreServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->mergeConfigFrom(
+            __DIR__.'/../../config/core.php', 'core'
+        );
     }
 
     /**
@@ -35,12 +37,12 @@ class CoreServiceProvider extends ServiceProvider
         $this->loadMigrationsFrom(__DIR__ . '/../../database/migrations');
         $this->loadTranslationsFrom(__DIR__ . '/../../lang', 'packages/core');
 
-        $this->publishes([
-            __DIR__ . '/../../database/migrations' => database_path('migrations'),
-            __DIR__ . '/../../database/seeders' => database_path('seeders'),
-            __DIR__ . '/../../config' => config_path(),
-            __DIR__ . '/../../lang' => lang_path(),
-            __DIR__ . '/../../resources/views' => resource_path('packages/core'),
-        ]);
+//        $this->publishes([
+//            __DIR__ . '/../../database/migrations' => database_path('migrations'),
+//            __DIR__ . '/../../database/seeders' => database_path('seeders'),
+//            __DIR__ . '/../../config' => config_path(),
+//            __DIR__ . '/../../lang' => lang_path(),
+//            __DIR__ . '/../../resources/views' => resource_path('packages/core'),
+//        ]);
     }
 }

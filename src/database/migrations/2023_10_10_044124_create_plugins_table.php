@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('composer_name')->nullable();
             $table->json('menu_items')->nullable();
             $table->string('version')->nullable();
-            $table->string('status')->default('Installed')->comment('Installed, Uninstalled');
+            $table->boolean('status')->default(0)->comment('1: Installed, 0: Uninstalled');
             $table->boolean('is_default')->default(false);
             $table->string('scripts')->nullable();
             $table->string('image')->nullable();

@@ -5,11 +5,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="csrf-token" content="{{ csrf_token() }}" />
-    <title>ICI Admin</title>
+    <title>@yield('title', config('app.name', 'ICI Admin'))</title>
     <!-- plugins:css -->
     <link rel="stylesheet" href="{{ mix('core/vendors/css/materialdesignicons.min.css') }}" />
     <link rel="stylesheet" href="{{ mix('core/vendors/css/vendor.bundle.base.css') }}" />
-    <link rel="stylesheet" href="{{ mix('core/vendors/css/toastr.min.css') }}" />
     <link rel="stylesheet" href="{{ mix('core/vendors/css/sweetalert2.min.css') }}" />
     <link rel="stylesheet" href="{{ mix('core/vendors/css/select2.min.css') }}" />
     <!-- end-inject -->
@@ -19,9 +18,15 @@
     <!-- End layout styles -->
     <link rel="shortcut icon" href="{{ mix('core/images/favicon.png') }}" />
     @yield('css')
+    @yield('media-css')
 </head>
 <body>
 <div class="container-scroller">
+    <div id="overlay">
+        <div class="cv-spinner">
+            <span class="spinner"></span>
+        </div>
+    </div>
     <!-- partials/sidebar -->
     <x-sidebar/>
     <!-- partial -->
@@ -47,8 +52,7 @@
 <!-- container-scroller -->
 <!-- plugins:js -->
 <script src="{{ mix('core/vendors/js/jquery-3.7.1.min.js') }}"></script>
-<script src="{{ mix('core/vendors/js/vendor.bundle.base.js') }}"></script>
-<script src="{{ mix('core/vendors/js/toastr.min.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js" integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+" crossorigin="anonymous"></script>
 <script src="{{ mix('core/vendors/js/sweetalert2.all.min.js') }}"></script>
 <script src="{{ mix('core/vendors/js/select2.min.js') }}"></script>
 <!-- end-inject -->
@@ -71,5 +75,6 @@
 <script type="text/javascript" src="{{ mix('core/js/validate.js') }}" defer></script>
 <script type="text/javascript" src="{{ mix('core/js/common.js') }}" defer></script>
 @yield('js')
+@yield('media-js')
 </body>
 </html>

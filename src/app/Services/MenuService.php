@@ -1,8 +1,8 @@
 <?php
 
-namespace IBoot\Core\app\Services;
+namespace IBoot\Core\App\Services;
 
-use IBoot\Core\app\Models\Menu;
+use IBoot\Core\App\Models\Menu;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class MenuService

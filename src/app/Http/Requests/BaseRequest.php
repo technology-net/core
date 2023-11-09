@@ -1,6 +1,6 @@
 <?php
 
-namespace IBoot\Core\app\Http\Requests;
+namespace IBoot\Core\App\Http\Requests;
 
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;

@@ -808,7 +808,6 @@ body {
     font-size: 1rem;
     font-weight: 400;
     line-height: 1.5;
-    color: #ffffff;
     text-align: left;
     background-color: #fff; }
 
@@ -5556,6 +5555,7 @@ a.close.disabled {
     display: none;
     width: 100%;
     height: 100%;
+    color: #ffffff;
     overflow: hidden;
     outline: 0; }
 
@@ -5633,15 +5633,21 @@ a.close.disabled {
 
 .modal-header {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     justify-content: space-between;
     padding: 1rem 1rem;
     border-bottom: 1px solid #2c2e33;
     border-top-left-radius: calc(0.3rem - 1px);
     border-top-right-radius: calc(0.3rem - 1px); }
 .modal-header .close {
-    padding: 1rem 1rem;
-    margin: -25px -26px -25px auto; }
+    border: none;
+    background: transparent;
+    box-shadow: none; }
+
+.modal-header .close span {
+    font-size: 25px;
+    font-weight: 400;
+    color: #dddddd;}
 
 .modal-title {
     margin-bottom: 0;
@@ -6915,7 +6921,7 @@ button.bg-dark:focus {
     top: 0;
     right: 0;
     left: 0;
-    z-index: 1030; }
+    z-index: 10; }
 
 .fixed-bottom {
     position: fixed;
@@ -10235,14 +10241,14 @@ code {
 .navbar .tt-hint:focus {
     border: none; }
 
-select.form-control, select.asColorPicker-input, .dataTables_wrapper select,
+select.asColorPicker-input, .dataTables_wrapper select,
 .jsgrid .jsgrid-table .jsgrid-filter-row select, .select2-container--default select.select2-selection--single, .select2-container--default .select2-selection--single select.select2-search__field, select.typeahead,
 select.tt-query,
 select.tt-hint {
     padding: .4375rem .75rem;
     border: 0;
     color: #4b5564; }
-select.form-control:focus, select.asColorPicker-input:focus, .dataTables_wrapper select:focus,
+select.asColorPicker-input:focus, .dataTables_wrapper select:focus,
 .jsgrid .jsgrid-table .jsgrid-filter-row select:focus, .select2-container--default select.select2-selection--single:focus, .select2-container--default .select2-selection--single select.select2-search__field:focus, select.typeahead:focus,
 select.tt-query:focus,
 select.tt-hint:focus {
@@ -12791,7 +12797,7 @@ body.avgrund-active {
     font-size: 25px;
     line-height: 1;
     font-weight: 500;
-    color: #ffffff;
+    padding: 0;
     font-weight: initial;
     margin-bottom: 0; }
 .swal2-modal .swal2-icon,
@@ -13477,7 +13483,6 @@ div.tagsinput span.tag a {
     -webkit-transition: width 0.25s ease, background 0.25s ease;
     -moz-transition: width 0.25s ease, background 0.25s ease;
     -ms-transition: width 0.25s ease, background 0.25s ease;
-    background: #191c24;
     width: 244px;
     height: 70px; }
 @media (max-width: 991px) {
@@ -13907,6 +13912,7 @@ div.tagsinput span.tag a {
     padding: 0.6rem 1.17rem;
     line-height: 1.25; }
 .sidebar .nav .nav-item.profile .profile-desc .profile-name {
+    color: #ffffff;
     margin-left: 1rem; }
 .rtl .sidebar .nav .nav-item.profile .profile-desc .profile-name {
     margin-left: 0;
@@ -14355,3 +14361,62 @@ div.tagsinput span.tag a {
 .sidebar .nav .nav-item.active > .nav-link[class*="level-"]:not(.level-1) {
     background: #222D32;
     position: relative; }
+
+.active-item {
+    border: solid 2px #0090e7 !important;
+}
+.active-item .icon-check {
+    display: block !important;
+}
+.active-item .folder-name {
+    background: #0090e7;
+    color: #ffffff;
+}
+    /*LOADING*/
+#overlay{
+    position: fixed;
+    top: 0;
+    z-index: 100;
+    width: 100%;
+    height:100%;
+    display: none;
+    background: rgba(0,0,0,0.6);
+}
+.cv-spinner {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px #ddd solid;
+    border-top: 4px #2e93e6 solid;
+    border-radius: 50%;
+    animation: sp-anime 0.8s infinite linear;
+}
+@keyframes sp-anime {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+.is-hide{
+    display:none;
+}
+
+.preview-image-wrapper {
+    position: relative;
+    width: 200px;
+    border: 1px solid #dddddd;
+}
+
+.preview-image-wrapper .remove-preview {
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 24px;
+    color: #0090e7;
+    cursor: pointer;
+    display: none;
+}

@@ -1,8 +1,8 @@
 <?php
 
-namespace IBoot\Core\app\Services;
+namespace IBoot\Core\App\Services;
 
-use IBoot\Core\app\Models\Plugin;
+use IBoot\Core\App\Models\Plugin;
 use Illuminate\Database\Eloquent\Collection;
 
 class PluginService

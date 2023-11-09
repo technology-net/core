@@ -1,11 +1,11 @@
 <?php
 
-namespace IBoot\Core\app\Http\Controllers\Settings;
+namespace IBoot\Core\App\Http\Controllers\Settings;
 
 use App\Http\Controllers\Controller;
-use IBoot\Core\app\Exceptions\ServerErrorException;
-use IBoot\Core\app\Http\Requests\User\UserRequest;
-use IBoot\Core\app\Services\UserService;
+use IBoot\Core\App\Exceptions\ServerErrorException;
+use IBoot\Core\App\Http\Requests\User\UserRequest;
+use IBoot\Core\App\Services\UserService;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;

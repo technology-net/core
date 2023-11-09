@@ -1,8 +1,8 @@
 <?php
 
-namespace IBoot\Core\app\Http\Requests\Auth;
+namespace IBoot\Core\App\Http\Requests\Auth;
 
-use IBoot\Core\app\Http\Requests\BaseRequest;
+use IBoot\Core\App\Http\Requests\BaseRequest;
 
 class LoginRequest extends BaseRequest
 {

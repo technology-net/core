@@ -1,6 +1,6 @@
 <?php
 
-namespace IBoot\Core\app\Http\Requests;
+namespace IBoot\Core\App\Http\Requests;
 use Illuminate\Validation\Rule;
 
 class SystemSettingRequest extends BaseRequest

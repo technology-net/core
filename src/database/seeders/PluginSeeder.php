@@ -3,7 +3,7 @@
 namespace IBoot\Core\Database\Seeders;
 
 use Carbon\Carbon;
-use IBoot\Core\app\Models\Plugin;
+use IBoot\Core\App\Models\Plugin;
 use Illuminate\Database\Seeder;
 
 class PluginSeeder extends Seeder
@@ -24,26 +24,20 @@ class PluginSeeder extends Seeder
                 'composer_name' => 'iboot/cms',
                 'menu_items' => json_encode([
                     'name' => 'CMS',
-                    'slug' => null,
+                    'url' => null,
                     'icon' => '<i class="mdi mdi-content-save-all-outline"></i>',
                     'children' => [
                         [
-                            'name' => 'Posts',
-                            'slug' => null,
+                            'name' => 'Categories',
+                            'url' => 'categories.index',
                             'icon' => null,
                             'children' => []
                         ],
                         [
-                            "name" => "Categories",
-                            "slug" => null,
-                            "icon" => null,
-                            "children" => []
-                        ],
-                        [
-                            "name" => "Tags",
-                            "slug" => null,
-                            "icon" => null,
-                            "children" => []
+                            'name' => 'Posts',
+                            'url' => 'posts.index',
+                            'icon' => null,
+                            'children' => []
                         ]
                     ]
                 ]),

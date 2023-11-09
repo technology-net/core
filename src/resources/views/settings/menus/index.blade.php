@@ -19,6 +19,7 @@
     <div class="table-wrapper" id="menus-table">
         @include('packages/core::settings.menus.menus_table')
     </div>
+    @include('packages/core::settings.media.include._modal-open-media')
 @endsection
 @section('js')
 @endsection
