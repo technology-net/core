@@ -14404,19 +14404,3 @@ div.tagsinput span.tag a {
 .is-hide{
     display:none;
 }
-
-.preview-image-wrapper {
-    position: relative;
-    width: 200px;
-    border: 1px solid #dddddd;
-}
-
-.preview-image-wrapper .remove-preview {
-    position: absolute;
-    top: 0;
-    right: 0;
-    font-size: 24px;
-    color: #0090e7;
-    cursor: pointer;
-    display: none;
-}

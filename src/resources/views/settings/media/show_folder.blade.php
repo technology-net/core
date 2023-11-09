@@ -21,7 +21,7 @@
             <div class="folder-item" title="{{ $item->name }}">
                 <button class="folder-container folder-container-{{$item->id}}"
                     data-is_directory="{{ $item->is_directory }}" data-id="{{ $item->id }}"
-                    data-media="{{ @json_encode($item->getAttributes()) }}">
+                    data-mime_type="{{ $item->mime_type }}" data-media="{{ @json_encode($item->getAttributes()) }}">
                     <i class="mdi mdi-check-circle-outline icon-check"></i>
                     <div class="folder-icon">
                         @if($item->is_directory)

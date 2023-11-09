@@ -3,6 +3,7 @@ $(document).ready(function () {
   let lastPage = 1;
   let folderId = null;
   let parent = null;
+  let domain = location.origin;
 
   if (typeof IS_MEDIA !== 'undefined') {
     getFolders(folderId, page, parent)
@@ -321,11 +322,58 @@ $(document).ready(function () {
     let mediaActive = $(".folder-container.active-item");
     let objMedia = [];
     $.each($(mediaActive), function (_i, _item) {
-      if (!$(_item).attr('data-is_directory')) {
+      if (!$(_item).attr('data-is_directory') && $(_item).attr('data-mime_type') == 'image/webp') {
         objMedia.push($(_item).data('media'))
       }
     });
-    console.log(objMedia)
+    if (objMedia.length) {
+      showLoading();
+    }
+    let html = ``;
+    $.each(objMedia, function (_i, _item) {
+      html += `
+        <div class="col-md-4 item-thumbnail">
+          <div class="preview-image">
+              <img width="100%" src="${domain + '/storage' + _item.image_sm}" alt="${_item.name}">
+              <i class="mdi mdi-close-circle-outline remove-preview"></i>
+              <input type="hidden" name="media_id[]" value="${_item.id}">
+          </div>
+        </div>
+      `;
+    });
+    $('#wrap-preview').html(html).find('.remove-preview').show();
+    let images = $('#wrap-preview img');
+    let imageCount = images.length;
+    let imagesLoaded = 0;
+    images.on('load', function () {
+      imagesLoaded++;
+      if (imagesLoaded === imageCount) {
+        hideLoading();
+        if ($('#wrap-preview').height() >= 260) {
+          $('#wrap-preview').addClass('thumbnail-scroll');
+        }
+        if (imageCount < 7) {
+          $('#wrap-preview').removeClass('thumbnail-scroll');
+        }
+      }
+    });
+  });
+
+  $('body').on('click', '.remove-preview', function () {
+    $(this).hide().closest('.item-thumbnail').remove();
+    if ($('#wrap-preview img').length < 7) {
+      $('#wrap-preview').removeClass('thumbnail-scroll');
+    }
+    if (!$('.item-thumbnail').length) {
+      $('#wrap-preview').html(`
+        <div class="col-md-4">
+          <div class="preview-image">
+              <img width="100%" src="${domain + '/cms/images/image-default.png'}" alt="image-default">
+              <i class="mdi mdi-close-circle-outline remove-preview"></i>
+          </div>
+      </div>
+      `);
+    }
   });
 
   function showMessages(message) {

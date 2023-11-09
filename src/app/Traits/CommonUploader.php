@@ -127,7 +127,7 @@ trait CommonUploader
 
         // Create an empty thumbnail image
         $variantsImageName = $originalName . '-' . time() . '-' . $newWidth . 'x' . $newHeight . '.webp';
-        imagejpeg($variantsImage, Storage::disk($disk)->path($directory . $variantsImageName));
+        imagejpeg($variantsImage, Storage::disk($disk)->path($directory . $variantsImageName), 100);
 
         $filePath = Storage::disk($disk)->path($directory . $variantsImageName);
         $fileSize = filesize($filePath);
