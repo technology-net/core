@@ -250,6 +250,10 @@ div.no-items {
     margin-bottom: 10px;
 }
 
+.item-thumbnail {
+    margin-bottom: 10px;
+}
+
 .preview-image {
     position: relative;
     border: 1px solid #dddddd;

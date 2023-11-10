@@ -15,6 +15,7 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
+        User::query()->truncate();
         User::create([
             'email' => 'admin@icitech.net',
             'name' => 'Admin',

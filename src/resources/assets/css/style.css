@@ -14374,7 +14374,7 @@ div.tagsinput span.tag a {
 #overlay{
     position: fixed;
     top: 0;
-    z-index: 100;
+    z-index: 1051;
     width: 100%;
     height:100%;
     display: none;

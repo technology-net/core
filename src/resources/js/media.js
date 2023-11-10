@@ -4,6 +4,7 @@ $(document).ready(function () {
   let folderId = null;
   let parent = null;
   let domain = location.origin;
+  let lastItemMediaId = null;
 
   if (typeof IS_MEDIA !== 'undefined') {
     getFolders(folderId, page, parent)
@@ -69,6 +70,7 @@ $(document).ready(function () {
         $(this).addClass('active-item');
       }
     }
+    lastItemMediaId = $(this).data('id');
   })
 
   $(document).on('click', function (event) {
@@ -321,15 +323,28 @@ $(document).ready(function () {
   $('body').on('click', '.modal-insert', function () {
     let mediaActive = $(".folder-container.active-item");
     let objMedia = [];
+
     $.each($(mediaActive), function (_i, _item) {
       if (!$(_item).attr('data-is_directory') && $(_item).attr('data-mime_type') == 'image/webp') {
         objMedia.push($(_item).data('media'))
       }
     });
-    console.log(objMedia)
+
+    // Tìm vị trí của phần tử có id là lastItemMediaId trong mảng objMedia
+    let index = objMedia.findIndex(function(item) {
+        return item.id === lastItemMediaId;
+    });
+    // Nếu phần tử có id là lastItemMediaId tồn tại trong mảng
+    if (index !== -1) {
+      // Di chuyển phần tử lên đầu mảng
+      let removedItem = objMedia.splice(index, 1)[0];
+      objMedia.unshift(removedItem);
+    }
+
     if (objMedia.length) {
       showLoading();
     }
+
     let html = ``;
     $.each(objMedia, function (_i, _item) {
       html += `
@@ -343,6 +358,7 @@ $(document).ready(function () {
       `;
     });
     $('#wrap-preview').html(html).find('.remove-preview').show();
+$(".item-thumbnail:first").addClass("active-item");
     let images = $('#wrap-preview img');
     let imageCount = images.length;
     let imagesLoaded = 0;
@@ -361,12 +377,15 @@ $(document).ready(function () {
   });
 
   if ($("#wrap-preview .preview-image img:first").attr("alt") !== 'image-default') {
+    $(".item-thumbnail:first").addClass("active-item");
     if ($('#wrap-preview').height() >= 260) {
       $('#wrap-preview').addClass('thumbnail-scroll');
     }
     $('#wrap-preview').find('.remove-preview').show();
   }
-  $('body').on('click', '.remove-preview', function () {
+
+  $('body').on('click', '.remove-preview', function (event) {
+    event.stopPropagation();
     $(this).hide().closest('.item-thumbnail').remove();
     if ($('#wrap-preview img').length < 7) {
       $('#wrap-preview').removeClass('thumbnail-scroll');
@@ -381,6 +400,16 @@ $(document).ready(function () {
       </div>
       `);
     }
+  });
+
+  // handle default thumbnail post
+  $('body').on('click', '.item-thumbnail', function () {
+    // Remove the active-item class from all thumbnails
+    $(".item-thumbnail").removeClass("active-item");
+    // Add the active-item class to the clicked thumbnail
+    $(this).addClass("active-item");
+    // Detach and prepend the clicked thumbnail to the wrapper
+    $(this).detach().prependTo($("#wrap-preview"));
   });
 
   function showMessages(message) {
