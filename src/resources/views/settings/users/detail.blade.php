@@ -30,8 +30,7 @@
                 @method('PUT')
                 <div class="row border border-white bg-white mx-1">
                     <div class="col-12 mt-5 mb-4">
-                        <div class="main-form container">
-                            <div class="form-body">
+                        <div class="form-body">
                                 <div class="row">
                                     <div class="form-group mb-3 col-md-6">
                                         <label for="username" class="control-label required text-black" aria-required="true">
@@ -64,7 +63,6 @@
                                 </div>
                                 <div class="clearfix"></div>
                             </div>
-                        </div>
                     </div>
                     <div class="row mt-3 container-fluid mb-4">
                         <div class="col-12 d-flex justify-content-center">

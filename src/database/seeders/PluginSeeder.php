@@ -17,6 +17,7 @@ class PluginSeeder extends Seeder
     {
         $now = Carbon::now();
 
+        Plugin::query()->truncate();
         Plugin::query()->insert([
             [
                 'name_package' => 'CMS',
@@ -36,6 +37,12 @@ class PluginSeeder extends Seeder
                         [
                             'name' => 'Posts',
                             'url' => 'posts.index',
+                            'icon' => null,
+                            'children' => []
+                        ],
+                        [
+                            'name' => 'Pages',
+                            'url' => 'pages.index',
                             'icon' => null,
                             'children' => []
                         ]

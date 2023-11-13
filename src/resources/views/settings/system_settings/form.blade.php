@@ -28,28 +28,26 @@
                 @method('PUT')
                 <input type="hidden" name="id" value="{{ $systemSetting->id ?? 0 }}">
                 <div class="border-white bg-white p-5">
-                    <div class="container">
-                        <div class="row">
-                            <div class="form-group col-md-6">
-                                <label for="{{ trans('packages/core::settings.system_settings.key') }}" class="control-label text-black" aria-required="true">
-                                    {{ trans('packages/core::settings.system_settings.key') }}
-                                    <strong class="text-required text-danger">*</strong>
-                                </label>
-                                <input class="form-control" autocomplete="off" label="{{ trans('packages/core::settings.system_settings.key') }}" validate="true"
-                                       validate-pattern="required" name="key" type="text" value="{{ old('key', $systemSetting->key ?? null) }}">
-                                <div id="error_key"></div>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="{{ trans('packages/core::settings.system_settings.value') }}" class="control-label required text-black" aria-required="true">
-                                    {{ trans('packages/core::settings.system_settings.value') }}
-                                    <strong class="text-required text-danger">*</strong>
-                                </label>
-                                <textarea class="form-control" name="value" rows="10" label="{{ trans('packages/core::settings.system_settings.value') }}" validate="true" validate-pattern="required">{{ old('key', $systemSetting->value ?? null) }}</textarea>
-                                <div id="error_value"></div>
-                            </div>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label for="{{ trans('packages/core::settings.system_settings.key') }}" class="control-label text-black" aria-required="true">
+                                {{ trans('packages/core::settings.system_settings.key') }}
+                                <strong class="text-required text-danger">*</strong>
+                            </label>
+                            <input class="form-control" autocomplete="off" label="{{ trans('packages/core::settings.system_settings.key') }}" validate="true"
+                                   validate-pattern="required" name="key" type="text" value="{{ old('key', $systemSetting->key ?? null) }}">
+                            <div id="error_key"></div>
                         </div>
-                        <div class="clearfix"></div>
+                        <div class="form-group col-md-6">
+                            <label for="{{ trans('packages/core::settings.system_settings.value') }}" class="control-label required text-black" aria-required="true">
+                                {{ trans('packages/core::settings.system_settings.value') }}
+                                <strong class="text-required text-danger">*</strong>
+                            </label>
+                            <textarea class="form-control" name="value" rows="10" label="{{ trans('packages/core::settings.system_settings.value') }}" validate="true" validate-pattern="required">{{ old('key', $systemSetting->value ?? null) }}</textarea>
+                            <div id="error_value"></div>
+                        </div>
                     </div>
+                    <div class="clearfix"></div>
                     <div class="text-center">
                         <a href="{{ route('settings.system_settings.index') }}" class="btn btn-secondary">
                             <span class="mdi mdi-arrow-left"></span>
