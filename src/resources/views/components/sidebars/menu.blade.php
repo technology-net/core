@@ -1,32 +1,24 @@
-<li class="nav-item menu-items {{ isSidebarMenuActive($rangeUrlByParent, $parentName, $sidebarMenu->url) ? 'active' : '' }}">
-    <a class="nav-link level-{{$i}}"
-        data-toggle="{{ $sidebarMenu->children->count() ? 'collapse' : '' }}"
-        href="{{ !$sidebarMenu->children->count()
-        ? (!empty($sidebarMenu->url) ? route($sidebarMenu->url) : null)
-        : '#ui-' . $sidebarMenu->id }}"
-        aria-expanded="false" >
-        <span class="menu-icon {{ !empty($sidebarMenu->icon) ? '' : 'd-none' }}">
-            {!! $sidebarMenu->icon !!}
-        </span>
-        <span class="menu-title parent-{{ $i }}">{{ $sidebarMenu->name }}</span>
-        @if($sidebarMenu->children->count())
-            <i class="menu-arrow"></i>
-        @endif
+<li class="nav-item @if(in_array(Route::currentRouteName(), $rangeUrlByParent[strtolower($parentName)])) menu-open @endif">
+    <a href="{{ !empty($sidebarMenu->url) ? route($sidebarMenu->url) : 'javascript:void(0)' }}" class="nav-link {{ isSidebarMenuActive($rangeUrlByParent, $parentName, $sidebarMenu->url) ? 'active' : '' }}">
+        <i class="nav-icon {{ !empty($sidebarMenu->icon) ? $sidebarMenu->icon : 'far fa-circle' }}"></i>
+        <p>
+            {{ $sidebarMenu->name }}
+            @if($sidebarMenu->children->isNotEmpty())
+                <i class="right fas fa-angle-left"></i>
+            @endif
+        </p>
     </a>
-    @if($sidebarMenu->children->count())
-        <div class="collapse collapse-{{ $i }}" id="ui-{{ $sidebarMenu->id }}">
-            <ul class="nav flex-column sub-menu">
-                @foreach($sidebarMenu->children as $children)
-                    @include('packages/core::components.sidebars.menu',
-                        [
-                            'sidebarMenu' => $children,
-                            'i' => $i+1,
-                            'nameParent' => $sidebarMenu->name,
-                            'rangeUrlByParent' => $rangeUrlByParent
-                        ]
-                    )
-                @endforeach
-            </ul>
-        </div>
+    @if($sidebarMenu->children->isNotEmpty())
+        <ul class="nav nav-treeview">
+            @foreach($sidebarMenu->children as $children)
+                @include('packages/core::components.sidebars.menu',
+                    [
+                        'sidebarMenu' => $children,
+                        'parentName' => $sidebarMenu->name,
+                        'rangeUrlByParent' => $rangeUrlByParent
+                    ]
+                )
+            @endforeach
+        </ul>
     @endif
 </li>

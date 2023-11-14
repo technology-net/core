@@ -1,7 +1,4 @@
 @extends('packages/core::layouts.admin')
-@section('css')
-    <link href="{{ mix('core/css/user.css') }}" rel="stylesheet"/>
-@endsection
 @section('content')
     @include('packages/core::partial.breadcrumb', [
         'breadcrumbs' => [
@@ -19,7 +16,7 @@
     <div class="table-wrapper" id="menus-table">
         @include('packages/core::settings.menus.menus_table')
     </div>
-    @include('packages/core::settings.media.include._modal-open-media')
+    @include('packages/core::medias.include._modal-open-media')
 @endsection
 @section('js')
 @endsection

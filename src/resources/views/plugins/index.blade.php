@@ -1,5 +1,8 @@
 @php use IBoot\Core\App\Models\Plugin; @endphp
 @extends('packages/core::layouts.admin')
+@section('css')
+    <link rel="stylesheet" href="{{ mix('core/css/plugin.css') }}">
+@stop
 @section('content')
     @include('packages/core::partial.breadcrumb', [
         'breadcrumbs' => [
@@ -16,18 +19,16 @@
         </div>
         <div class="row">
             @foreach($plugins as $plugin)
-                <div class="col-12 col-sm-6 col-md-6 col-lg-3 mb-3">
+                <div class="col-12 col-sm-6 col-md-6 col-lg-3">
                     <div class="app-item app-{{ $plugin->name_package }}">
-                        <div class="card text-black">
-                            <div>
-                                <div class="app-icon">
-                                    @if ($plugin->image)
-                                        <img src="{{ asset($plugin->image) }}" alt="{{ $plugin->name_package }}">
-                                    @endif
-                                </div>
-                                <div class="app-details">
-                                    <h4 class="app-name">{{ $plugin->name_package }}</h4>
-                                </div>
+                        <div class="text-black">
+                            <div class="app-icon">
+                                @if ($plugin->image)
+                                    <img src="{{ asset($plugin->image) }}" alt="{{ $plugin->name_package }}">
+                                @endif
+                            </div>
+                            <div class="app-details">
+                                <h4 class="app-name">{{ $plugin->name_package }}</h4>
                             </div>
                             <div class="app-footer">
                                 <div class="app-description" title="{{ $plugin->description }}">

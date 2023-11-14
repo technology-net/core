@@ -90,13 +90,34 @@ class SystemSettingController extends Controller
     {
         $cleanedJsonString = parseHtmlToJson($request['value']);
         $request['value'] = $cleanedJsonString;
-        
+
         DB::beginTransaction();
         try {
             $this->systemSetting->createOrUpdateSystemSettings($id, $request->all());
             DB::commit();
 
             return responseSuccess(null, trans('packages/core::messages.save_success'));
+        } catch (Exception $e) {
+            DB::rollback();
+            Log::error($e->getMessage(), ['file' => __FILE__, 'line' => __LINE__]);
+            throw new ServerErrorException(null, trans('packages/core::messages.action_error'));
+        }
+    }
+
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     * @throws ServerErrorException
+     */
+    public function deleteAll(Request $request): JsonResponse
+    {
+        $ids = $request->ids;
+        DB::beginTransaction();
+        try {
+            $this->systemSetting->deleteAllById($ids);
+            DB::commit();
+
+            return responseSuccess(null, trans('packages/core::messages.delete_success'));
         } catch (Exception $e) {
             DB::rollback();
             Log::error($e->getMessage(), ['file' => __FILE__, 'line' => __LINE__]);

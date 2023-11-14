@@ -5,5 +5,6 @@ return [
     'copyright' => 'ICI Technology',
     'pagination' => 10,
     'media_pagination' => 50,
-    'route_prefix' => 'admin'
+    'route_prefix' => 'admin',
+    'password_default' => 'password'
 ];

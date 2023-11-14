@@ -2,10 +2,8 @@
 
 namespace IBoot\Core\App\Models;
 
-use IBoot\CMS\Models\Post;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 class Media extends BaseModel
 {
@@ -32,14 +30,6 @@ class Media extends BaseModel
     public function children(): HasMany
     {
         return $this->hasMany(Media::class, 'parent_id', 'id');
-    }
-
-    /**
-     * @return MorphToMany
-     */
-    public function posts(): MorphToMany
-    {
-        return $this->morphToMany(Post::class, 'media_able');
     }
 
     /**

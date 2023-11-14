@@ -35,7 +35,7 @@ class CoreServiceProvider extends ServiceProvider
         $this->loadRoutesFrom(__DIR__ . '/../../routes/web.php');
         $this->loadViewsFrom(__DIR__ . '/../../resources/views', 'packages/core');
         $this->loadMigrationsFrom(__DIR__ . '/../../database/migrations');
-        $this->loadTranslationsFrom(__DIR__ . '/../../lang', 'packages/core');
+        $this->loadTranslationsFrom(__DIR__ . '/../../resources/lang', 'packages/core');
 
 //        $this->publishes([
 //            __DIR__ . '/../../database/migrations' => database_path('migrations'),
