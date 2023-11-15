@@ -3,6 +3,9 @@
     use IBoot\Core\App\Models\User;
     $label = !empty($user->id) ? trans('packages/core::common.update') : trans('packages/core::common.create');
 @endphp
+@section('title')
+    @lang('packages/core::user.users')
+@stop
 @section('content')
     @include('packages/core::partial.breadcrumb', [
         'breadcrumbs' => [

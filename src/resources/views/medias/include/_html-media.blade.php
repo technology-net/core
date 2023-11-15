@@ -29,7 +29,7 @@
         </div>
     </div>
     <div class="card card-folders mt-2">
-        <div class="card-header">
+        <div class="card-header py-1">
             <div class="d-flex align-items-center justify-content-between">
                 <ol class="folder-breadcrumb p-2 m-0">
                     <li class="breadcrumb-item">

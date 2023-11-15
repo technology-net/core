@@ -1,4 +1,4 @@
-<li class="nav-item @if(in_array(Route::currentRouteName(), $rangeUrlByParent[strtolower($parentName)])) menu-open @endif">
+<li class="nav-item">
     <a href="{{ !empty($sidebarMenu->url) ? route($sidebarMenu->url) : 'javascript:void(0)' }}" class="nav-link {{ isSidebarMenuActive($rangeUrlByParent, $parentName, $sidebarMenu->url) ? 'active' : '' }}">
         <i class="nav-icon {{ !empty($sidebarMenu->icon) ? $sidebarMenu->icon : 'far fa-circle' }}"></i>
         <p>

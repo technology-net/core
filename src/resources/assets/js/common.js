@@ -3,7 +3,10 @@ $.ajaxSetup({
     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
   }
 })
-
+// active sidebar if exist childrent
+if ($('.nav-link.active').closest('.nav-treeview').length) {
+  $('.nav-link.active').closest('.nav-treeview').parent().addClass('menu-open');
+}
 $(document).ready(function () {
   $('.nav-item.menu-items').each(function() {
     if ($(this).find('ul.sub-menu .active').length) {
@@ -190,5 +193,12 @@ showNotify = function (title, icon, isReload = false) {
         }
       }
     }
+  });
+}
+
+// datatable
+if ($('#dataTable').length) {
+  $('#dataTable').DataTable({
+    'ordering':false
   });
 }

@@ -26,7 +26,7 @@ class PluginSeeder extends Seeder
                 'menu_items' => json_encode([
                     'name' => 'CMS',
                     'url' => null,
-                    'icon' => '<i class="fas fa-book"></i>',
+                    'icon' => 'fas fa-book',
                     'children' => [
                         [
                             'name' => 'Categories',

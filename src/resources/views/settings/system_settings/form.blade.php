@@ -1,4 +1,7 @@
 @extends('packages/core::layouts.admin')
+@section('title')
+    @lang('packages/core::settings.system_settings.title')
+@stop
 @section('content')
     @php
         $label = !empty($systemSetting->id) ? trans('packages/core::common.update') : trans('packages/core::common.create');

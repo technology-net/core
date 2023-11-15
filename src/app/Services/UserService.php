@@ -12,14 +12,11 @@ use Illuminate\Support\Facades\Hash;
 class UserService
 {
     /**
-     * Get user list
-     *
-     * @return LengthAwarePaginator
+     * @return Collection|array
      */
-    public function getUsers(): LengthAwarePaginator
+    public function getUsers(): Collection|array
     {
-        return User::query()->orderBy('created_at', 'desc')
-            ->paginate(config('core.pagination'));
+        return User::query()->orderBy('created_at', 'desc')->get();
     }
 
     /**

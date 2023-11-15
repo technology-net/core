@@ -1,5 +1,5 @@
-<div class="table-responsive table-has-actions table-has-filter ">
-    <div class="form-inline">
+<div class="card">
+    <div class="card-header">
         <a href="{{ route('settings.system_settings.create') }}" class="btn btn-success btn-sm">
             <i class="fas fa-plus"></i>
             {{ trans('packages/core::common.create') }}
@@ -10,19 +10,20 @@
         </button>
     </div>
 
-    <table class="mt-3 table table-bordered table-hover table-striped bg-white">
+    <div class="card-body">
+        <table class="mt-3 table table-bordered table-hover table-striped" id="dataTable">
         <thead>
-        <tr>
-            <th width="3%" class="text-center">
-                <label class="user-checkbox-label">
-                    <input class="input-check-all" type="checkbox">
-                </label>
-            </th>
-            <th>{{ trans('packages/core::settings.system_settings.key') }}</th>
-            <th>{{ trans('packages/core::settings.system_settings.value') }}</th>
-            <th width="10%" class="text-center">{{ trans('packages/core::common.created_at') }}</th>
-            <th width="10%" class="text-center">{{ trans('packages/core::common.operations') }}</th>
-        </tr>
+            <tr>
+                <th width="3%" class="text-center">
+                    <label class="user-checkbox-label">
+                        <input class="input-check-all" type="checkbox">
+                    </label>
+                </th>
+                <th>{{ trans('packages/core::settings.system_settings.key') }}</th>
+                <th>{{ trans('packages/core::settings.system_settings.value') }}</th>
+                <th width="10%" class="text-center">{{ trans('packages/core::common.created_at') }}</th>
+                <th width="10%" class="text-center">{{ trans('packages/core::common.operations') }}</th>
+            </tr>
         </thead>
         <tbody>
         @foreach($systemSettings as $item)
@@ -51,4 +52,5 @@
         @endforeach
         </tbody>
     </table>
+    </div>
 </div>
