@@ -3,6 +3,8 @@
 namespace IBoot\Core\App\Http\Controllers\Settings;
 
 use App\Http\Controllers\Controller;
+use IBoot\CMS\Models\Page;
+use IBoot\CMS\Services\PageService;
 use IBoot\Core\App\Services\MenuService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
@@ -10,9 +12,15 @@ use Illuminate\Http\Request;
 class MenuController extends Controller
 {
     private MenuService $menuService;
+    private PageService $page;
 
-    public function __construct(MenuService $menuService) {
+    public function __construct(
+        MenuService $menuService,
+        PageService $page
+    )
+    {
         $this->menuService = $menuService;
+        $this->page = $page;
     }
 
     /**
@@ -30,5 +38,17 @@ class MenuController extends Controller
         }
 
         return view('packages/core::settings.menus.index', ['menus' => $menus]);
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit($id)
+    {
+        $pages = $this->page->getLists()->where('status', Page::PUBLISHED);
+        $categories = listCategories();
+        $menu = $this->menuService->getById($id);
+
+        return view('packages/core::settings.menus.form', compact('pages', 'menu', 'categories'));
     }
 }

@@ -15,6 +15,7 @@ mix
   .js(resourcesPathJs + 'user.js', publicPath + 'js/user.mix.js').version()
   .js(resourcesPathJs + 'system-settings.js', publicPath + 'js/system-settings.mix.js').version()
   .js(resourcesPathJs + 'jquery.nestable.js', publicPath + 'js/jquery.nestable.mix.js').version()
+  .js(resourcesPathJs + 'menu.js', publicPath + 'js/menu.mix.js').version()
   .js(resourcesPathJs + 'common.js', publicPath + 'js/common.mix.js').version()
   .css(resourcesPathCss + 'plugin.css', publicPath + 'css/plugin.mix.css').version()
   .css(resourcesPathCss + 'media.css', publicPath + 'css/media.mix.css').version()

@@ -23,6 +23,22 @@ img {
     color: #ffffff;
 }
 
+.mb-0 > button {
+    display: block;
+    position: relative;
+}
+/*css charater collapse*/
+.mb-0 > button:after {
+    content: "\f067"; /*<i class="fas fa-plus"></i>*/
+    font-family: "Font Awesome 5 Free";
+    font-weight: 600;
+    position: absolute;
+    right: 0;
+}
+.mb-0 > button[aria-expanded="true"]:after {
+    content: "\f068"; /*<i class="fas fa-minus"></i>*/
+}
+
 /*LOADING*/
 #overlay{
     position: fixed;
@@ -96,4 +112,9 @@ img {
 .note p {
     font-size: 13px;
     margin: 0;
+}
+
+.scroll-y {
+    max-height: 200px;
+    overflow-y: scroll;
 }

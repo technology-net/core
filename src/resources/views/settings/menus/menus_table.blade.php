@@ -19,7 +19,7 @@
                             <input class="input-check-all" name="" type="checkbox">
                         </label>
                     </th>
-                    <th>{{ trans('packages/core::common.name') }}</th>
+                    <th>{{ trans('packages/core::settings.menus.menu_type') }}</th>
                     <th width="10%" class="text-center">{{ trans('packages/core::common.created_at') }}</th>
                     <th width="10%" class="text-center">{{ trans('packages/core::common.operations') }}</th>
                 </tr>
@@ -37,7 +37,7 @@
                         </td>
                         <td class="text-center">{{ $item->created_at }}</td>
                         <td class="text-center">
-                            <a class="btn btn-sm bg-info" href="#">
+                            <a class="btn btn-sm bg-info" href="{{ route('settings.menus.edit', $item->id) }}">
                                 <i class="fas fa-pencil-alt"></i>
                             </a>
                             <button type="button" class="btn btn-sm bg-danger">

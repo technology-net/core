@@ -35,7 +35,7 @@ Route::middleware(['web'])->group(function () {
 
             Route::group(['as' => 'settings.', 'prefix' => 'settings', 'namespace' => 'Settings'], function () {
                 Route::resource('/users', 'UserController')->except(['show', 'store']);
-                Route::resource('/menus', 'MenuController')->only('index');
+                Route::resource('/menus', 'MenuController')->except(['show', 'store']);
                 Route::resource('system_settings', 'SystemSettingController')->except(['show', 'store', 'edit']);
                 Route::post('system_settings/delete-all', 'SystemSettingController@deleteAll')->name('system_settings.deleteAll');
                 Route::post('system_settings/{id}/editable', 'SystemSettingController@editable')->name('system_settings.editable');
