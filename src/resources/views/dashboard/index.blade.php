@@ -1,4 +1,7 @@
 @extends('packages/core::layouts.admin')
+@section('title')
+    @lang('packages/core::common.dashboard')
+@stop
 @section('content')
     @section('breadcrumb')
         @include('packages/core::partial.breadcrumb')

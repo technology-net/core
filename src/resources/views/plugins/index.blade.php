@@ -1,7 +1,10 @@
 @php use IBoot\Core\App\Models\Plugin; @endphp
 @extends('packages/core::layouts.admin')
+@section('title')
+    @lang('packages/core::plugin.plugins')
+@stop
 @section('css')
-    <link rel="stylesheet" href="{{ mix('core/css/plugin.css') }}">
+    <link rel="stylesheet" href="{{ mix('core/css/plugin.mix.css') }}">
 @stop
 @section('content')
     @include('packages/core::partial.breadcrumb', [
@@ -71,5 +74,5 @@
         let route_install_package = "{!! route('plugins.install-packages') !!}"
         let route_uninstall_package = "{!! route('plugins.uninstall-packages') !!}"
     </script>
-    <script type="text/javascript" src="{{ mix('core/js/plugin.js') }}" defer></script>
+    <script type="text/javascript" src="{{ mix('core/js/plugin.mix.js') }}" defer></script>
 @endsection

@@ -27,6 +27,6 @@
     <script type="text/javascript">
       let ROUTE_IDX = "{!! route('settings.users.index') !!}"
     </script>
-    <script type="text/javascript" src="{{ mix('core/js/user.js') }}" defer></script>
+    <script type="text/javascript" src="{{ mix('core/js/user.mix.js') }}" defer></script>
     <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
 @endsection

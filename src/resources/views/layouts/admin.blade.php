@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="{{ mix('core/plugins/sweet-alert/sweetalert2.min.css') }}">
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ mix('core/dist/css/adminlte.min.css') }}">
-    <link rel="stylesheet" href="{{ mix('core/css/custom.css') }}">
+    <link rel="stylesheet" href="{{ mix('core/css/custom.mix.css') }}">
     <link rel="shortcut icon" href="{{ mix('core/images/favicon.ico') }}" />
     @yield('css')
     @yield('media-css')
@@ -61,8 +61,8 @@
     <script src="{{ mix('core/dist/js/adminlte.min.js') }}"></script>
     <!-- sweetalert2 -->
     <script src="{{ mix('core/plugins/sweet-alert/sweetalert2.all.min.js') }}"></script>
-    <script type="text/javascript" src="{{ mix('core/js/validate.js') }}" defer></script>
-    <script type="text/javascript" src="{{ mix('core/js/common.js') }}" defer></script>
+    <script type="text/javascript" src="{{ mix('core/js/validate.mix.js') }}" defer></script>
+    <script type="text/javascript" src="{{ mix('core/js/common.mix.js') }}" defer></script>
     @yield('js')
     @yield('media-js')
 </body>

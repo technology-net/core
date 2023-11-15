@@ -33,10 +33,9 @@
     <script src="{{ mix('core/dist/js/adminlte.min.js') }}"></script>
     <!-- sweetalert2 -->
     <script src="{{ mix('core/plugins/sweet-alert/sweetalert2.all.min.js') }}"></script>
-    <script type="text/javascript" src="{{ mix('core/js/validate.js') }}" defer></script>
-    <script type="text/javascript" src="{{ mix('core/js/login.js') }}" defer></script>
-
-    <script type="text/javascript" src="{{ mix('core/js/common.js') }}" defer></script>
+    <script type="text/javascript" src="{{ mix('core/js/login.mix.js') }}" defer></script>
+    <script type="text/javascript" src="{{ mix('core/js/validate.mix.js') }}" defer></script>
+    <script type="text/javascript" src="{{ mix('core/js/common.mix.js') }}" defer></script>
     @yield('js')
 </body>
 </html>

@@ -1,4 +1,7 @@
 @extends('packages/core::layouts.admin')
+@section('title')
+    @lang('packages/core::common.media.title')
+@stop
 @section('content')
     @include('packages/core::partial.breadcrumb', [
         'breadcrumbs' => [
@@ -7,7 +10,7 @@
                 'url' => '#',
             ],
             [
-                'label' => 'Media',
+                'label' => trans('packages/core::common.media.title'),
                 'url' => null,
             ]
         ]

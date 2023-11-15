@@ -1,5 +1,5 @@
 @section('media-css')
-    <link href="{{ mix('core/css/media.css') }}" rel="stylesheet"/>
+    <link href="{{ mix('core/css/media.mix.css') }}" rel="stylesheet"/>
 {{--    <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css"/>--}}
 @endsection
 
@@ -101,5 +101,5 @@
         let UPLOAD_FILE_URL = "{!! route('media.upload-files') !!}";
     </script>
 {{--    <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>--}}
-    <script type="text/javascript" src="{{ mix('core/js/media.js') }}" defer></script>
+    <script type="text/javascript" src="{{ mix('core/js/media.mix.js') }}" defer></script>
 @endsection
