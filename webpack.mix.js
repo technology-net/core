@@ -19,6 +19,7 @@ mix
   .js(resourcesPathJs + 'common.js', publicPath + 'js/common.mix.js').version()
   .css(resourcesPathCss + 'plugin.css', publicPath + 'css/plugin.mix.css').version()
   .css(resourcesPathCss + 'media.css', publicPath + 'css/media.mix.css').version()
+  .css(resourcesPathCss + 'nestable.css', publicPath + 'css/nestable.mix.css').version()
   .css(resourcesPathCss + 'custom.css', publicPath + 'css/custom.mix.css').version()
   .copy(dir + '/src/resources/assets/images', publicPath + '/images')
   .copy(resourcesPathPlugins, publicPath + '/plugins')

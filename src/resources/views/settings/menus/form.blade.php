@@ -5,6 +5,9 @@
 @section('title')
     @lang('packages/core::settings.menus.title')
 @stop
+@section('css')
+    <link href="{{ mix('core/css/nestable.mix.css') }}" rel="stylesheet"/>
+@endsection
 @section('content')
     @include('packages/core::partial.breadcrumb', [
         'breadcrumbs' => [
@@ -33,62 +36,90 @@
                     <div class="col-md-4">
                         <div class="row">
                             <div class="form-group col-md-12">
-                                <label for="menu_type" class="control-label required" aria-required="true">
+                                <label for="{{ trans('packages/core::settings.menus.menu_type') }}" class="control-label required" aria-required="true">
                                     {{ trans('packages/core::settings.menus.menu_type') }}
                                     <strong class="text-required text-danger">*</strong>
                                 </label>
-                                <input class="form-control" autocomplete="off" label="Username" validate="true"
-                                       validate-pattern="required" name="username" type="text" placeholder="{{ trans('packages/core::settings.menus.menu_type') }}"
-                                       value="{{ old('menu_type', $menu->menu_type ?? null) }}" id="menu_type">
+                                <input class="form-control" autocomplete="off" label="{{ trans('packages/core::settings.menus.menu_type') }}" validate="true"
+                                       validate-pattern="required" name="menu_type" type="text" placeholder="{{ trans('packages/core::settings.menus.menu_type') }}"
+                                       value="{{ old('menu_type', $menu->menu_type ?? null) }}">
                                 <div id="error_menu_type"></div>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="accordion" id="accordionExample">
-                                    <div class="card">
-                                        <div class="card-header" id="headingPage">
-                                            <h2 class="mb-0">
-                                                <button class="btn btn-link btn-block btn-collapsed text-left" type="button" data-toggle="collapse" data-target="#collapsePage" aria-expanded="{{$pages->isNotEmpty()?'true':'false'}}" aria-controls="collapsePage">
-                                                    {{ trans('plugin/cms::cms.page.screen') }}
-                                                </button>
-                                            </h2>
+                                <div class="border p-3 mt-3">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <label for="{{ trans('packages/core::common.name') }}" class="control-label required" aria-required="true">
+                                                {{ trans('packages/core::common.name') }}
+                                                <strong class="text-required text-danger">*</strong>
+                                            </label>
+                                            <input class="form-control" autocomplete="off" label="{{ trans('packages/core::common.name') }}" validate="true"
+                                                   validate-pattern="required" type="text" placeholder="{{ trans('packages/core::common.name') }}"
+                                                   value="" id="menu-item-name">
+                                            <div id="error_name"></div>
                                         </div>
-
-                                        <div id="collapsePage" class="collapse @if($pages->isNotEmpty()) show @endif" aria-labelledby="headingPage" data-parent="#accordionExample">
-                                            <div class="card-body">
-                                                <ul class="list-group @if($pages->count() > 8) scroll-y @endif">
-                                                    @foreach($pages as $item)
-                                                        <li class="list-group-item p-2 my-1 border">{{ $item->title }}</li>
-                                                    @endforeach
-                                                </ul>
-                                            </div>
+                                        <div class="col-md-12">
+                                            <label for="{{ trans('packages/core::common.url') }}" class="control-label">
+                                                {{ trans('packages/core::common.url') }}
+                                            </label>
+                                            <input class="form-control" autocomplete="off" label="{{ trans('packages/core::common.url') }}"
+                                                   type="text" placeholder="{{ trans('packages/core::common.url') }}" value="" id="menu-item-url">
+                                        </div>
+                                        <div class="col-md-12">
+                                            <label for="{{ trans('packages/core::common.icon') }}" class="control-label">
+                                                {{ trans('packages/core::common.icon') }}
+                                            </label>
+                                            <input class="form-control" autocomplete="off" label="{{ trans('packages/core::common.icon') }}"
+                                                   type="text" placeholder="{{ trans('packages/core::common.icon') }}" value="" id="menu-item-icon">
                                         </div>
                                     </div>
-                                    <div class="card">
-                                        <div class="card-header" id="headingCategory">
-                                            <h2 class="mb-0">
-                                                <button class="btn btn-link btn-block btn-collapsed text-left" type="button" data-toggle="collapse" data-target="#collapseCategory" aria-expanded="false" aria-controls="collapseCategory">
-                                                    {{ trans('plugin/cms::cms.category.screen') }}
-                                                </button>
-                                            </h2>
-                                        </div>
 
-                                        <div id="collapseCategory" class="collapse" aria-labelledby="headingCategory" data-parent="#accordionExample">
-                                            <div class="card-body">
-                                                <ul class="list-group @if($categories->count() > 8) scroll-y @endif">
-                                                    @foreach($categories as $item)
-                                                        <li class="list-group-item p-2 my-1 border">{{ $item->name }}</li>
-                                                    @endforeach
-                                                </ul>
-                                            </div>
-                                        </div>
+                                    <div class="text-right mt-3">
+                                        <button type="button" class="btn btn-primary btn-sm" id="add-item">
+                                            <i class="fas fa-plus"></i>
+                                            Add Item
+                                        </button>
                                     </div>
                                 </div>
                             </div>
+
                         </div>
                     </div>
                     <div class="col-md-8">
                         <div class="row">
-
+                            <div class="form-group col-md-12">
+                                <label for="@lang('packages/core::settings.menu_item.title')" class="control-label">
+                                    {{ trans('packages/core::settings.menu_item.title') }}
+                                </label>
+                                <div class="dd" id="nestable">
+                                    <ol class="dd-list @if($menuItems->count() > 11) scroll-y @endif">
+                                        @foreach($menuItems as $item)
+                                            <li class="dd-item" data-id="{{ $item->id }}">
+                                                <div class="dd-handle form-control">{{ $item->name }}</div>
+                                                <span class="button-delete btn btn-danger btn-sm">
+                                                <i class="fas fa-times" aria-hidden="true"></i>
+                                                </span>
+                                                    <span class="button-edit btn btn-success btn-sm">
+                                                    <i class="fas fa-pencil-alt" aria-hidden="true"></i>
+                                                </span>
+                                                @if($item->children->isNotEmpty())
+                                                    <ol class="dd-list" is-child="true">
+                                                        @foreach($item->children as $child)
+                                                            <li class="dd-item" data-id="{{ $child->id }}">
+                                                                <div class="dd-handle form-control">{{ $child->name }}</div>
+                                                                <span class="button-delete btn btn-danger btn-sm">
+                                                                    <i class="fas fa-times" aria-hidden="true"></i>
+                                                                </span>
+                                                                <span class="button-edit btn btn-success btn-sm">
+                                                                    <i class="fas fa-pencil-alt" aria-hidden="true"></i>
+                                                                </span>
+                                                            </li>
+                                                        @endforeach
+                                                    </ol>
+                                                @endif
+                                            </li>
+                                        @endforeach
+                                    </ol>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -15,6 +15,8 @@ return [
     'created_at' => 'Created At',
     'status' => 'Status',
     'operations' => 'Operations',
+    'url' => 'URL',
+    'icon' => 'Icon',
     'media' => [
         'title' => 'Media Gallery'
     ]

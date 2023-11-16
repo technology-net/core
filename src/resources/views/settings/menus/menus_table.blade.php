@@ -33,7 +33,7 @@
                             </label>
                         </td>
                         <td>
-                            <a href="#">{{ $item->menu_type }}</a>
+                            <a href="{{ route('settings.menus.edit', $item->id) }}">{{ $item->menu_type }}</a>
                         </td>
                         <td class="text-center">{{ $item->created_at }}</td>
                         <td class="text-center">
