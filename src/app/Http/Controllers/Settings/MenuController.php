@@ -44,13 +44,25 @@ class MenuController extends Controller
         return view('packages/core::settings.menus.index', ['menus' => $menus]);
     }
 
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        return view('packages/core::settings.menus.form');
+    }
+
     /**
      * Show the form for editing the specified resource.
      */
     public function edit($id)
     {
-        $menuItems = $this->menuItemService->getLists()->whereNull('parent_id');
         $menu = $this->menuService->getById($id);
+        $menuItems = $this->menuItemService
+                ->getLists()
+                ->where('menu_id', $id)
+                ->whereNull('parent_id');
 
         return view('packages/core::settings.menus.form', compact('menu', 'menuItems'));
     }
@@ -65,11 +77,52 @@ class MenuController extends Controller
             $this->menuService->createOrUpdateMenus($id, $request->all());
             DB::commit();
 
-            return responseSuccess(null, trans('plugin/cms::messages.save_success'));
+            return responseSuccess(null, trans('packages/core::messages.save_success'));
         } catch (Exception $e) {
             DB::rollback();
             Log::error($e->getMessage(), ['file' => __FILE__, 'line' => __LINE__]);
-            throw new ServerErrorException(null, trans('plugin/cms::messages.action_error'));
+            throw new ServerErrorException(null, trans('packages/core::messages.action_error'));
+        }
+    }
+
+    /**
+     * @param string $id
+     * @return JsonResponse
+     * @throws ServerErrorException
+     */
+    public function destroy(string $id): JsonResponse
+    {
+        DB::beginTransaction();
+        try {
+            $this->menuService->deleteById($id);
+            DB::commit();
+
+            return responseSuccess(null, trans('packages/core::messages.delete_success'));
+        } catch (Exception $e) {
+            DB::rollback();
+            Log::error($e->getMessage(), ['file' => __FILE__, 'line' => __LINE__]);
+            throw new ServerErrorException(null, trans('packages/core::messages.action_error'));
+        }
+    }
+
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     * @throws ServerErrorException
+     */
+    public function deleteAll(Request $request): JsonResponse
+    {
+        $ids = $request->ids;
+        DB::beginTransaction();
+        try {
+            $this->menuService->deleteAllById($ids);
+            DB::commit();
+
+            return responseSuccess(null, trans('packages/core::messages.delete_success'));
+        } catch (Exception $e) {
+            DB::rollback();
+            Log::error($e->getMessage(), ['file' => __FILE__, 'line' => __LINE__]);
+            throw new ServerErrorException(null, trans('packages/core::messages.action_error'));
         }
     }
 }

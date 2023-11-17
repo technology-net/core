@@ -1,10 +1,10 @@
 <div class="card">
     <div class="card-header">
-        <a href="#" class="btn btn-success btn-sm">
+        <a href="{{ route('settings.menus.create') }}" class="btn btn-success btn-sm">
             <i class="fas fa-plus"></i>
             {{ trans('packages/core::common.create') }}
         </a>
-        <button class="btn btn-sm bg-danger delete-all d-none ml-2" title="Delete" role="button" data-url="">
+        <button class="btn btn-sm bg-danger delete-all d-none ml-2" title="Delete" role="button" data-url="{{ route('settings.menus.deleteAll') }}">
             <i class="fas fa-trash"></i>
             {{ trans('packages/core::common.delete') }}
         </button>
@@ -40,7 +40,7 @@
                             <a class="btn btn-sm bg-info" href="{{ route('settings.menus.edit', $item->id) }}">
                                 <i class="fas fa-pencil-alt"></i>
                             </a>
-                            <button type="button" class="btn btn-sm bg-danger">
+                            <button type="button" class="btn btn-sm bg-danger btn-delete" data-url="{{ route('settings.menus.destroy', $item->id) }}">
                                 <i class="fas fa-trash"></i>
                             </button>
                         </td>

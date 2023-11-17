@@ -94,37 +94,39 @@
                                     {{ trans('packages/core::settings.menu_item.title') }}
                                 </label>
                                 <div class="dd" id="nestable">
-                                    <ol class="dd-list @if($menuItems->count() > 11) scroll-y @endif">
-                                        @foreach($menuItems as $item)
-                                            <li class="dd-item" data-id="{{ $item->id }}" data-name="{{ $item->name }}" data-url="{{ $item->url }}" data-icon="{{ $item->icon }}">
-                                                <div class="dd-handle form-control">{{ $item->name }}</div>
-                                                <div class="input-group-append dd-item-group">
-                                                    <span class="input-group-text btn btn-danger button-delete">
-                                                        <i class="fas fa-times" aria-hidden="true"></i>
-                                                    </span>
-                                                    <span class="input-group-text btn btn-info button-edit">
-                                                        <i class="fas fa-pencil-alt" aria-hidden="true"></i>
-                                                    </span>
-                                                </div>
-                                                @if($item->children->isNotEmpty())
-                                                    <ol class="dd-list" is-child="true">
-                                                        @foreach($item->children as $child)
-                                                            <li class="dd-item" data-id="{{ $child->id }}" data-name="{{ $child->name }}" data-url="{{ $child->url }}" data-icon="{{ $child->icon }}">
-                                                                <div class="dd-handle form-control">{{ $child->name }}</div>
-                                                                <div class="input-group-append dd-item-group">
-                                                                    <span class="input-group-text btn btn-danger button-delete">
-                                                                        <i class="fas fa-times" aria-hidden="true"></i>
-                                                                    </span>
-                                                                    <span class="input-group-text btn btn-info button-edit">
-                                                                        <i class="fas fa-pencil-alt" aria-hidden="true"></i>
-                                                                    </span>
-                                                                </div>
-                                                            </li>
-                                                        @endforeach
-                                                    </ol>
-                                                @endif
-                                            </li>
-                                        @endforeach
+                                    <ol class="dd-list @if(!empty($menuItems) && $menuItems->count() > 11) scroll-y @endif">
+                                        @if(!empty($menuItems))
+                                            @foreach($menuItems as $item)
+                                                <li class="dd-item" data-id="{{ $item->id }}" data-name="{{ $item->name }}" data-url="{{ $item->url }}" data-icon="{{ $item->icon }}">
+                                                    <div class="dd-handle form-control">{{ $item->name }}</div>
+                                                    <div class="input-group-append dd-item-group">
+                                                        <span class="input-group-text btn btn-danger button-delete">
+                                                            <i class="fas fa-times" aria-hidden="true"></i>
+                                                        </span>
+                                                        <span class="input-group-text btn btn-info button-edit">
+                                                            <i class="fas fa-pencil-alt" aria-hidden="true"></i>
+                                                        </span>
+                                                    </div>
+                                                    @if($item->children->isNotEmpty())
+                                                        <ol class="dd-list" is-child="true">
+                                                            @foreach($item->children as $child)
+                                                                <li class="dd-item" data-id="{{ $child->id }}" data-name="{{ $child->name }}" data-url="{{ $child->url }}" data-icon="{{ $child->icon }}">
+                                                                    <div class="dd-handle form-control">{{ $child->name }}</div>
+                                                                    <div class="input-group-append dd-item-group">
+                                                                        <span class="input-group-text btn btn-danger button-delete">
+                                                                            <i class="fas fa-times" aria-hidden="true"></i>
+                                                                        </span>
+                                                                        <span class="input-group-text btn btn-info button-edit">
+                                                                            <i class="fas fa-pencil-alt" aria-hidden="true"></i>
+                                                                        </span>
+                                                                    </div>
+                                                                </li>
+                                                            @endforeach
+                                                        </ol>
+                                                    @endif
+                                                </li>
+                                            @endforeach
+                                        @endif
                                     </ol>
                                 </div>
                             </div>

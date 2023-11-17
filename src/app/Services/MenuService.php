@@ -43,11 +43,29 @@ class MenuService
             ['id' => $id],
             $inputs
         );
-        MenuItem::query()->delete();
+        MenuItem::query()->where('menu_id', $id)->delete();
         $arrayMenuItems = json_decode($menuItems, true);
         $this->saveMenuItems($menu->id, $arrayMenuItems);
 
         return $menu;
+    }
+
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function deleteById($id): mixed
+    {
+        return Menu::query()->where('id', $id)->delete();
+    }
+
+    /**
+     * @param $ids
+     * @return mixed
+     */
+    public function deleteAllById($ids): mixed
+    {
+        return Menu::deleteByIds($ids);
     }
 
     /**
