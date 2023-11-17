@@ -73,9 +73,13 @@
                                     </div>
 
                                     <div class="text-right mt-3">
+                                        <button type="button" class="btn btn-secondary btn-sm" id="reset-item">
+                                            <i class="fas fa-sync-alt"></i>
+                                            {{ trans('packages/core::common.reset') }}
+                                        </button>
                                         <button type="button" class="btn btn-primary btn-sm" id="add-item">
                                             <i class="fas fa-plus"></i>
-                                            Add Item
+                                            {{ trans('packages/core::settings.menu_item.add') }}
                                         </button>
                                     </div>
                                 </div>
@@ -105,7 +109,7 @@
                                                 @if($item->children->isNotEmpty())
                                                     <ol class="dd-list" is-child="true">
                                                         @foreach($item->children as $child)
-                                                            <li class="dd-item" data-id="{{ $child->id }}" data-name="{{ $child->id }}" data-url="{{ $child->url }}" data-icon="{{ $child->icon }}">
+                                                            <li class="dd-item" data-id="{{ $child->id }}" data-name="{{ $child->name }}" data-url="{{ $child->url }}" data-icon="{{ $child->icon }}">
                                                                 <div class="dd-handle form-control">{{ $child->name }}</div>
                                                                 <div class="input-group-append dd-item-group">
                                                                     <span class="input-group-text btn btn-danger button-delete">
@@ -146,7 +150,6 @@
     </div>
 @endsection
 @section('js')
-    <script type="text/javascript" src="{{ mix('cms/js/create-common.mix.js') }}"></script>
     <script type="text/javascript" src="{{ mix('core/js/jquery.nestable.mix.js') }}"></script>
     <script type="text/javascript" src="{{ mix('core/js/menu.mix.js') }}"></script>
     <script type="text/javascript">

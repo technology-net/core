@@ -17,6 +17,7 @@ return [
     'operations' => 'Operations',
     'url' => 'URL',
     'icon' => 'Icon',
+    'reset' => 'Reset',
     'media' => [
         'title' => 'Media Gallery'
     ]

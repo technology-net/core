@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('name')->unique();
             $table->integer('parent_id')->nullable();
             $table->string('url')->nullable();
-            $table->integer('order')->unique();
+            $table->integer('order')->nullable();
             $table->string('icon')->nullable();
             $table->timestamps();
         });
