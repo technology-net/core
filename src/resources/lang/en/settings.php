@@ -8,6 +8,8 @@ return [
     ],
     'menu_item' => [
         'title' => 'Menu Item',
+        'add' => 'Add Item',
+        'edit' => 'Edit Item',
     ],
     'system_settings' => [
         'title' => 'System Setting',

@@ -51,7 +51,7 @@
                                                 {{ trans('packages/core::common.name') }}
                                                 <strong class="text-required text-danger">*</strong>
                                             </label>
-                                            <input class="form-control" autocomplete="off" label="{{ trans('packages/core::common.name') }}" validate="true"
+                                            <input class="form-control" autocomplete="off" label="name" validate="true"
                                                    validate-pattern="required" type="text" placeholder="{{ trans('packages/core::common.name') }}"
                                                    value="" id="menu-item-name">
                                             <div id="error_name"></div>
@@ -92,25 +92,29 @@
                                 <div class="dd" id="nestable">
                                     <ol class="dd-list @if($menuItems->count() > 11) scroll-y @endif">
                                         @foreach($menuItems as $item)
-                                            <li class="dd-item" data-id="{{ $item->id }}">
+                                            <li class="dd-item" data-id="{{ $item->id }}" data-name="{{ $item->name }}" data-url="{{ $item->url }}" data-icon="{{ $item->icon }}">
                                                 <div class="dd-handle form-control">{{ $item->name }}</div>
-                                                <span class="button-delete btn btn-danger btn-sm">
-                                                <i class="fas fa-times" aria-hidden="true"></i>
-                                                </span>
-                                                    <span class="button-edit btn btn-success btn-sm">
-                                                    <i class="fas fa-pencil-alt" aria-hidden="true"></i>
-                                                </span>
+                                                <div class="input-group-append dd-item-group">
+                                                    <span class="input-group-text btn btn-danger button-delete">
+                                                        <i class="fas fa-times" aria-hidden="true"></i>
+                                                    </span>
+                                                    <span class="input-group-text btn btn-info button-edit">
+                                                        <i class="fas fa-pencil-alt" aria-hidden="true"></i>
+                                                    </span>
+                                                </div>
                                                 @if($item->children->isNotEmpty())
                                                     <ol class="dd-list" is-child="true">
                                                         @foreach($item->children as $child)
-                                                            <li class="dd-item" data-id="{{ $child->id }}">
+                                                            <li class="dd-item" data-id="{{ $child->id }}" data-name="{{ $child->id }}" data-url="{{ $child->url }}" data-icon="{{ $child->icon }}">
                                                                 <div class="dd-handle form-control">{{ $child->name }}</div>
-                                                                <span class="button-delete btn btn-danger btn-sm">
-                                                                    <i class="fas fa-times" aria-hidden="true"></i>
-                                                                </span>
-                                                                <span class="button-edit btn btn-success btn-sm">
-                                                                    <i class="fas fa-pencil-alt" aria-hidden="true"></i>
-                                                                </span>
+                                                                <div class="input-group-append dd-item-group">
+                                                                    <span class="input-group-text btn btn-danger button-delete">
+                                                                        <i class="fas fa-times" aria-hidden="true"></i>
+                                                                    </span>
+                                                                    <span class="input-group-text btn btn-info button-edit">
+                                                                        <i class="fas fa-pencil-alt" aria-hidden="true"></i>
+                                                                    </span>
+                                                                </div>
                                                             </li>
                                                         @endforeach
                                                     </ol>
@@ -146,6 +150,8 @@
     <script type="text/javascript" src="{{ mix('core/js/jquery.nestable.mix.js') }}"></script>
     <script type="text/javascript" src="{{ mix('core/js/menu.mix.js') }}"></script>
     <script type="text/javascript">
-        let ROUTE_IDX = "{!! route('settings.menus.index') !!}"
+        let ROUTE_IDX = "{!! route('settings.menus.index') !!}";
+        let TEXT_ADD_ITEM = "<i class='fas fa-plus'></i> {{ trans('packages/core::settings.menu_item.add') }}";
+        let TEXT_EDIT_ITEM = "<i class='fas fa-pencil-alt'></i> {{ trans('packages/core::settings.menu_item.edit') }}";
     </script>
 @endsection
