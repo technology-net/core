@@ -4,7 +4,6 @@ namespace IBoot\Core\App\Http\Controllers\Settings;
 
 use App\Http\Controllers\Controller;
 use IBoot\Core\App\Exceptions\ServerErrorException;
-use IBoot\Core\App\Http\Requests\SystemSettingRequest;
 use IBoot\Core\App\Http\Requests\User\UserRequest;
 use IBoot\Core\App\Services\UserService;
 use Illuminate\Contracts\View\Factory;

@@ -4,10 +4,21 @@ namespace IBoot\Core\App\Services;
 
 use IBoot\Core\App\Models\MenuItem;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
 class MenuItemService
 {
+    /**
+     * @return Collection|array
+     */
+    public function getLists(): Collection|array
+    {
+        return MenuItem::query()
+            ->with('children')
+            ->orderBy('order')
+            ->get();
+    }
     /**
      * Get max order now in menu items table
      *

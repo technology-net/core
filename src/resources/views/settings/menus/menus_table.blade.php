@@ -1,10 +1,10 @@
 <div class="card">
     <div class="card-header">
-        <a href="#" class="btn btn-success btn-sm">
+        <a href="{{ route('settings.menus.create') }}" class="btn btn-success btn-sm">
             <i class="fas fa-plus"></i>
             {{ trans('packages/core::common.create') }}
         </a>
-        <button class="btn btn-sm bg-danger delete-all d-none ml-2" title="Delete" role="button" data-url="">
+        <button class="btn btn-sm bg-danger delete-all d-none ml-2" title="Delete" role="button" data-url="{{ route('settings.menus.deleteAll') }}">
             <i class="fas fa-trash"></i>
             {{ trans('packages/core::common.delete') }}
         </button>
@@ -19,7 +19,7 @@
                             <input class="input-check-all" name="" type="checkbox">
                         </label>
                     </th>
-                    <th>{{ trans('packages/core::common.name') }}</th>
+                    <th>{{ trans('packages/core::settings.menus.menu_type') }}</th>
                     <th width="10%" class="text-center">{{ trans('packages/core::common.created_at') }}</th>
                     <th width="10%" class="text-center">{{ trans('packages/core::common.operations') }}</th>
                 </tr>
@@ -33,14 +33,14 @@
                             </label>
                         </td>
                         <td>
-                            <a href="#">{{ $item->menu_type }}</a>
+                            <a href="{{ route('settings.menus.edit', $item->id) }}">{{ $item->menu_type }}</a>
                         </td>
                         <td class="text-center">{{ $item->created_at }}</td>
                         <td class="text-center">
-                            <a class="btn btn-sm bg-info" href="#">
+                            <a class="btn btn-sm bg-info" href="{{ route('settings.menus.edit', $item->id) }}">
                                 <i class="fas fa-pencil-alt"></i>
                             </a>
-                            <button type="button" class="btn btn-sm bg-danger">
+                            <button type="button" class="btn btn-sm bg-danger btn-delete" data-url="{{ route('settings.menus.destroy', $item->id) }}">
                                 <i class="fas fa-trash"></i>
                             </button>
                         </td>

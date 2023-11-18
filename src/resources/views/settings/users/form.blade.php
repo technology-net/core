@@ -23,9 +23,7 @@
         ]
     ])
     <div class="clearfix"></div>
-    <div class="mx-1">
-        @include('packages/core::partial.note', ['text' => trans('packages/core::messages.note', ['field' => $label])])
-    </div>
+    @include('packages/core::partial.note', ['text' => trans('packages/core::messages.note', ['field' => $label])])
     <div class="form-create-user">
         <form method="POST" action="{{ route('settings.users.update', $user->id ?? 0) }}" id="submitFormUser">
             @csrf
