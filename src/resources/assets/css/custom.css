@@ -1,0 +1,99 @@
+img {
+    max-width: 100%;
+}
+
+.table td, .table th {
+    vertical-align: middle;
+}
+
+.user-checkbox-label {
+    margin: auto !important;
+}
+
+.active-item {
+    border: solid 2px #0090e7 !important;
+}
+
+.active-item .icon-check {
+    display: block !important;
+}
+
+.active-item .folder-name {
+    background: #0090e7;
+    color: #ffffff;
+}
+
+/*LOADING*/
+#overlay{
+    position: fixed;
+    top: 0;
+    z-index: 1051;
+    width: 100%;
+    height:100%;
+    display: none;
+    background: rgba(0,0,0,0.6);
+}
+
+.cv-spinner {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px #ddd solid;
+    border-top: 4px #2e93e6 solid;
+    border-radius: 50%;
+    animation: sp-anime 0.8s infinite linear;
+}
+
+@keyframes sp-anime {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.is-hide{
+    display:none;
+}
+
+.preview-image {
+    position: relative;
+    width: 100px;
+    border: 1px solid #dddddd;
+}
+
+.preview-image .remove-preview {
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 24px;
+    color: #0090e7;
+    cursor: pointer;
+    display: none;
+}
+
+.note.note-success {
+    background-color: #c0edf1;
+    border-color: #58d0da;
+    color: #111;
+}
+
+.note {
+    border-left: 5px solid #eee;
+    border-radius: 0 4px 4px 0;
+    margin: 0 0 20px;
+    padding: 15px 30px 15px 15px;
+}
+
+.note p:last-child {
+    margin-bottom: 0;
+}
+
+.note p {
+    font-size: 13px;
+    margin: 0;
+}

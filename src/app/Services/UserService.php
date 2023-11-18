@@ -12,28 +12,11 @@ use Illuminate\Support\Facades\Hash;
 class UserService
 {
     /**
-     * Get user list
-     *
-     * @return LengthAwarePaginator
+     * @return Collection|array
      */
-    public function getUsers(): LengthAwarePaginator
+    public function getUsers(): Collection|array
     {
-        return User::query()->orderBy('created_at', 'desc')
-            ->paginate(config('core.pagination'));
-    }
-
-    /**
-     * Create a new user
-     *
-     * @param array $input
-     * @return Model
-     */
-    public function newUser(array $input = []): Model
-    {
-        $input['password'] = Hash::make('password');
-        $input['status'] = User::STATUS_ACTIVATED;
-
-        return User::query()->create($input);
+        return User::query()->orderBy('created_at', 'desc')->get();
     }
 
     /**
@@ -48,15 +31,18 @@ class UserService
     }
 
     /**
-     * Update a user
-     *
-     * @param int $id
-     * @param array $input
-     * @return mixed
+     * @param $id
+     * @param array $inputs
+     * @return Model|Builder
      */
-    public function updateUser(int $id, array $input = []): mixed
+    public function createOrUpdateUser($id, array $inputs = array()): Model|Builder
     {
-        return $this->findUserById($id)->update($input);
+        $inputs['password'] = Hash::make(config('core.password_default'));
+
+        return User::query()->updateOrCreate(
+            ['id' => $id],
+            $inputs
+        );
     }
 
     /**

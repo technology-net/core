@@ -23,7 +23,6 @@ return new class extends Migration
             $table->integer('parent_id')->nullable()->index();
             $table->boolean('is_directory')->default(false);
             $table->unsignedBigInteger('size')->nullable();
-            $table->integer('sequence')->default(1);
             $table->timestamps();
         });
     }

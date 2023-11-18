@@ -4,6 +4,7 @@ namespace IBoot\Core\App\Http\Controllers\Settings;
 
 use App\Http\Controllers\Controller;
 use IBoot\Core\App\Exceptions\ServerErrorException;
+use IBoot\Core\App\Http\Requests\SystemSettingRequest;
 use IBoot\Core\App\Http\Requests\User\UserRequest;
 use IBoot\Core\App\Services\UserService;
 use Illuminate\Contracts\View\Factory;
@@ -11,6 +12,9 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Exception;
 
 class UserController extends Controller
 {
@@ -44,24 +48,7 @@ class UserController extends Controller
      */
     public function create(): View
     {
-        return view('packages/core::settings.users.create');
-    }
-
-    /**
-     * Create a new user
-     *
-     * @param UserRequest $request
-     * @return JsonResponse
-     * @throws ServerErrorException
-     */
-    public function store(UserRequest $request): JsonResponse
-    {
-        $user = $this->userService->newUser($request->validated());
-        if (!$user) {
-            throw new ServerErrorException(null, trans('packages/core::messages.create_user_fail'));
-        }
-
-        return responseSuccess(null, trans('packages/core::messages.create_user_success'));
+        return view('packages/core::settings.users.form');
     }
 
     /**
@@ -74,27 +61,29 @@ class UserController extends Controller
     {
         $user = $this->userService->showUser($id);
 
-        return view('packages/core::settings.users.detail', ['user' => $user]);
+        return view('packages/core::settings.users.form', ['user' => $user]);
     }
 
     /**
-     * Update a user
-     *
      * @param UserRequest $request
-     * @param int $id
+     * @param string $id
      * @return JsonResponse
      * @throws ServerErrorException
      */
-    public function update(UserRequest $request, int $id): JsonResponse
+    public function update(UserRequest $request, string $id): JsonResponse
     {
-        $user = $this->userService->updateUser($id, $request->all());
-        if (!$user) {
-            throw new ServerErrorException(null, trans('packages/core::messages.update_user_fail'));
+        DB::beginTransaction();
+        try {
+            $this->userService->createOrUpdateUser($id, $request->all());
+            DB::commit();
+
+            return responseSuccess(null, trans('packages/core::messages.save_success'));
+        } catch (Exception $e) {
+            DB::rollback();
+            Log::error($e->getMessage(), ['file' => __FILE__, 'line' => __LINE__]);
+            throw new ServerErrorException(null, trans('packages/core::messages.action_error'));
         }
-
-        return responseSuccess(null, trans('packages/core::messages.update_user_success'));
     }
-
 
     /**
      * Delete a user

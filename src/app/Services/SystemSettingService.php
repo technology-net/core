@@ -49,6 +49,15 @@ class SystemSettingService
     }
 
     /**
+     * @param $ids
+     * @return mixed
+     */
+    public function deleteAllById($ids): mixed
+    {
+        return SystemSetting::deleteByIds($ids);
+    }
+
+    /**
      * @param $id
      * @return Model|Collection|Builder|array|null
      */

@@ -1,5 +1,9 @@
 @extends('packages/core::layouts.admin')
+@section('title')
+    @lang('packages/core::common.dashboard')
+@stop
 @section('content')
-    @include('packages/core::partial.breadcrumb')
-    <div class="clearfix"></div>
+    @section('breadcrumb')
+        @include('packages/core::partial.breadcrumb')
+    @stop
 @endsection

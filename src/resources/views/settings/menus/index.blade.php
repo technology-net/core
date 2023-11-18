@@ -1,7 +1,10 @@
 @extends('packages/core::layouts.admin')
+@section('title')
+    @lang('packages/core::settings.menus.title')
+@stop
 @section('css')
-    <link href="{{ mix('core/css/user.css') }}" rel="stylesheet"/>
-@endsection
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
+@stop
 @section('content')
     @include('packages/core::partial.breadcrumb', [
         'breadcrumbs' => [
@@ -19,7 +22,8 @@
     <div class="table-wrapper" id="menus-table">
         @include('packages/core::settings.menus.menus_table')
     </div>
-    @include('packages/core::settings.media.include._modal-open-media')
+    @include('packages/core::medias.include._modal-open-media')
 @endsection
 @section('js')
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
 @endsection

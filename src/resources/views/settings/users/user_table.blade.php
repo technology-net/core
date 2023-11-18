@@ -1,84 +1,58 @@
-<div class="table-responsive table-has-actions table-has-filter ">
-    <div id="" class="form-inline no-footer">
-        <div class="btn-group flex-wrap float-end">
-            <a href="{{ route('settings.users.create') }}" class="btn btn-success">
-                <span class="mdi mdi-plus"></span>
-                {{ trans('packages/core::common.create') }}
-            </a>
-        </div>
+<div class="card">
+    <div class="card-header">
+        <a href="{{ route('settings.users.create') }}" class="btn btn-success btn-sm">
+            <i class="fas fa-plus"></i>
+            {{ trans('packages/core::common.create') }}
+        </a>
+        <button class="btn btn-sm bg-danger delete-all d-none ml-2" title="Delete" role="button" data-url="">
+            <i class="fas fa-trash"></i>
+            {{ trans('packages/core::common.delete') }}
+        </button>
     </div>
-    <table class="table table-striped table-secondary table-hover vertical-middle bg-white bg-gradient-primary mt-3"
-        id="" role="grid" aria-describedby="">
+
+    <div class="card-body">
+        <table class="mt-3 table table-bordered table-hover table-striped" id="dataTable">
         <thead>
-        <tr role="row">
-            <th class="text-start user-checkbox" rowspan="1"
-                colspan="1" aria-label="">
-                <label class="user-checkbox-label">
-                    <input class="table-check-all" data-set=".dataTable .checkboxes" name="" type="checkbox">
-                </label>
-            </th>
-            <th title="Username" class="text-start sorting_desc" tabindex="0"
-                rowspan="1" colspan="1" aria-label="">{{ trans('packages/core::user.username') }}
-            </th>
-            <th title="Email" class="text-start" tabindex="0"
-                aria-controls="" rowspan="1" colspan="1" aria-label="">{{ trans('packages/core::user.email') }}
-            </th>
-            <th title="Created At" class="text-start" tabindex="0"
-                aria-controls="" rowspan="1" colspan="1"
-                aria-label="">{{ trans('packages/core::user.created_at') }}
-            </th>
-            <th title="Status" class="" rowspan="1"
-                colspan="1" aria-label="Status">{{ trans('packages/core::user.status') }}
-            </th>
-            <th title="Operations" class="text-end sorting_disabled user-checkbox" rowspan="1"
-                colspan="1" aria-label="Operations">{{ trans('packages/core::user.operations') }}
-            </th>
-        </tr>
+            <tr>
+                <th width="3%" class="text-center">
+                    <label class="user-checkbox-label">
+                        <input class="input-check-all" name="" type="checkbox">
+                    </label>
+                </th>
+                <th>{{ trans('packages/core::user.username') }}</th>
+                <th>{{ trans('packages/core::common.email') }}</th>
+                <th width="10%" class="text-left">{{ trans('packages/core::common.status') }}</th>
+                <th width="10%" class="text-center">{{ trans('packages/core::common.created_at') }}</th>
+                <th width="10%" class="text-center">{{ trans('packages/core::common.operations') }}</th>
+            </tr>
         </thead>
         <tbody>
-        @foreach($users as $key => $user)
-            <tr role="row" class="{{ $key % 2 === 0 ? 'odd' : 'even'}}">
-                <td class="text-start no-column-visibility dtr-control pt-3">
-                    <div class="text-start">
-                        <div class="checkbox checkbox-primary table-checkbox">
-                            <label class="user-checkbox-label">
-                                <input class="checkboxes" name="id[]" type="checkbox"
-                                    value="{{ $user->id }}">
-                            </label>
-                        </div>
-                    </div>
+        @foreach($users as $item)
+            <tr>
+                <td class="text-center">
+                    <label class="user-checkbox-label">
+                        <input class="checkboxes" name="id[]" type="checkbox" value="{{ $item->id }}">
+                    </label>
                 </td>
-                <td class="text-start pt-3">
-                    <a href="{{ route('settings.users.edit', ['user' => $user->id]) }}">{{ $user->username }}</a>
+                <td>
+                    <a href="{{ route('settings.users.edit', ['user' => $item->id]) }}">{{ $item->username }}</a>
                 </td>
-                <td class="text-start pt-3">{{ $user->email }}</td>
-                <td class="column-key-3 pt-3">{{ $user->created_at }}</td>
-                <td class="column-key-4 pt-3">
-                    <span class="label-info status-label">{{ $user->status }}
-                    </span>
+                <td>{{ $item->email }}</td>
+                <td>
+                    <span class="btn-sm {{ $item->status == \IBoot\Core\App\Models\User::STATUS_ACTIVATED ? 'bg-success' : 'bg-danger' }}">{{ $item->status }}</span>
                 </td>
-                <td class="text-end">
-                    <a class="btn btn-sm bg-info btn-view-user" title="View user's profile"
-                       href="{{ route('settings.users.edit', ['user' => $user->id]) }}">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="28px" width="20px" viewBox="2 2 20 20"><title>pencil-outline</title>
-                            <path
-                                d="M14.06,9L15,9.94L5.92,19H5V18.08L14.06,9M17.66,3C17.41,3 17.15,3.1 16.96,3.29L15.13,5.12L18.88,8.87L20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18.17,3.09 17.92,3 17.66,3M14.06,6.19L3,17.25V21H6.75L17.81,9.94L14.06,6.19Z"/>
-                        </svg>
+                <td class="text-center">{{ $item->created_at }}</td>
+                <td class="text-center">
+                    <a class="btn btn-sm bg-info" href="{{ route('settings.users.edit', ['user' => $item->id]) }}">
+                        <i class="fas fa-pencil-alt"></i>
                     </a>
-                    <a class="btn btn-sm bg-danger btn-delete-user" title="Delete a user"
-                       data-bs-original-title="Delete" data-url="{{ route('settings.users.destroy', ['user' => $user->id]) }}"
-                       role="button">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="28px" width="20px" viewBox="2 2 20 20"><title>delete</title>
-                            <path
-                                d="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z"/>
-                        </svg>
-                    </a>
+                    <button type="button" class="btn btn-sm bg-danger btn-delete-user" data-url="{{ route('settings.users.destroy', ['user' => $item->id]) }}">
+                        <i class="fas fa-trash"></i>
+                    </button>
                 </td>
             </tr>
         @endforeach
         </tbody>
     </table>
-    <div class="d-flex float-right mt-2">
-        {!! $users->links() !!}
     </div>
 </div>

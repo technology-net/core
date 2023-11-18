@@ -1,68 +1,34 @@
-<nav class="sidebar sidebar-offcanvas" id="sidebar">
-    <div class="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">
-        <a class="sidebar-brand brand-logo" href="/admin/dashboard"><img src="{{ asset('core/images/img.png') }}" alt="logo" /></a>
-        <a class="sidebar-brand brand-logo-mini" href="/admin/dashboard"><img src="{{ asset('core/images/img.png') }}" alt="logo" /></a>
-    </div>
-    <ul class="nav">
-        <li class="nav-item profile">
-            <div class="profile-desc">
-                <div class="profile-pic">
-                    <div class="count-indicator">
-                        <img class="img-xs rounded-circle" src="{{ asset('core/images/faces/face15.jpg') }}" alt="" />
-                        <span class="count bg-success"></span>
-                    </div>
-                    <div class="profile-name">
-                        <h5 class="mb-0 font-weight-normal">{{ Auth::user()->name }}</h5>
-                        <span>Admin</span>
-                    </div>
-                </div>
-                <a href="#" id="profile-dropdown" data-toggle="dropdown"><i class="mdi mdi-dots-vertical"></i></a>
-                <div class="dropdown-menu dropdown-menu-right sidebar-dropdown preview-list" aria-labelledby="profile-dropdown">
-                    <a href="#" class="dropdown-item preview-item">
-                        <div class="preview-thumbnail">
-                            <div class="preview-icon bg-dark rounded-circle">
-                                <i class="mdi mdi-settings text-primary"></i>
-                            </div>
-                        </div>
-                        <div class="preview-item-content">
-                            <p class="preview-subject ellipsis mb-1 text-small">Account settings</p>
-                        </div>
-                    </a>
-                    <div class="dropdown-divider"></div>
-                    <a href="#" class="dropdown-item preview-item">
-                        <div class="preview-thumbnail">
-                            <div class="preview-icon bg-dark rounded-circle">
-                                <i class="mdi mdi-onepassword text-info"></i>
-                            </div>
-                        </div>
-                        <div class="preview-item-content">
-                            <p class="preview-subject ellipsis mb-1 text-small">Change Password</p>
-                        </div>
-                    </a>
-                    <div class="dropdown-divider"></div>
-                    <a href="#" class="dropdown-item preview-item">
-                        <div class="preview-thumbnail">
-                            <div class="preview-icon bg-dark rounded-circle">
-                                <i class="mdi mdi-calendar-today text-success"></i>
-                            </div>
-                        </div>
-                        <div class="preview-item-content">
-                            <p class="preview-subject ellipsis mb-1 text-small">To-do list</p>
-                        </div>
-                    </a>
-                </div>
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <!-- Brand Logo -->
+    <a href="{{ route('dashboard.index') }}" class="brand-link">
+        <img src="{{ asset('core/images/logo.png') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+        <span class="brand-text font-weight-light">{{ config('core.copyright') }}</span>
+    </a>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <!-- Sidebar user panel (optional) -->
+        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+            <div class="image">
+                <img src="{{ mix('core/dist/img/user2-160x160.jpg') }}" class="img-circle elevation-2" alt="User Image">
             </div>
-        </li>
-        <li class="nav-item nav-category"></li>
-        @foreach($sidebarMenus as $sidebarMenu)
-            @include('packages/core::components.sidebars.menu',
-                [
-                    'sidebarMenu' => $sidebarMenu,
-                    'i' => 1,
-                    'parentName' => $sidebarMenu->name,
-                    'rangeUrlByParent' => $rangeUrlByParent
-                ]
-            )
-        @endforeach
-    </ul>
-</nav>
+            <div class="info">
+                <a href="#" class="d-block">{{ Auth::user()->name }}</a>
+            </div>
+        </div>
+        <!-- Sidebar Menu -->
+        <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                @foreach($sidebarMenus as $sidebarMenu)
+                    @include('packages/core::components.sidebars.menu',
+                        [
+                            'sidebarMenu' => $sidebarMenu,
+                            'parentName' => $sidebarMenu->name,
+                            'rangeUrlByParent' => $rangeUrlByParent
+                        ]
+                    )
+                @endforeach
+            </ul>
+        </nav>
+    </div>
+</aside>

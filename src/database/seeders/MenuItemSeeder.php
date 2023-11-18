@@ -28,7 +28,7 @@ class MenuItemSeeder extends Seeder
                 'name' => 'Dashboard',
                 'parent_id' => null,
                 'url' => 'dashboard.index',
-                'icon' => '<i class="mdi mdi-speedometer"></i>',
+                'icon' => 'fas fa-tachometer-alt',
                 'order' => 1,
                 'created_at' => $now,
                 'updated_at' => $now
@@ -38,8 +38,18 @@ class MenuItemSeeder extends Seeder
                 'name' => 'Plugins',
                 'parent_id' => null,
                 'url' => 'plugins.index',
-                'icon' => '<i class="mdi mdi-arrow-expand-all"></i>',
+                'icon' => 'fas fa-plug',
                 'order' => 2,
+                'created_at' => $now,
+                'updated_at' => $now
+            ],
+            [
+                'menu_id' => $menu->id,
+                'name' => 'Media',
+                'parent_id' => null,
+                'url' => 'media.index',
+                'icon' => 'far fa-image',
+                'order' => 3,
                 'created_at' => $now,
                 'updated_at' => $now
             ],
@@ -50,8 +60,8 @@ class MenuItemSeeder extends Seeder
             'name' => 'Settings',
             'parent_id' => null,
             'url' => null,
-            'icon' => '<i class="mdi mdi-settings"></i>',
-            'order' => 3
+            'icon' => 'fas fa-cogs',
+            'order' => 4
         ]);
 
         MenuItem::query()->insert([
@@ -61,7 +71,7 @@ class MenuItemSeeder extends Seeder
                 'parent_id' => $newMenuItem->id,
                 'url' => 'settings.menus.index',
                 'icon' => null,
-                'order' => 4,
+                'order' => 5,
                 'created_at' => $now,
                 'updated_at' => $now
             ],
@@ -71,7 +81,7 @@ class MenuItemSeeder extends Seeder
                 'parent_id' => $newMenuItem->id,
                 'url' => 'settings.users.index',
                 'icon' => null,
-                'order' => 5,
+                'order' => 6,
                 'created_at' => $now,
                 'updated_at' => $now
             ],
@@ -80,16 +90,6 @@ class MenuItemSeeder extends Seeder
                 'name' => 'System Setting',
                 'parent_id' => $newMenuItem->id,
                 'url' => 'settings.system_settings.index',
-                'icon' => null,
-                'order' => 6,
-                'created_at' => $now,
-                'updated_at' => $now
-            ],
-            [
-                'menu_id' => $menu->id,
-                'name' => 'Media',
-                'parent_id' => $newMenuItem->id,
-                'url' => 'settings.media.index',
                 'icon' => null,
                 'order' => 7,
                 'created_at' => $now,
