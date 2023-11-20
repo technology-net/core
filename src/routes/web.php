@@ -44,6 +44,8 @@ Route::middleware(['web'])->group(function () {
 
             Route::resource('roles', 'RoleController')->except(['show', 'store']);
             Route::post('roles/delete-all', 'RoleController@deleteAll')->name('roles.deleteAll');
+            Route::resource('permissions', 'PermissionController')->except(['show', 'store']);
+            Route::post('permissions/delete-all', 'PermissionController@deleteAll')->name('permissions.deleteAll');
         });
     });
 });

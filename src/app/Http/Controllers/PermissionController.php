@@ -5,7 +5,7 @@ namespace IBoot\Core\App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use IBoot\Core\App\Exceptions\ServerErrorException;
 use IBoot\Core\App\Http\Requests\RoleRequest;
-use IBoot\Core\App\Services\RoleService;
+use IBoot\Core\App\Services\PermissionService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
@@ -13,15 +13,15 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Exception;
 
-class RoleController extends Controller
+class permissionController extends Controller
 {
-    private RoleService $role;
+    private PermissionService $permission;
 
     /**
-     * @param RoleService $role
+     * @param PermissionService $permission
      */
-    public function __construct(RoleService $role) {
-        $this->role = $role;
+    public function __construct(PermissionService $permission) {
+        $this->permission = $permission;
     }
 
     /**
@@ -29,14 +29,14 @@ class RoleController extends Controller
      */
     public function index(): View|string
     {
-        $roles = $this->role->getLists();
+        $permissions = $this->permission->getLists();
 
-        return view('packages/core::roles.index', compact('roles'));
+        return view('packages/core::permissions.index', compact('permissions'));
     }
 
     public function create(): View
     {
-        return view('packages/core::roles.form');
+        return view('packages/core::permissions.form');
     }
 
     /**
@@ -44,9 +44,9 @@ class RoleController extends Controller
      */
     public function edit($id)
     {
-        $role = $this->role->getById($id);
+        $permission = $this->permission->getById($id);
 
-        return view('packages/core::roles.form', compact('role'));
+        return view('packages/core::permissions.form', compact('permission'));
     }
 
 
@@ -60,7 +60,7 @@ class RoleController extends Controller
     {
         DB::beginTransaction();
         try {
-            $this->role->createOrUpdateRole($id, $request->all());
+            $this->permission->createOrUpdatePermission($id, $request->all());
             DB::commit();
 
             return responseSuccess(null, trans('packages/core::messages.save_success'));
@@ -80,7 +80,7 @@ class RoleController extends Controller
     {
         DB::beginTransaction();
         try {
-            $this->role->deleteRole($id);
+            $this->permission->deletePermission($id);
             DB::commit();
 
             return responseSuccess(null, trans('packages/core::messages.delete_success'));
@@ -101,7 +101,7 @@ class RoleController extends Controller
         $ids = $request->ids;
         DB::beginTransaction();
         try {
-            $this->role->deleteAllById($ids);
+            $this->permission->deleteAllById($ids);
             DB::commit();
 
             return responseSuccess(null, trans('packages/core::messages.delete_success'));

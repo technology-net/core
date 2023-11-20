@@ -2,19 +2,19 @@
 
 namespace IBoot\Core\App\Services;
 
-use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
-class RoleService
+class PermissionService
 {
     /**
      * @return Collection|array
      */
     public function getLists(): Collection|array
     {
-        return Role::query()->orderBy('created_at', 'desc')->get();
+        return Permission::query()->orderBy('created_at', 'desc')->get();
     }
 
     /**
@@ -31,9 +31,9 @@ class RoleService
      * @param array $inputs
      * @return Model|Builder
      */
-    public function createOrUpdateRole($id, array $inputs = array()): Model|Builder
+    public function createOrUpdatePermission($id, array $inputs = array()): Model|Builder
     {
-        return Role::query()->updateOrCreate(
+        return Permission::query()->updateOrCreate(
             ['id' => $id],
             $inputs
         );
@@ -43,9 +43,9 @@ class RoleService
      * @param $id
      * @return mixed
      */
-    public function deleteRole($id): mixed
+    public function deletePermission($id): mixed
     {
-        return Role::query()->where('id', $id)->delete();
+        return Permission::query()->where('id', $id)->delete();
     }
 
     /**
@@ -54,7 +54,7 @@ class RoleService
      */
     public function deleteAllById($ids): mixed
     {
-        return Role::query()->whereIn('id', $ids)->delete();
+        return Permission::query()->whereIn('id', $ids)->delete();
     }
 
     /**
@@ -63,6 +63,6 @@ class RoleService
      */
     private function findById($id): Model|Collection|Builder|array|null
     {
-        return Role::query()->findOrFail($id);
+        return Permission::query()->findOrFail($id);
     }
 }

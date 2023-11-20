@@ -27,5 +27,8 @@ return [
         'roles' => [
             'title' => 'Roles',
         ],
+        'permissions' => [
+            'title' => 'Permissions',
+        ],
     ],
 ];
