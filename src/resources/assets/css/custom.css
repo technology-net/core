@@ -2,6 +2,10 @@ img {
     max-width: 100%;
 }
 
+.table thead tr {
+    text-transform: uppercase;
+}
+
 .table td, .table th {
     vertical-align: middle;
 }

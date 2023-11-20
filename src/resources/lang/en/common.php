@@ -20,5 +20,12 @@ return [
     'reset' => 'Reset',
     'media' => [
         'title' => 'Media Gallery'
-    ]
+    ],
+    'role_permission' => [
+        'title' => 'Roles and Permissions',
+        'guard_name' => 'Guard Name',
+        'roles' => [
+            'title' => 'Roles',
+        ],
+    ],
 ];

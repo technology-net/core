@@ -10,7 +10,9 @@
         }
     ],
     "minimum-stability": "dev",
-    "require": {},
+    "require": {
+        "spatie/laravel-permission": "6.x-dev"
+    },
     "autoload": {
         "psr-4": {
             "IBoot\\Core\\": "src/",

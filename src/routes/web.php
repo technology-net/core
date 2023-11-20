@@ -41,6 +41,9 @@ Route::middleware(['web'])->group(function () {
                 Route::post('system_settings/delete-all', 'SystemSettingController@deleteAll')->name('system_settings.deleteAll');
                 Route::post('system_settings/{id}/editable', 'SystemSettingController@editable')->name('system_settings.editable');
             });
+
+            Route::resource('roles', 'RoleController')->except(['show', 'store']);
+            Route::post('roles/delete-all', 'RoleController@deleteAll')->name('roles.deleteAll');
         });
     });
 });

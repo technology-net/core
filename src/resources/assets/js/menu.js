@@ -122,7 +122,7 @@ $(document).ready(function () {
     $('#add-item').removeAttr('data-id').html(TEXT_ADD_ITEM);
   }
 
-  $('body').on('submit', '#formSubmit',function (e) {
+  $('body').on('submit', '#formSubmitSimple',function (e) {
     e.preventDefault()
     let form = $(this);
     let url = form.attr('action');
