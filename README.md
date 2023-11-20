@@ -10,19 +10,8 @@ This is a core package management
 ## Run migration && seeder
 
 ```angular2html
-php artisan migrate
-php artisan db:seed --class="IBoot\Core\Database\Seeders\UserSeeder"
-php artisan db:seed --class="IBoot\Core\Database\Seeders\PluginSeeder"
-php artisan db:seed --class="IBoot\Core\Database\Seeders\MenuItemSeeder"
-php artisan db:seed --class="IBoot\Core\Database\Seeders\SystemSettingSeeder"
+php artisan core:environment
 php artisan vendor:publish --provider="IBoot\Core\App\Providers\CoreServiceProvider" --force
-```
-
-## The Public Disk
-
-- To create the symbolic link, you may use the storage:link Artisan command:
-```angular2html
-php artisan storage:link
 ```
 
 ## File `package.json` and `npm run watch`

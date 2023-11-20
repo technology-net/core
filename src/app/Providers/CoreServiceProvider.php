@@ -36,6 +36,9 @@ class CoreServiceProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__ . '/../../resources/views', 'packages/core');
         $this->loadMigrationsFrom(__DIR__ . '/../../database/migrations');
         $this->loadTranslationsFrom(__DIR__ . '/../../resources/lang', 'packages/core');
+        $this->commands([
+            \IBoot\Core\App\Console\Commands\SetupEnvironmentCommand::class
+        ]);
 
 //        $this->publishes([
 //            __DIR__ . '/../../database/migrations' => database_path('migrations'),
