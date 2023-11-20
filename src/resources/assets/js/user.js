@@ -13,7 +13,7 @@ $(document).ready(function () {
       processData: false,
       success: function (response) {
         if (response.success) {
-          showNotify(response.message, 'success');
+          showNotify(response.message, 'success', true);
         } else {
           showNotify(response.message, 'error');
         }

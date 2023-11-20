@@ -94,7 +94,7 @@
                                     {{ trans('packages/core::settings.menu_item.title') }}
                                 </label>
                                 <div class="dd" id="nestable">
-                                    <ol class="dd-list @if(!empty($menuItems) && $menuItems->count() > 11) scroll-y @endif">
+                                    <ol class="dd-list border p-3 @if(!empty($menuItems) && $menuItems->count() > 11) scroll-y @endif">
                                         @if(!empty($menuItems))
                                             @foreach($menuItems as $item)
                                                 <li class="dd-item" data-id="{{ $item->id }}" data-name="{{ $item->name }}" data-url="{{ $item->url }}" data-icon="{{ $item->icon }}">

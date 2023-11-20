@@ -11,6 +11,7 @@ use IBoot\Core\App\Services\PluginService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
@@ -51,7 +52,7 @@ class PluginController extends Controller
         $menuItem = json_decode($input['menu_items'], true);
         $namePackage = $input['name_package'];
         $pluginId = $input['plugin_id'];
-        $composer_name = !empty($input['version']) ? $input['composer_name'] . ':' . $input['version'] : $input['composer_name'];
+        $composer_name = !empty($input['version']) ? $input['composer_name'] . ':' . $input['version'] : $input['composer_name'] . ':dev-main';
 
         try {
             DB::beginTransaction();
