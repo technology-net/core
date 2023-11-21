@@ -43,7 +43,9 @@ class MenuService
             ['id' => $id],
             $inputs
         );
-        MenuItem::query()->where('menu_id', $id)->delete();
+        if (!empty($id)) {
+            MenuItem::query()->where('menu_id', $id)->delete();
+        }
         $arrayMenuItems = json_decode($menuItems, true);
         $this->saveMenuItems($menu->id, $arrayMenuItems);
 

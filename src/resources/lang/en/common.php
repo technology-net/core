@@ -18,6 +18,7 @@ return [
     'url' => 'URL',
     'icon' => 'Icon',
     'reset' => 'Reset',
+    'choose' => '-- Please choose --',
     'media' => [
         'title' => 'Media Gallery'
     ],

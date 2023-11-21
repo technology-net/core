@@ -2,9 +2,13 @@
 @section('title')
     @lang('packages/core::settings.system_settings.title')
 @stop
+@section('css')
+    <link rel="stylesheet" href="{{ mix('core/plugins/select2/select2.min.css') }}">
+@stop
 @section('content')
     @php
         $label = !empty($permission->id) ? trans('packages/core::common.update') : trans('packages/core::common.create');
+        $roleSelected = !empty($permission) && $permission->roles->isNotEmpty() ? $permission->roles->pluck('name')->toArray() : [];
     @endphp
 
     @include('packages/core::partial.breadcrumb', [
@@ -29,6 +33,7 @@
             @csrf
             @method('PUT')
             <input type="hidden" name="id" value="{{ $permission->id ?? 0 }}">
+            <input type="hidden" name="role_selected" value="{{ json_encode($roleSelected) }}">
             <div class="border-white bg-white p-5">
                 <div class="row">
                     <div class="form-group col-md-12">
@@ -40,6 +45,16 @@
                                placeholder="{{ trans('packages/core::common.name') }}"
                                validate-pattern="required" name="name" type="text" value="{{ old('name', $permission->name ?? null) }}">
                         <div id="error_name"></div>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label for="{{ trans('packages/core::common.role_permission.roles.title') }}" class="control-label text-black" aria-required="true">
+                            {{ trans('packages/core::common.role_permission.roles.title') }}
+                        </label>
+                        <select class="form-control js-select2-multiple" name="roles[]" multiple="multiple">
+                            @foreach($roles as $item)
+                                <option data-id="{{ $item->id }}" value="{{ $item->name }}" @if(in_array($item->name, $roleSelected)) selected @endif>{{ $item->name }}</option>
+                            @endforeach
+                        </select>
                     </div>
                 </div>
                 <div class="clearfix"></div>
@@ -60,4 +75,11 @@
             </div>
         </form>
     </div>
+@endsection
+@section('js')
+    <script type="text/javascript">
+        const PLACEHOLDER = "{{ trans('packages/core::common.choose') }}";
+    </script>
+    <script src="{{ mix('core/plugins/select2/select2.min.js') }}"></script>
+    <script src="{{ mix('core/js/role.permission.mix.js') }}" defer></script>
 @endsection

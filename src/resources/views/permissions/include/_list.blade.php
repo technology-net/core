@@ -19,9 +19,10 @@
                         <input class="input-check-all" type="checkbox">
                     </label>
                 </th>
-                <th>{{ trans('packages/core::common.name') }}</th>
-                <th>{{ trans('packages/core::common.role_permission.guard_name') }}</th>
-                <th width="10%" class="text-center">{{ trans('packages/core::common.created_at') }}</th>
+                <th width="20%">{{ trans('packages/core::common.name') }}</th>
+                <th width="45%">{{ trans('packages/core::common.role_permission.roles.title') }}</th>
+                <th width="10%">{{ trans('packages/core::common.role_permission.guard_name') }}</th>
+                <th width="12%" class="text-center">{{ trans('packages/core::common.created_at') }}</th>
                 <th width="10%" class="text-center">{{ trans('packages/core::common.operations') }}</th>
             </tr>
         </thead>
@@ -35,6 +36,13 @@
                 </td>
                 <td>
                     <a href="{{ route('permissions.edit', $item->id) }}">{{ $item->name }}</a>
+                </td>
+                <td>
+                    @if($item->roles->isNotEmpty())
+                        @foreach($item->roles as $role)
+                            <span class="btn-sm btn-info">{{ $role->name }}</span>
+                        @endforeach
+                    @endif
                 </td>
                 <td>{{ $item->guard_name }}</td>
                 <td class="text-center">{{ $item->created_at }}</td>

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use IBoot\Core\App\Exceptions\ServerErrorException;
 use IBoot\Core\App\Http\Requests\RoleRequest;
 use IBoot\Core\App\Services\PermissionService;
+use IBoot\Core\App\Services\RoleService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
@@ -13,15 +14,22 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Exception;
 
-class permissionController extends Controller
+class PermissionController extends Controller
 {
     private PermissionService $permission;
+    private RoleService $role;
 
     /**
      * @param PermissionService $permission
+     * @param RoleService $role
      */
-    public function __construct(PermissionService $permission) {
+    public function __construct(
+        PermissionService $permission,
+        RoleService $role
+    )
+    {
         $this->permission = $permission;
+        $this->role = $role;
     }
 
     /**
@@ -36,7 +44,9 @@ class permissionController extends Controller
 
     public function create(): View
     {
-        return view('packages/core::permissions.form');
+        $roles = $this->role->getLists();
+
+        return view('packages/core::permissions.form', compact('roles'));
     }
 
     /**
@@ -44,9 +54,10 @@ class permissionController extends Controller
      */
     public function edit($id)
     {
-        $permission = $this->permission->getById($id);
+        $permission = $this->permission->getById($id)->load('roles');
+        $roles = $this->role->getLists();
 
-        return view('packages/core::permissions.form', compact('permission'));
+        return view('packages/core::permissions.form', compact('permission', 'roles'));
     }
 
 

@@ -6,6 +6,7 @@ use Spatie\Permission\Models\Permission;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Arr;
 
 class PermissionService
 {
@@ -14,7 +15,10 @@ class PermissionService
      */
     public function getLists(): Collection|array
     {
-        return Permission::query()->orderBy('created_at', 'desc')->get();
+        return Permission::query()
+                ->with('roles')
+                ->orderBy('created_at', 'desc')
+                ->get();
     }
 
     /**
@@ -33,10 +37,29 @@ class PermissionService
      */
     public function createOrUpdatePermission($id, array $inputs = array()): Model|Builder
     {
-        return Permission::query()->updateOrCreate(
+        $roles = Arr::get($inputs, 'roles', []);
+
+        if (!empty($inputs['role_selected'])) {
+            $roleSelected = json_decode($inputs['role_selected'], true);
+        }
+        unset($inputs['roles'], $inputs['role_selected']);
+
+        $permission =  Permission::query()->updateOrCreate(
             ['id' => $id],
             $inputs
         );
+        // delete role
+        if (count($roleSelected)) {
+            foreach ($roleSelected as $role) {
+                $permission->removeRole($role);
+            }
+        }
+        // permission assigned to a role
+        if (count($roles)) {
+            $permission->assignRole($roles);
+        }
+
+        return $permission;
     }
 
     /**
