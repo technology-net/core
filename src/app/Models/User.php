@@ -14,6 +14,7 @@ class User extends Authenticatable
 
     public const STATUS_ACTIVATED = 'Activated';
     public const STATUS_DEACTIVATED = 'Deactivated';
+    protected $guard_name = "web";
 
     /**
      * The attributes that are mass assignable.

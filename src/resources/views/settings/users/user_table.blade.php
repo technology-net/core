@@ -19,8 +19,9 @@
                         <input class="input-check-all" name="" type="checkbox">
                     </label>
                 </th>
-                <th>{{ trans('packages/core::user.username') }}</th>
-                <th>{{ trans('packages/core::common.email') }}</th>
+                <th width="10%">{{ trans('packages/core::user.username') }}</th>
+                <th width="20%">{{ trans('packages/core::common.email') }}</th>
+                <th width="37%">{{ trans('packages/core::common.role_permission.roles.title') }}</th>
                 <th width="10%" class="text-left">{{ trans('packages/core::common.status') }}</th>
                 <th width="10%" class="text-center">{{ trans('packages/core::common.created_at') }}</th>
                 <th width="10%" class="text-center">{{ trans('packages/core::common.operations') }}</th>
@@ -38,6 +39,13 @@
                     <a href="{{ route('settings.users.edit', ['user' => $item->id]) }}">{{ $item->username }}</a>
                 </td>
                 <td>{{ $item->email }}</td>
+                <td>
+                    @if($item->roles->isNotEmpty())
+                        @foreach($item->roles as $role)
+                            <span class="btn-sm btn-info">{{ $role->name }}</span>
+                        @endforeach
+                    @endif
+                </td>
                 <td>
                     <span class="btn-sm {{ $item->status == \IBoot\Core\App\Models\User::STATUS_ACTIVATED ? 'bg-success' : 'bg-danger' }}">{{ $item->status }}</span>
                 </td>

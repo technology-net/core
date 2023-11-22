@@ -108,4 +108,8 @@ $(document).ready(function () {
       timer: 1000,
     });
   }
+
+  $('.js-select2-multiple').select2({
+    placeholder: PLACEHOLDER,
+  });
 })
