@@ -111,6 +111,8 @@ $(document).ready(function () {
 
   // Click event for individual checkboxes
   $('body').on('change', '.checkboxes',function () {
+    let allChecked = $('.checkboxes:checked').length === $('.checkboxes').length;
+    $('.input-check-all').prop('checked', allChecked);
     let value = $(this).val();
     if ($(this).is(':checked')) {
       selectedValues.push(value);
@@ -124,7 +126,6 @@ $(document).ready(function () {
       $('.delete-all').removeClass('d-none');
     } else {
       $('.delete-all').addClass('d-none');
-      $('.input-check-all').prop('checked', false);
     }
   });
 

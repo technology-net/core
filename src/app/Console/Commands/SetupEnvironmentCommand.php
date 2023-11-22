@@ -31,6 +31,7 @@ class SetupEnvironmentCommand extends Command
         $this->seed('IBoot\\Core\\Database\\Seeders\\PluginSeeder');
         $this->seed('IBoot\\Core\\Database\\Seeders\\MenuItemSeeder');
         $this->seed('IBoot\\Core\\Database\\Seeders\\SystemSettingSeeder');
+        $this->seed('IBoot\\Core\\Database\\Seeders\\PermissionSeeder');
 
         if (!file_exists(public_path('storage'))) {
             $this->call('storage:link');

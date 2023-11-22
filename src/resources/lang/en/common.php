@@ -19,6 +19,7 @@ return [
     'icon' => 'Icon',
     'reset' => 'Reset',
     'choose' => '-- Please choose --',
+    'all' => 'All',
     'media' => [
         'title' => 'Media Gallery'
     ],

@@ -1,6 +1,6 @@
 @extends('packages/core::layouts.admin')
 @section('title')
-    @lang('packages/core::settings.system_settings.title')
+    @lang('packages/core::common.role_permission.permissions.title')
 @stop
 @section('css')
     <link rel="stylesheet" href="{{ mix('core/plugins/select2/select2.min.css') }}">
@@ -81,5 +81,5 @@
         const PLACEHOLDER = "{{ trans('packages/core::common.choose') }}";
     </script>
     <script src="{{ mix('core/plugins/select2/select2.min.js') }}"></script>
-    <script src="{{ mix('core/js/role.permission.mix.js') }}" defer></script>
+    <script src="{{ mix('core/js/permission.mix.js') }}" defer></script>
 @endsection

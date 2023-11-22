@@ -1,14 +1,11 @@
 @extends('packages/core::layouts.admin')
 @section('title')
-    @lang('packages/core::settings.system_settings.title')
-@stop
-@section('css')
-    <link rel="stylesheet" href="{{ mix('core/plugins/select2/select2.min.css') }}">
+    @lang('packages/core::common.role_permission.roles.title')
 @stop
 @section('content')
     @php
         $label = !empty($role->id) ? trans('packages/core::common.update') : trans('packages/core::common.create');
-        $permissionInRole = !empty($role) && $role->permissions->isNotEmpty() ? $role->permissions->pluck('name')->toArray() : [];
+        $permissionSelected = !empty($role) && $role->permissions->isNotEmpty() ? $role->permissions->pluck('name')->toArray() : [];
     @endphp
 
     @include('packages/core::partial.breadcrumb', [
@@ -33,7 +30,7 @@
             @csrf
             @method('PUT')
             <input type="hidden" name="id" value="{{ $role->id ?? 0 }}">
-            <input type="hidden" name="permission_selected" value="{{ json_encode($permissionInRole) }}">
+            <input type="hidden" name="permission_selected" value="{{ json_encode($permissionSelected) }}">
             <div class="border-white bg-white p-5">
                 <div class="row">
                     <div class="form-group col-md-12">
@@ -50,11 +47,24 @@
                         <label for="{{ trans('packages/core::common.role_permission.permissions.title') }}" class="control-label text-black" aria-required="true">
                             {{ trans('packages/core::common.role_permission.permissions.title') }}
                         </label>
-                        <select class="form-control js-select2-multiple" name="permissions[]" multiple="multiple">
-                            @foreach($permissions as $item)
-                                <option value="{{ $item->name }}" @if(in_array($item->name, $permissionInRole)) selected @endif>{{ $item->name }}</option>
-                            @endforeach
-                        </select>
+                        <div class="border p-3">
+                            <div class="form-check mb-3">
+                                <input class="form-check-input" type="checkbox" id="permission-all" @if(count($permissions) == count($permissionSelected)) checked @endif>
+                                <label for="permission-all" class="form-check-label">{{ trans('packages/core::common.all') }}</label>
+                            </div>
+                            <div class="row">
+                                @foreach($permissions as $item)
+                                    <div class="col-md-3">
+                                        <div class="form-check">
+                                            <input class="form-check-input permission-item"
+                                                   @if(in_array($item->name, $permissionSelected)) checked @endif
+                                                   type="checkbox" id="permission-{{ $item->id }}" name="permissions[]" value="{{ $item->name }}">
+                                            <label for="permission-{{ $item->id }}" class="form-check-label">{{ $item->name }}</label>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="clearfix"></div>
@@ -77,9 +87,5 @@
     </div>
 @endsection
 @section('js')
-    <script type="text/javascript">
-        const PLACEHOLDER = "{{ trans('packages/core::common.choose') }}";
-    </script>
-    <script src="{{ mix('core/plugins/select2/select2.min.js') }}"></script>
-    <script src="{{ mix('core/js/role.permission.mix.js') }}" defer></script>
+    <script src="{{ mix('core/js/role.mix.js') }}" defer></script>
 @endsection
