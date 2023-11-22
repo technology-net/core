@@ -200,7 +200,13 @@ showNotify = function (title, icon, isReload = false) {
 // datatable
 if ($('#dataTable').length) {
   $('#dataTable').DataTable({
-    'ordering':false
+    'ordering':false,
+    'responsive': true,
+    'drawCallback': function() {
+      $(".delete-all").addClass("d-none");
+      $('.input-check-all').prop('checked', false);
+      $('.checkboxes').prop('checked', false);
+    }
   });
 }
 
