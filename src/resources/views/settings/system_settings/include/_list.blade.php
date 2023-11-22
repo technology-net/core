@@ -21,7 +21,7 @@
                 </th>
                 <th>{{ trans('packages/core::settings.system_settings.key') }}</th>
                 <th>{{ trans('packages/core::settings.system_settings.value') }}</th>
-                <th width="10%" class="text-center">{{ trans('packages/core::common.created_at') }}</th>
+                <th width="12%" class="text-center">{{ trans('packages/core::common.created_at') }}</th>
                 <th width="10%" class="text-center">{{ trans('packages/core::common.operations') }}</th>
             </tr>
         </thead>

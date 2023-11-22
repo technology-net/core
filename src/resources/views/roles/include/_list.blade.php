@@ -20,9 +20,9 @@
                     </label>
                 </th>
                 <th width="20%">{{ trans('packages/core::common.name') }}</th>
-                <th width="47%">{{ trans('packages/core::common.role_permission.permissions.title') }}</th>
+                <th width="45%">{{ trans('packages/core::common.role_permission.permissions.title') }}</th>
                 <th width="10%">{{ trans('packages/core::common.role_permission.guard_name') }}</th>
-                <th width="10%" class="text-center">{{ trans('packages/core::common.created_at') }}</th>
+                <th width="12%" class="text-center">{{ trans('packages/core::common.created_at') }}</th>
                 <th width="10%" class="text-center">{{ trans('packages/core::common.operations') }}</th>
             </tr>
         </thead>
@@ -40,7 +40,7 @@
                 <td>
                     @if($item->permissions->isNotEmpty())
                         @foreach($item->permissions as $permission)
-                            <span class="btn-sm btn-info">{{ $permission->name }}</span>
+                            <span class="btn-sm btn-info d-inline-block mb-1">{{ $permission->name }}</span>
                         @endforeach
                     @endif
                 </td>

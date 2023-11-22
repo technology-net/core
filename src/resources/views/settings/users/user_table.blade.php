@@ -21,9 +21,9 @@
                 </th>
                 <th width="10%">{{ trans('packages/core::user.username') }}</th>
                 <th width="20%">{{ trans('packages/core::common.email') }}</th>
-                <th width="37%">{{ trans('packages/core::common.role_permission.roles.title') }}</th>
+                <th width="35%">{{ trans('packages/core::common.role_permission.roles.title') }}</th>
                 <th width="10%" class="text-left">{{ trans('packages/core::common.status') }}</th>
-                <th width="10%" class="text-center">{{ trans('packages/core::common.created_at') }}</th>
+                <th width="12%" class="text-center">{{ trans('packages/core::common.created_at') }}</th>
                 <th width="10%" class="text-center">{{ trans('packages/core::common.operations') }}</th>
             </tr>
         </thead>
@@ -42,7 +42,7 @@
                 <td>
                     @if($item->roles->isNotEmpty())
                         @foreach($item->roles as $role)
-                            <span class="btn-sm btn-info">{{ $role->name }}</span>
+                            <span class="btn-sm btn-info d-inline-block mb-1">{{ $role->name }}</span>
                         @endforeach
                     @endif
                 </td>

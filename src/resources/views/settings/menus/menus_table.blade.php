@@ -20,7 +20,7 @@
                         </label>
                     </th>
                     <th>{{ trans('packages/core::settings.menus.menu_type') }}</th>
-                    <th width="10%" class="text-center">{{ trans('packages/core::common.created_at') }}</th>
+                    <th width="12%" class="text-center">{{ trans('packages/core::common.created_at') }}</th>
                     <th width="10%" class="text-center">{{ trans('packages/core::common.operations') }}</th>
                 </tr>
             </thead>

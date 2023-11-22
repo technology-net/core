@@ -2,9 +2,6 @@
 @section('title')
     @lang('packages/core::settings.system_settings.title')
 @stop
-@section('css')
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
-@stop
 @section('content')
     @include('packages/core::partial.breadcrumb', [
         'breadcrumbs' => [

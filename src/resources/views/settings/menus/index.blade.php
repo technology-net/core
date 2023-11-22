@@ -2,9 +2,6 @@
 @section('title')
     @lang('packages/core::settings.menus.title')
 @stop
-@section('css')
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
-@stop
 @section('content')
     @include('packages/core::partial.breadcrumb', [
         'breadcrumbs' => [
@@ -23,7 +20,4 @@
         @include('packages/core::settings.menus.menus_table')
     </div>
     @include('packages/core::medias.include._modal-open-media')
-@endsection
-@section('js')
-    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
 @endsection
