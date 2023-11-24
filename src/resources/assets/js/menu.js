@@ -12,7 +12,6 @@ $(document).ready(function () {
     } else {
       alert('JSON browser support required for this page.');
     }
-    console.log(list.nestable('serialize'))
   };
 
   list.nestable({
@@ -36,7 +35,8 @@ $(document).ready(function () {
     }
     let iExist = false;
     $.each( $('.dd-handle'), function () {
-      if ($(this).text().trim().toLowerCase() === valName.trim().toLowerCase()) {
+      let currentText = $(this).text().trim().toLowerCase();
+      if (currentText === valName.trim().toLowerCase() && !$(this).hasClass('being-edited')) {
         iExist = true;
       }
     });
@@ -84,6 +84,8 @@ $(document).ready(function () {
   /*************** Fill Data Edit ***************/
   $('body').on('click', '.button-edit', function () {
     let target = $(this).closest('li');
+    target.find('.dd-handle').addClass('being-edited');
+    $('[validate="true"]').trigger('change');
     let id = target.attr('data-id');
     let name = target.attr('data-name');
     let url = target.attr('data-url');
@@ -119,6 +121,7 @@ $(document).ready(function () {
     menuItemIcon.val('');
     menuItemUrl.val('');
 
+    $('.dd-handle').removeClass('being-edited');
     $('#add-item').removeAttr('data-id').html(TEXT_ADD_ITEM);
   }
 

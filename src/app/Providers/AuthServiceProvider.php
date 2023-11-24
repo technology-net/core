@@ -5,9 +5,9 @@ namespace IBoot\Core\App\Providers;
 use IBoot\Core\App\View\Components\Sidebar;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Pagination\Paginator;
-use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Illuminate\Support\ServiceProvider;
 
-class CoreServiceProvider extends ServiceProvider
+class AuthServiceProvider extends ServiceProvider
 {
     /**
      * Register services.
