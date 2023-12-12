@@ -33,4 +33,9 @@ return [
             'title' => 'Permissions',
         ],
     ],
+    'level' => 'Level',
+    'super_high' => 'Super High',
+    'high' => 'High',
+    'medium' => 'Medium',
+    'normal' => 'Normal',
 ];

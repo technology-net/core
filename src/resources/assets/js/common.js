@@ -93,7 +93,12 @@ $(document).ready(function () {
   // Click event for the "input-check-all" checkbox
   $('body').on('change', '.input-check-all', function () {
     if ($(this).is(':checked')) {
-      $('.checkboxes').prop('checked', true);
+      $('.checkboxes').each(function() {
+        if ($(this).data('login-id') != $(this).val()) {
+          $(this).prop('checked', true);
+        }
+      });
+      // $('.checkboxes').prop('checked', true);
       selectedValues = $('.checkboxes:checked').map(function() {
           return $(this).val();
       }).get();

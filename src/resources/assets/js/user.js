@@ -109,7 +109,9 @@ $(document).ready(function () {
     });
   }
 
-  $('.js-select2-multiple').select2({
-    placeholder: PLACEHOLDER,
-  });
+  if ($('.js-select2-multiple').length) {
+    $('.js-select2-multiple').select2({
+      placeholder: PLACEHOLDER,
+    });
+  }
 })

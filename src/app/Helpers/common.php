@@ -92,3 +92,15 @@ if (!function_exists('convertText')) {
         return preg_replace('/\s+?(\S+)?$/', '', substr($str, 0, 241));
     }
 }
+
+if (!function_exists('levelOptions')) {
+    function levelOptions(): array
+    {
+        return [
+            '1' => trans('packages/core::common.super_high'),
+            '2' => trans('packages/core::common.high'),
+            '3' => trans('packages/core::common.medium'),
+            '4' => trans('packages/core::common.normal'),
+        ];
+    }
+}

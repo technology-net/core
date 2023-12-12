@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class UserService
@@ -18,6 +19,7 @@ class UserService
     {
         return User::query()
                 ->with('roles')
+                ->where('level', '>=', Auth::user()->level)
                 ->orderBy('created_at', 'desc')
                 ->get();
     }
@@ -76,6 +78,15 @@ class UserService
     public function deleteUser(int $id): mixed
     {
         return $this->findUserById($id)->delete();
+    }
+
+    /**
+     * @param $ids
+     * @return mixed
+     */
+    public function deleteAllById($ids): mixed
+    {
+        return User::query()->whereIn('id', $ids)->delete();
     }
 
     /**

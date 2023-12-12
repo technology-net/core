@@ -25,6 +25,15 @@ return new class extends Migration
                 $table->string('username')->after('id');
             });
         }
+
+        if (!Schema::hasColumn('users', 'level')) {
+            Schema::table('users', function (Blueprint $table) {
+                $table->integer('level')
+                    ->default(4)
+                    ->comment('1: Super High, 2: High, 3: Medium, 4: Normal')
+                    ->after('status');
+            });
+        }
     }
 
     /**
@@ -41,6 +50,12 @@ return new class extends Migration
         if (Schema::hasColumn('users', 'username')) {
             Schema::table('users', function (Blueprint $table) {
                 $table->dropColumn('username');
+            });
+        }
+
+        if (Schema::hasColumn('users', 'level')) {
+            Schema::table('users', function (Blueprint $table) {
+                $table->dropColumn('level');
             });
         }
     }

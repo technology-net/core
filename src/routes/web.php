@@ -3,6 +3,9 @@
 use IBoot\Core\App\Http\Middleware\Authenticate;
 use IBoot\Core\App\Http\Middleware\LoginMiddleware;
 use Illuminate\Support\Facades\Route;
+use Spatie\Permission\Middleware\RoleMiddleware;
+use Spatie\Permission\Middleware\PermissionMiddleware;
+use Spatie\Permission\Middleware\RoleOrPermissionMiddleware;
 
 Route::middleware(['web'])->group(function () {
     $prefix = config('core.route_prefix', 'admin');
@@ -18,7 +21,7 @@ Route::middleware(['web'])->group(function () {
             Route::get('/logout', 'LoginController@logout')->name('.logout');
         });
 
-        Route::middleware(Authenticate::class)->group(function () {
+        Route::middleware(Authenticate::class)->group(callback: function () {
             Route::resource('dashboard', 'HomeController')->only('index');
 
             Route::group(['as' => 'plugins.', 'prefix' => 'plugins'], function () {
@@ -38,6 +41,7 @@ Route::middleware(['web'])->group(function () {
 
             Route::group(['as' => 'settings.', 'prefix' => 'settings', 'namespace' => 'Settings'], function () {
                 Route::resource('/users', 'UserController')->except(['show', 'store']);
+                Route::post('users/delete-all', 'UserController@deleteAll')->name('users.deleteAll');
                 Route::resource('/menus', 'MenuController')->except(['show', 'store']);
                 Route::post('menus/delete-all', 'MenuController@deleteAll')->name('menus.deleteAll');
                 Route::resource('system_settings', 'SystemSettingController')->except(['show', 'store', 'edit']);

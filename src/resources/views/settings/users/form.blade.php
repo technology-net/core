@@ -65,13 +65,30 @@
                                validate-pattern="required" name="name" type="text" id="name" value="{{ old('name', $user->name ?? null) }}">
                         <div id="error_name"></div>
                     </div>
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-3">
                         <label for="status" class="control-label">
                             {{ trans('packages/core::common.status') }}
                         </label>
                         <select class="form-control" name="status">
                             <option value="{{ User::STATUS_ACTIVATED }}" @if(!empty($user) && $user->status == User::STATUS_ACTIVATED) selected @endif>{{ User::STATUS_ACTIVATED }}</option>
                             <option value="{{ User::STATUS_DEACTIVATED }}" @if(!empty($user) && $user->status == User::STATUS_DEACTIVATED) selected @endif>{{ User::STATUS_DEACTIVATED }}</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="status" class="control-label">
+                            {{ trans('packages/core::common.level') }}
+                        </label>
+                        <select class="form-control" name="level">
+                            @foreach(levelOptions() as $level => $name)
+                                @if($level >= Auth::user()->level)
+                                    <option value="{{ $level }}"
+                                        @if(!empty($user) && $user->level == $level || empty($user) && $level == User::NORMAL) selected @endif
+                                        @if(!empty($user) && $user->id == Auth::id() && $user->level == User::SUPER_HIGH) disabled @endif
+                                    >
+                                        {{ $name }}
+                                    </option>
+                                @endif
+                            @endforeach
                         </select>
                     </div>
                     <div class="form-group col-md-12">
@@ -108,7 +125,6 @@
     <script type="text/javascript">
         let ROUTE_IDX = "{!! route('settings.users.index') !!}"
         const PLACEHOLDER = "{{ trans('packages/core::common.choose') }}";
-
     </script>
     <script src="{{ mix('core/plugins/select2/select2.min.js') }}"></script>
     <script type="text/javascript" src="{{ mix('core/js/user.mix.js') }}" defer></script>

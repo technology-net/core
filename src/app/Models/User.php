@@ -14,6 +14,10 @@ class User extends Authenticatable
 
     public const STATUS_ACTIVATED = 'Activated';
     public const STATUS_DEACTIVATED = 'Deactivated';
+    const SUPER_HIGH = 1;
+    const HIGH = 2;
+    const MEDIUM = 3;
+    const NORMAL = 4;
     protected $guard_name = "web";
 
     /**
@@ -26,6 +30,7 @@ class User extends Authenticatable
         'username',
         'name',
         'status',
+        'level',
         'password',
     ];
 
