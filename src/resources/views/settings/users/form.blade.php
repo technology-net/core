@@ -2,9 +2,13 @@
 @php
     use IBoot\Core\App\Models\User;
     $label = !empty($user->id) ? trans('packages/core::common.update') : trans('packages/core::common.create');
+    $roleSelected = !empty($user) && $user->roles->isNotEmpty() ? $user->roles->pluck('name')->toArray() : [];
 @endphp
 @section('title')
     @lang('packages/core::user.users')
+@stop
+@section('css')
+    <link rel="stylesheet" href="{{ mix('core/plugins/select2/select2.min.css') }}">
 @stop
 @section('content')
     @include('packages/core::partial.breadcrumb', [
@@ -29,6 +33,7 @@
             @csrf
             @method('PUT')
             <input type="hidden" name="id" value="{{ $user->id ?? 0 }}">
+            <input type="hidden" name="role_selected" value="{{ json_encode($roleSelected) }}">
             <div class="border-white bg-white p-5">
                 <div class="row">
                     <div class="form-group col-md-6">
@@ -60,13 +65,40 @@
                                validate-pattern="required" name="name" type="text" id="name" value="{{ old('name', $user->name ?? null) }}">
                         <div id="error_name"></div>
                     </div>
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-3">
                         <label for="status" class="control-label">
                             {{ trans('packages/core::common.status') }}
                         </label>
                         <select class="form-control" name="status">
                             <option value="{{ User::STATUS_ACTIVATED }}" @if(!empty($user) && $user->status == User::STATUS_ACTIVATED) selected @endif>{{ User::STATUS_ACTIVATED }}</option>
                             <option value="{{ User::STATUS_DEACTIVATED }}" @if(!empty($user) && $user->status == User::STATUS_DEACTIVATED) selected @endif>{{ User::STATUS_DEACTIVATED }}</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="status" class="control-label">
+                            {{ trans('packages/core::common.level') }}
+                        </label>
+                        <select class="form-control" name="level">
+                            @foreach(levelOptions() as $level => $name)
+                                @if($level >= Auth::user()->level)
+                                    <option value="{{ $level }}"
+                                        @if(!empty($user) && $user->level == $level || empty($user) && $level == User::NORMAL) selected @endif
+                                        @if(!empty($user) && $user->id == Auth::id() && $user->level == User::SUPER_HIGH) disabled @endif
+                                    >
+                                        {{ $name }}
+                                    </option>
+                                @endif
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label for="{{ trans('packages/core::common.role_permission.roles.title') }}" class="control-label text-black" aria-required="true">
+                            {{ trans('packages/core::common.role_permission.roles.title') }}
+                        </label>
+                        <select class="form-control js-select2-multiple" name="roles[]" multiple="multiple">
+                            @foreach($roles as $item)
+                                <option data-id="{{ $item->id }}" value="{{ $item->name }}" @if(in_array($item->name, $roleSelected)) selected @endif>{{ $item->name }}</option>
+                            @endforeach
                         </select>
                     </div>
                 </div>
@@ -92,6 +124,8 @@
 @section('js')
     <script type="text/javascript">
         let ROUTE_IDX = "{!! route('settings.users.index') !!}"
+        const PLACEHOLDER = "{{ trans('packages/core::common.choose') }}";
     </script>
+    <script src="{{ mix('core/plugins/select2/select2.min.js') }}"></script>
     <script type="text/javascript" src="{{ mix('core/js/user.mix.js') }}" defer></script>
 @endsection

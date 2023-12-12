@@ -14,6 +14,30 @@ php artisan core:environment
 php artisan vendor:publish --provider="IBoot\Core\App\Providers\CoreServiceProvider" --force
 ```
 
+- in your config/auth.php file:
+```angular2html
+'providers' => [
+    'users' => [
+        'driver' => 'eloquent',
+        'model' => \IBoot\Core\App\Models\User::class,
+    ],
+];
+```
+
+- This package comes with RoleMiddleware, PermissionMiddleware and RoleOrPermissionMiddleware middleware. You can add them inside your app/Http/Kernel.php file to be able to use them through aliases.
+
+```angular2html
+// Laravel 9 uses $routeMiddleware = [
+//protected $routeMiddleware = [
+// Laravel 10+ uses $middlewareAliases = [
+protected $middlewareAliases = [
+    // ...
+    'role' => \Spatie\Permission\Middleware\RoleMiddleware::class,
+    'permission' => \Spatie\Permission\Middleware\PermissionMiddleware::class,
+    'role_or_permission' => \Spatie\Permission\Middleware\RoleOrPermissionMiddleware::class,
+];
+```
+
 ## File `package.json` and `npm run watch`
 
 ```

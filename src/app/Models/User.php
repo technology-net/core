@@ -6,13 +6,19 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
     public const STATUS_ACTIVATED = 'Activated';
     public const STATUS_DEACTIVATED = 'Deactivated';
+    const SUPER_HIGH = 1;
+    const HIGH = 2;
+    const MEDIUM = 3;
+    const NORMAL = 4;
+    protected $guard_name = "web";
 
     /**
      * The attributes that are mass assignable.
@@ -24,6 +30,7 @@ class User extends Authenticatable
         'username',
         'name',
         'status',
+        'level',
         'password',
     ];
 

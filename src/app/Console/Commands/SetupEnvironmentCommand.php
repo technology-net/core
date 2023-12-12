@@ -23,23 +23,46 @@ class SetupEnvironmentCommand extends Command
     /**
      * Execute the console command.
      */
-    public function handle()
+    public function handle(): void
     {
+        $this->publishVendor('Spatie\Permission\PermissionServiceProvider');
         $this->call('migrate');
-        if (!file_exists(public_path('storage'))) {
-            $this->call('storage:link');
-        }
         $this->seed('IBoot\\Core\\Database\\Seeders\\UserSeeder');
         $this->seed('IBoot\\Core\\Database\\Seeders\\PluginSeeder');
         $this->seed('IBoot\\Core\\Database\\Seeders\\MenuItemSeeder');
         $this->seed('IBoot\\Core\\Database\\Seeders\\SystemSettingSeeder');
+        $this->seed('IBoot\\Core\\Database\\Seeders\\PermissionSeeder');
+
+        if (!file_exists(public_path('storage'))) {
+            $this->call('storage:link');
+        }
 
         $this->info('Environment setup completed.');
     }
 
-    protected function seed($class)
+    /**
+     * @param $class
+     * @return void
+     */
+    protected function seed($class): void
     {
-        $this->call('db:seed', ['--class' => $class]);
+        $this->call('db:seed', [
+            '--class' => $class,
+        ]);
+
         $this->info("Seeded: $class");
+    }
+
+    /**
+     * @param $provider
+     * @return void
+     */
+    protected function publishVendor($provider): void
+    {
+        $this->call('vendor:publish', [
+            '--provider' => $provider,
+        ]);
+
+        $this->info("$provider setup completed.");
     }
 }

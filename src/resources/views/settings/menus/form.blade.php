@@ -27,7 +27,7 @@
     <div class="clearfix"></div>
     @include('packages/core::partial.note', ['text' => trans('packages/core::messages.note', ['field' => $label])])
     <div class="form-create-user">
-        <form method="POST" action="{{ route('settings.menus.update', $menu->id ?? 0) }}" id="formSubmit">
+        <form method="POST" action="{{ route('settings.menus.update', $menu->id ?? 0) }}" id="formSubmitSimple">
             @csrf
             @method('PUT')
             <input type="hidden" name="id" value="{{ $menu->id ?? 0 }}">

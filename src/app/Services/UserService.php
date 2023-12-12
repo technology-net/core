@@ -3,10 +3,11 @@
 namespace IBoot\Core\App\Services;
 
 use IBoot\Core\App\Models\User;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class UserService
@@ -16,7 +17,11 @@ class UserService
      */
     public function getUsers(): Collection|array
     {
-        return User::query()->orderBy('created_at', 'desc')->get();
+        return User::query()
+                ->with('roles')
+                ->where('level', '>=', Auth::user()->level)
+                ->orderBy('created_at', 'desc')
+                ->get();
     }
 
     /**
@@ -38,11 +43,30 @@ class UserService
     public function createOrUpdateUser($id, array $inputs = array()): Model|Builder
     {
         $inputs['password'] = Hash::make(config('core.password_default'));
+        $roles = Arr::get($inputs, 'roles', []);
+        if (!empty($inputs['role_selected'])) {
+            $roleSelected = json_decode($inputs['role_selected'], true);
+        }
+        unset($inputs['roles'], $inputs['role_selected']);
 
-        return User::query()->updateOrCreate(
+        $user = User::query()->updateOrCreate(
             ['id' => $id],
             $inputs
         );
+
+        // delete role
+        if (count($roleSelected)) {
+            foreach ($roleSelected as $role) {
+                $user->removeRole($role);
+            }
+        }
+
+        // role assigned to a $user
+        if (count($roles)) {
+            $user->assignRole($roles);
+        }
+
+        return $user;
     }
 
     /**
@@ -54,6 +78,15 @@ class UserService
     public function deleteUser(int $id): mixed
     {
         return $this->findUserById($id)->delete();
+    }
+
+    /**
+     * @param $ids
+     * @return mixed
+     */
+    public function deleteAllById($ids): mixed
+    {
+        return User::query()->whereIn('id', $ids)->delete();
     }
 
     /**

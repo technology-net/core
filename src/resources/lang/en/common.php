@@ -18,7 +18,24 @@ return [
     'url' => 'URL',
     'icon' => 'Icon',
     'reset' => 'Reset',
+    'choose' => '-- Please choose --',
+    'all' => 'All',
     'media' => [
         'title' => 'Media Gallery'
-    ]
+    ],
+    'role_permission' => [
+        'title' => 'Roles and Permissions',
+        'guard_name' => 'Guard Name',
+        'roles' => [
+            'title' => 'Roles',
+        ],
+        'permissions' => [
+            'title' => 'Permissions',
+        ],
+    ],
+    'level' => 'Level',
+    'super_high' => 'Super High',
+    'high' => 'High',
+    'medium' => 'Medium',
+    'normal' => 'Normal',
 ];

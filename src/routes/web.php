@@ -3,10 +3,16 @@
 use IBoot\Core\App\Http\Middleware\Authenticate;
 use IBoot\Core\App\Http\Middleware\LoginMiddleware;
 use Illuminate\Support\Facades\Route;
+use Spatie\Permission\Middleware\RoleMiddleware;
+use Spatie\Permission\Middleware\PermissionMiddleware;
+use Spatie\Permission\Middleware\RoleOrPermissionMiddleware;
 
 Route::middleware(['web'])->group(function () {
     $prefix = config('core.route_prefix', 'admin');
     Route::group(['namespace' => 'IBoot\Core\App\Http\Controllers', 'prefix'=> $prefix], function () {
+        Route::get('/', function () {
+            return redirect()->route('auth.index');
+        });
         Route::group(['as' => 'auth', 'prefix' => 'login'], function () {
             Route::get('', 'LoginController@index')->name('.index')
                 ->middleware(LoginMiddleware::class);
@@ -15,7 +21,7 @@ Route::middleware(['web'])->group(function () {
             Route::get('/logout', 'LoginController@logout')->name('.logout');
         });
 
-        Route::middleware(Authenticate::class)->group(function () {
+        Route::middleware(Authenticate::class)->group(callback: function () {
             Route::resource('dashboard', 'HomeController')->only('index');
 
             Route::group(['as' => 'plugins.', 'prefix' => 'plugins'], function () {
@@ -35,12 +41,18 @@ Route::middleware(['web'])->group(function () {
 
             Route::group(['as' => 'settings.', 'prefix' => 'settings', 'namespace' => 'Settings'], function () {
                 Route::resource('/users', 'UserController')->except(['show', 'store']);
+                Route::post('users/delete-all', 'UserController@deleteAll')->name('users.deleteAll');
                 Route::resource('/menus', 'MenuController')->except(['show', 'store']);
                 Route::post('menus/delete-all', 'MenuController@deleteAll')->name('menus.deleteAll');
                 Route::resource('system_settings', 'SystemSettingController')->except(['show', 'store', 'edit']);
                 Route::post('system_settings/delete-all', 'SystemSettingController@deleteAll')->name('system_settings.deleteAll');
                 Route::post('system_settings/{id}/editable', 'SystemSettingController@editable')->name('system_settings.editable');
             });
+
+            Route::resource('roles', 'RoleController')->except(['show', 'store']);
+            Route::post('roles/delete-all', 'RoleController@deleteAll')->name('roles.deleteAll');
+            Route::resource('permissions', 'PermissionController')->except(['show', 'store']);
+            Route::post('permissions/delete-all', 'PermissionController@deleteAll')->name('permissions.deleteAll');
         });
     });
 });

@@ -2,11 +2,11 @@
 
 namespace IBoot\Core\App\Providers;
 
-use IBoot\Core\App\Models\MenuItem;
 use IBoot\Core\App\View\Components\Sidebar;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Pagination\Paginator;
-use Illuminate\Support\ServiceProvider;
+use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Gate;
 
 class CoreServiceProvider extends ServiceProvider
 {
@@ -47,5 +47,13 @@ class CoreServiceProvider extends ServiceProvider
 //            __DIR__ . '/../../lang' => lang_path(),
 //            __DIR__ . '/../../resources/views' => resource_path('packages/core'),
 //        ]);
+        $this->registerPolicies();
+        Gate::before(function ($user, $ability) {
+            return $user->hasRole('Supper Admin') ? true : null;
+        });
+
+        Gate::guessPolicyNamesUsing(function ($modelClass) {
+            return '\\IBoot\\Core\\App\\Policies\\' . class_basename($modelClass) . 'Policy';
+        });
     }
 }

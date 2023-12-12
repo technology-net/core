@@ -25,7 +25,7 @@
     <div class="clearfix"></div>
     @include('packages/core::partial.note', ['text' => trans('packages/core::messages.note', ['field' => $label])])
     <div class="form-create-user">
-        <form method="POST" action="{{ route('settings.system_settings.update', $systemSetting->id ?? 0) }}" id="formSubmit">
+        <form method="POST" action="{{ route('settings.system_settings.update', $systemSetting->id ?? 0) }}" id="formSubmitSimple">
             @csrf
             @method('PUT')
             <input type="hidden" name="id" value="{{ $systemSetting->id ?? 0 }}">
@@ -37,6 +37,7 @@
                             <strong class="text-required text-danger">*</strong>
                         </label>
                         <input class="form-control" autocomplete="off" label="{{ trans('packages/core::settings.system_settings.key') }}" validate="true"
+                               placeholder="{{ trans('packages/core::settings.system_settings.key') }}"
                                validate-pattern="required" name="key" type="text" value="{{ old('key', $systemSetting->key ?? null) }}">
                         <div id="error_key"></div>
                     </div>
@@ -45,7 +46,8 @@
                             {{ trans('packages/core::settings.system_settings.value') }}
                             <strong class="text-required text-danger">*</strong>
                         </label>
-                        <textarea class="form-control" name="value" rows="10" label="{{ trans('packages/core::settings.system_settings.value') }}" validate="true" validate-pattern="required">{{ old('key', $systemSetting->value ?? null) }}</textarea>
+                        <textarea class="form-control" name="value" rows="10" label="{{ trans('packages/core::settings.system_settings.value') }}"
+                                  placeholder="{{ trans('packages/core::settings.system_settings.value') }}" validate="true" validate-pattern="required">{{ old('key', $systemSetting->value ?? null) }}</textarea>
                         <div id="error_value"></div>
                     </div>
                 </div>
@@ -67,10 +69,4 @@
             </div>
         </form>
     </div>
-@endsection
-@section('js')
-    <script type="text/javascript">
-        const ROUTE_IDX = "{!! route('settings.system_settings.index') !!}"
-    </script>
-    <script type="text/javascript" src="{{ mix('core/js/system-settings.mix.js') }}" defer></script>
 @endsection

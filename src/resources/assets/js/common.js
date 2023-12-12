@@ -93,7 +93,12 @@ $(document).ready(function () {
   // Click event for the "input-check-all" checkbox
   $('body').on('change', '.input-check-all', function () {
     if ($(this).is(':checked')) {
-      $('.checkboxes').prop('checked', true);
+      $('.checkboxes').each(function() {
+        if ($(this).data('login-id') != $(this).val()) {
+          $(this).prop('checked', true);
+        }
+      });
+      // $('.checkboxes').prop('checked', true);
       selectedValues = $('.checkboxes:checked').map(function() {
           return $(this).val();
       }).get();
@@ -111,6 +116,8 @@ $(document).ready(function () {
 
   // Click event for individual checkboxes
   $('body').on('change', '.checkboxes',function () {
+    let allChecked = $('.checkboxes:checked').length === $('.checkboxes').length;
+    $('.input-check-all').prop('checked', allChecked);
     let value = $(this).val();
     if ($(this).is(':checked')) {
       selectedValues.push(value);
@@ -124,7 +131,6 @@ $(document).ready(function () {
       $('.delete-all').removeClass('d-none');
     } else {
       $('.delete-all').addClass('d-none');
-      $('.input-check-all').prop('checked', false);
     }
   });
 
@@ -199,6 +205,47 @@ showNotify = function (title, icon, isReload = false) {
 // datatable
 if ($('#dataTable').length) {
   $('#dataTable').DataTable({
-    'ordering':false
+    'ordering':false,
+    'responsive': true,
+    'drawCallback': function() {
+      $(".delete-all").addClass("d-none");
+      $('.input-check-all').prop('checked', false);
+      $('.checkboxes').prop('checked', false);
+    }
   });
+}
+
+if ($('#formSubmitSimple').length) {
+  $('body').on('submit', '#formSubmitSimple',function (e) {
+    e.preventDefault()
+    let form = $(this);
+    let url = form.attr('action');
+    let formData = new FormData(form[0]);
+    $.ajax({
+      type: form.attr('method'),
+      url: url,
+      data: formData,
+      cache: false,
+      contentType: false,
+      processData: false,
+      success: function (response) {
+        if (response.success) {
+          showNotify(response.message, 'success', true);
+        } else {
+          showNotify(response.message, 'error');
+        }
+      },
+      error: function (jQxhr) {
+        if (jQxhr.status === 422) {
+          let errors = jQxhr["responseJSON"].data
+          for (let [key, value] of Object.entries(errors)) {
+            showError(key, value[0])
+          }
+        }
+        if (jQxhr.status === 500) {
+          showNotify(jQxhr['responseJSON'].message, 'error');
+        }
+      }
+    })
+  })
 }

@@ -71,7 +71,7 @@ class MenuItemSeeder extends Seeder
                 'parent_id' => $newMenuItem->id,
                 'url' => 'settings.menus.index',
                 'icon' => null,
-                'order' => 5,
+                'order' => 1,
                 'created_at' => $now,
                 'updated_at' => $now
             ],
@@ -81,7 +81,7 @@ class MenuItemSeeder extends Seeder
                 'parent_id' => $newMenuItem->id,
                 'url' => 'settings.users.index',
                 'icon' => null,
-                'order' => 6,
+                'order' => 2,
                 'created_at' => $now,
                 'updated_at' => $now
             ],
@@ -91,10 +91,44 @@ class MenuItemSeeder extends Seeder
                 'parent_id' => $newMenuItem->id,
                 'url' => 'settings.system_settings.index',
                 'icon' => null,
-                'order' => 7,
+                'order' => 3,
+                'created_at' => $now,
+                'updated_at' => $now
+            ]
+        ]);
+
+        $rolePermissions = MenuItem::query()->create([
+            'menu_id' => $menu->id,
+            'name' => 'Roles and Permissions',
+            'parent_id' => null,
+            'url' => null,
+            'icon' => 'fas fa-user-shield',
+            'order' => 5,
+            'created_at' => $now,
+            'updated_at' => $now
+        ]);
+
+        MenuItem::query()->insert([
+            [
+                'menu_id' => $menu->id,
+                'name' => 'Roles',
+                'parent_id' => $rolePermissions->id,
+                'url' => 'roles.index',
+                'icon' => null,
+                'order' => 1,
                 'created_at' => $now,
                 'updated_at' => $now
             ],
+            [
+                'menu_id' => $menu->id,
+                'name' => 'Permissions',
+                'parent_id' => $rolePermissions->id,
+                'url' => 'permissions.index',
+                'icon' => null,
+                'order' => 2,
+                'created_at' => $now,
+                'updated_at' => $now
+            ]
         ]);
     }
 }
