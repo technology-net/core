@@ -1,5 +1,5 @@
 <li class="nav-item">
-    <a href="{{ !empty($sidebarMenu->url) ? route($sidebarMenu->url) : 'javascript:void(0)' }}" class="nav-link {{ isSidebarMenuActive($rangeUrlByParent, $parentName, $sidebarMenu->url) ? 'active' : '' }}">
+    <a href="{{ (!empty($sidebarMenu->url) && Route::has($sidebarMenu->url)) ? route($sidebarMenu->url) : 'javascript:void(0)' }}" class="nav-link {{ isSidebarMenuActive($rangeUrlByParent, $parentName, $sidebarMenu->url) ? 'active' : '' }}">
         <i class="nav-icon {{ !empty($sidebarMenu->icon) ? $sidebarMenu->icon : 'far fa-circle' }}"></i>
         <p>
             {{ $sidebarMenu->name }}

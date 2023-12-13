@@ -325,6 +325,9 @@ $(document).ready(function () {
           $('#fill-media').html(res.html);
         }
       });
+    if ($(this).data('avatar') != undefined) {
+      $('.modal-insert').attr('data-avatar', true);
+    }
     $('#modalOpenMedia').modal('show');
   });
 
@@ -354,34 +357,46 @@ $(document).ready(function () {
     }
 
     let html = ``;
-    $.each(objMedia, function (_i, _item) {
+    if ($(this).data('avatar') == true) {
       html += `
-        <div class="col-md-4 item-thumbnail">
-          <div class="preview-image">
-              <img width="100%" src="${domain + '/storage' + _item.image_sm}" alt="${_item.name}">
-              <i class="far fa-times-circle remove-preview"></i>
-              <input type="hidden" name="media_id[]" value="${_item.id}">
-          </div>
+        <div class="preview-avatar">
+          <img width="100%" src="${domain + '/storage' + objMedia[0].image_sm}" alt="${objMedia[0].name}">
+          <i class="fas fa-camera" id="openMedia" data-avatar="true"></i>
+          <input type="hidden" name="media_id" value="${objMedia[0].id}">
         </div>
       `;
-    });
-    $('#wrap-preview').html(html).find('.remove-preview').show();
-    $(".item-thumbnail:first").addClass("active-item");
-    let images = $('#wrap-preview img');
-    let imageCount = images.length;
-    let imagesLoaded = 0;
-    images.on('load', function () {
-      imagesLoaded++;
-      if (imagesLoaded === imageCount) {
-        hideLoading();
-        if ($('#wrap-preview').height() >= 260) {
-          $('#wrap-preview').addClass('thumbnail-scroll');
+      $('#wrap-avatar').html(html);
+      hideLoading();
+    } else {
+      $.each(objMedia, function (_i, _item) {
+        html += `
+          <div class="col-md-4 item-thumbnail">
+            <div class="preview-image">
+                <img width="100%" src="${domain + '/storage' + _item.image_sm}" alt="${_item.name}">
+                <i class="far fa-times-circle remove-preview"></i>
+                <input type="hidden" name="media_id[]" value="${_item.id}">
+            </div>
+          </div>
+        `;
+      });
+      $('#wrap-preview').html(html).find('.remove-preview').show();
+      $(".item-thumbnail:first").addClass("active-item");
+      let images = $('#wrap-preview img');
+      let imageCount = images.length;
+      let imagesLoaded = 0;
+      images.on('load', function () {
+        imagesLoaded++;
+        if (imagesLoaded === imageCount) {
+          hideLoading();
+          if ($('#wrap-preview').height() >= 260) {
+            $('#wrap-preview').addClass('thumbnail-scroll');
+          }
+          if (imageCount < 7) {
+            $('#wrap-preview').removeClass('thumbnail-scroll');
+          }
         }
-        if (imageCount < 7) {
-          $('#wrap-preview').removeClass('thumbnail-scroll');
-        }
-      }
-    });
+      });
+    }
   });
 
   if ($("#wrap-preview .preview-image img:first").attr("alt") !== 'image-default') {

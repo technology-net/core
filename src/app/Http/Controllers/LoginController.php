@@ -37,17 +37,18 @@ class LoginController extends Controller
     public function login(LoginRequest $loginRequest): JsonResponse
     {
         $input = $loginRequest->all();
+        $remember = $loginRequest->has('remember') ? true : false;
         $credentials = [
             'email' => $input['email'],
             'password' => $input['password'],
             'status' => User::STATUS_ACTIVATED,
         ];
-
-        if(!auth()->attempt($credentials)) {
-            throw new UnauthorizedException(null, trans('packages/core::messages.login_failed'));
+        if(Auth::attempt($credentials, $remember)) {
+            $this->storeSession();
+            return responseSuccess(null, trans('packages/core::messages.login_success'));
         }
 
-        return responseSuccess(null, trans('packages/core::messages.login_success'));
+        throw new UnauthorizedException(null, trans('packages/core::messages.login_failed'));
     }
 
     /**
@@ -59,11 +60,36 @@ class LoginController extends Controller
     public function logout(Request $request): Redirector|Application|RedirectResponse
     {
         Auth::logout();
+        $remember = session('remember');
+        $email = session('email_admin');
+        $password = session('password');
 
         $request->session()->invalidate();
-
         $request->session()->regenerateToken();
 
+        if (!empty($remember)) {
+            session()->put('remember', $remember);
+            session()->put('email_admin', $email);
+            session()->put('password', $password);
+        }
+
         return redirect()->route('auth.index');
+    }
+
+    private function storeSession()
+    {
+        $user = Auth::user();
+        $remember = request()->has('remember') ? true : false;
+        if (!empty($remember)) {
+            session()->put('password', request()->get('password'));
+        }
+        $avatar = $user->medias->isNotEmpty() ? $user->medias[0]->image_sm : '';
+        if (!empty($avatar)) {
+            session()->put('avatar_' . $user->id, $avatar);
+        }
+        session()->put('remember', $remember);
+        session()->put('user_id', $user->id);
+        session()->put('person_name', $user->name);
+        session()->put('email_admin', $user->email);
     }
 }
