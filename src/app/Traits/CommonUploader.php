@@ -40,6 +40,7 @@ trait CommonUploader
                 ];
                 // Save the image to the specified directory on the selected disk
                 Storage::disk($disk)->put($directory . $imageName['file_path'], $contents);
+                $imageName['file_path'] = $path . $imageName['file_path'];
             }
 
             return [

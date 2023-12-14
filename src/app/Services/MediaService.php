@@ -8,9 +8,12 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
+use IBoot\Core\App\Traits\CommonUploader;
+use Illuminate\Support\Facades\Storage;
 
 class MediaService
 {
+    use CommonUploader;
     /**
      * Get list of media
      *
@@ -98,6 +101,29 @@ class MediaService
         }
 
         return null;
+    }
+
+    /**
+     * @param array $inputs
+     * @return string
+     */
+    public function downloadFile(array $inputs = array())
+    {
+        $ids = Arr::get($inputs, 'ids', []);
+        $medias = Media::query()->whereIn('id', $ids)->get();
+        $disk = $this->getDisk();
+        $filePath = '';
+
+        if ($medias->isNotEmpty() && $medias->count() == 1 && !$medias[0]->is_directory) {
+            $path = $this->getDirectory($medias[0]->image_lg);
+            if (Storage::disk($disk)->exists($path)) {
+                $filePath = Storage::disk($disk)->path($path);
+            }
+        } else {
+            $filePath = '/home/ninhnk/work/iboot-code/storage/app/public/uploads/77e44cc9995db23c0fc61ac6a6a4d985/77e44cc9995db23c0fc61ac6a6a4d985-1702458929-564x1128.webp';
+        }
+
+        return $filePath;
     }
 
     /**
