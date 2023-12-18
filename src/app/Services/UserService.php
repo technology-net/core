@@ -43,6 +43,7 @@ class UserService
     public function createOrUpdateUser($id, array $inputs = array()): Model|Builder
     {
         $inputs['password'] = Hash::make(config('core.password_default'));
+        $mediaId = Arr::get($inputs, 'media_id', null);
         $roles = Arr::get($inputs, 'roles', []);
         if (!empty($inputs['role_selected'])) {
             $roleSelected = json_decode($inputs['role_selected'], true);
@@ -53,6 +54,13 @@ class UserService
             ['id' => $id],
             $inputs
         );
+
+        $user->medias()->detach();
+
+        if (!empty($mediaId)) {
+            // Thêm mới các media được chọn
+            $user->medias()->attach($mediaId);
+        }
 
         // delete role
         if (count($roleSelected)) {
@@ -65,6 +73,9 @@ class UserService
         if (count($roles)) {
             $user->assignRole($roles);
         }
+
+        $avatar = $user->medias->isNotEmpty() ? $user->medias[0]->image_sm : '';
+        session()->put('avatar_' . $user->id, $avatar);
 
         return $user;
     }

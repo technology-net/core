@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 class User extends Authenticatable
 {
@@ -52,4 +53,12 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * @return MorphToMany
+     */
+    public function medias(): MorphToMany
+    {
+        return $this->morphToMany(Media::class, 'media_able');
+    }
 }

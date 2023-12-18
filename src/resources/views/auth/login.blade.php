@@ -6,10 +6,12 @@
                 <b class="h1">{{ config('app.name', 'ICI Admin') }}</b>
             </div>
             <div class="card-body">
-                <form id="form_login" method="POST" action="{{ route('auth.login') }}">
+                <form id="form_login" method="POST" action="{{ route('auth.login') }}" autocomplete="off">
                     @csrf
+                    <input class="d-none" type="email" name="f_email">
                     <div class="input-group my-2">
-                        <input id="email" type="text" name="email" class="form-control" autocomplete="off" validate="true" validate-pattern="required|email" label="Email" placeholder="Email" />
+                        <input id="email" type="text" name="email" class="form-control" autocomplete="off" validate="true" validate-pattern="required|email" label="Email" placeholder="Email"
+                        value="{{ session('remember') ? session('email_admin') : '' }}" />
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-envelope"></span>
@@ -18,7 +20,8 @@
                     </div>
                     <div id="error_email"></div>
                     <div class="input-group my-2">
-                        <input id="password" type="password" name="password" class="form-control" autocomplete="off" validate="true" validate-pattern="required" label="Password" placeholder="Password"/>
+                        <input id="password" type="password" name="password" class="form-control" autocomplete="new-password" validate="true" validate-pattern="required" label="Password" placeholder="Password"
+                        value="{{ session('remember') ? session('password') : '' }}" />
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-lock"></span>
@@ -29,7 +32,7 @@
                     <div class="row">
                         <div class="col-8">
                             <div class="icheck-primary">
-                                <input type="checkbox" id="remember">
+                                <input type="checkbox" id="remember" name="remember" {{ session('remember') ? 'checked' : '' }}>
                                 <label for="remember">Remember Me</label>
                             </div>
                         </div>

@@ -1,4 +1,5 @@
 <?php
+use Illuminate\Support\Facades\Route;
 
 if (!function_exists('isSidebarMenuActive')) {
     /**
@@ -9,7 +10,7 @@ if (!function_exists('isSidebarMenuActive')) {
      */
     function isSidebarMenuActive($rangeUrlByParent, $parentName, $url): bool
     {
-        if (empty($url)) return false;
+        if (empty($url) || !Route::has($url)) return false;
 
         return in_array($url, $rangeUrlByParent[strtolower($parentName)]) && str_contains(url()->full(), route($url));
     }
@@ -102,5 +103,12 @@ if (!function_exists('levelOptions')) {
             '3' => trans('packages/core::common.medium'),
             '4' => trans('packages/core::common.normal'),
         ];
+    }
+}
+
+if (!function_exists('getPathImage')) {
+    function getPathImage($path)
+    {
+        return asset('storage' . $path);
     }
 }

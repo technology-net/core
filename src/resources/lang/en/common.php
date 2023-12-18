@@ -38,4 +38,5 @@ return [
     'high' => 'High',
     'medium' => 'Medium',
     'normal' => 'Normal',
+    'image' => 'Image',
 ];

@@ -139,3 +139,31 @@ img {
 .select2-container--default .select2-search--inline .select2-search__field:focus {
     border: unset !important;
 }
+
+.preview-avatar {
+    width: 220px;
+    height: 220px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.preview-avatar img {
+    border-radius: 50%;
+}
+
+.preview-avatar #openMedia {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 20px;
+    cursor: pointer;
+    color: #ddd;
+    border: 1px solid;
+    padding: 5px;
+    border-radius: 50%;
+}
+
+.preview-avatar #openMedia:hover {
+    opacity: 0.6;
+}

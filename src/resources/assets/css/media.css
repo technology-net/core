@@ -273,3 +273,26 @@ div.no-items {
 #modalOpenMedia .modal-full {
     max-width: unset;
 }
+
+#tooltip {
+    position: absolute;
+    display: none;
+    min-width: 160px;
+    max-width: 250px;
+    padding: 5px 0;
+    margin-bottom: 0;
+    list-style-type: none;
+    background: #fff;
+    border: 1px solid #bebebe;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,.5);
+}
+#tooltip li {
+    display: block;
+    padding: 3px 20px;
+}
+
+#tooltip li:hover {
+    cursor: pointer;
+    background-color: #f5f5f5;
+}

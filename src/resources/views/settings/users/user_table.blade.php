@@ -25,9 +25,10 @@
                         </label>
                     </th>
                 @endcan
+                <th width="5%" class="text-center">{{ trans('packages/core::common.image') }}</th>
                 <th width="10%">{{ trans('packages/core::user.username') }}</th>
                 <th width="20%">{{ trans('packages/core::common.email') }}</th>
-                <th width="35%">{{ trans('packages/core::common.role_permission.roles.title') }}</th>
+                <th width="30%">{{ trans('packages/core::common.role_permission.roles.title') }}</th>
                 <th width="10%" class="text-left">{{ trans('packages/core::common.status') }}</th>
                 <th width="12%" class="text-center">{{ trans('packages/core::common.created_at') }}</th>
                 <th width="10%" class="text-center">{{ trans('packages/core::common.operations') }}</th>
@@ -43,6 +44,9 @@
                         </label>
                     </td>
                 @endcan
+                    <td class="text-center">
+                        <img width="50px" class="ms-auto" src="{{ getPathImage($item->medias[0]->image_sm) }}" alt="{{ $item->medias[0]->name }}">
+                    </td>
                 <td>
                     @can('edit')
                         <a href="{{ route('settings.users.edit', ['user' => $item->id]) }}">{{ $item->username }}</a>

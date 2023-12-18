@@ -85,6 +85,20 @@ class MediaController extends Controller
         }
     }
 
+    public function downloadFile(Request $request)
+    {
+        $filePath = $this->mediaService->downloadFile($request->all());
+
+        if (str_contains($filePath, 'webp')) {
+            return response()->download($filePath);
+        } else {
+            return response()->make(file_get_contents($filePath), 200, [
+                'Content-Type' => 'text/plain',
+                'Content-Disposition' => 'inline; filename="' . basename($filePath) .'"',
+            ]);
+        }
+    }
+
     /**
      * @param Request $request
      * @return JsonResponse

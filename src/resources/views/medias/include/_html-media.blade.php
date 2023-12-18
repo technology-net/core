@@ -1,6 +1,5 @@
 @section('media-css')
     <link href="{{ mix('core/css/media.mix.css') }}" rel="stylesheet"/>
-{{--    <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css"/>--}}
 @endsection
 
 <div class="clearfix"></div>
@@ -93,6 +92,17 @@
         <!-- End Folders Container -->
     </div>
 </div>
+
+<ul id="tooltip">
+    <li>
+        <i class="far fa-edit mr-2"></i>
+        <span>Rename</span>
+    </li>
+    <li class="tooltip-item" data-url="{{ route('media.downloadFile') }}">
+        <i class="fas fa-download mr-2"></i>
+        <span>Download</span>
+    </li>
+</ul>
 @include('packages/core::medias.include._modal-make-folder')
 @section('media-js')
     <script>
@@ -100,6 +110,5 @@
         let MEDIA_IDX = "{!! route('media.index') !!}";
         let UPLOAD_FILE_URL = "{!! route('media.upload-files') !!}";
     </script>
-{{--    <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>--}}
     <script type="text/javascript" src="{{ mix('core/js/media.mix.js') }}" defer></script>
 @endsection

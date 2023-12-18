@@ -56,20 +56,8 @@ $(document).ready(function () {
         $('.media-uploaded-at').find('p').html(formatDateString(result['created_at']))
         $('.media-modified-at').find('p').html(formatDateString(result['updated_at']))
       });
-    // handle btn shift
-    if (event.shiftKey) {
-      $(this).addClass('active-item');
-    } else {
-      if ($(event.target).hasClass('icon-check')) {
-        // If clicking on the icon-check, remove the active-item class of that item
-        $(this).removeClass('active-item');
-      } else {
-        // Remove the active-item class from all button.folder-container elements
-        $('button.folder-container').removeClass('active-item');
-        // Add the active-item class to the current item
-        $(this).addClass('active-item');
-      }
-    }
+    handleActiveItem(event, this);
+    $('#tooltip').hide();
     lastItemMediaId = $(this).data('id');
   })
 
@@ -77,6 +65,7 @@ $(document).ready(function () {
     if (!$(event.target).closest('button.folder-container').length) {
       $('button.folder-container').removeClass('active-item');
       resetBlockThumbnail();
+      $('#tooltip').hide();
     }
   });
 
@@ -325,6 +314,9 @@ $(document).ready(function () {
           $('#fill-media').html(res.html);
         }
       });
+    if ($(this).data('avatar') != undefined) {
+      $('.modal-insert').attr('data-avatar', true);
+    }
     $('#modalOpenMedia').modal('show');
   });
 
@@ -354,34 +346,46 @@ $(document).ready(function () {
     }
 
     let html = ``;
-    $.each(objMedia, function (_i, _item) {
+    if ($(this).data('avatar') == true) {
       html += `
-        <div class="col-md-4 item-thumbnail">
-          <div class="preview-image">
-              <img width="100%" src="${domain + '/storage' + _item.image_sm}" alt="${_item.name}">
-              <i class="far fa-times-circle remove-preview"></i>
-              <input type="hidden" name="media_id[]" value="${_item.id}">
-          </div>
+        <div class="preview-avatar">
+          <img width="100%" src="${domain + '/storage' + objMedia[0].image_sm}" alt="${objMedia[0].name}">
+          <i class="fas fa-camera" id="openMedia" data-avatar="true"></i>
+          <input type="hidden" name="media_id" value="${objMedia[0].id}">
         </div>
       `;
-    });
-    $('#wrap-preview').html(html).find('.remove-preview').show();
-    $(".item-thumbnail:first").addClass("active-item");
-    let images = $('#wrap-preview img');
-    let imageCount = images.length;
-    let imagesLoaded = 0;
-    images.on('load', function () {
-      imagesLoaded++;
-      if (imagesLoaded === imageCount) {
-        hideLoading();
-        if ($('#wrap-preview').height() >= 260) {
-          $('#wrap-preview').addClass('thumbnail-scroll');
+      $('#wrap-avatar').html(html);
+      hideLoading();
+    } else {
+      $.each(objMedia, function (_i, _item) {
+        html += `
+          <div class="col-md-4 item-thumbnail">
+            <div class="preview-image">
+                <img width="100%" src="${domain + '/storage' + _item.image_sm}" alt="${_item.name}">
+                <i class="far fa-times-circle remove-preview"></i>
+                <input type="hidden" name="media_id[]" value="${_item.id}">
+            </div>
+          </div>
+        `;
+      });
+      $('#wrap-preview').html(html).find('.remove-preview').show();
+      $(".item-thumbnail:first").addClass("active-item");
+      let images = $('#wrap-preview img');
+      let imageCount = images.length;
+      let imagesLoaded = 0;
+      images.on('load', function () {
+        imagesLoaded++;
+        if (imagesLoaded === imageCount) {
+          hideLoading();
+          if ($('#wrap-preview').height() >= 260) {
+            $('#wrap-preview').addClass('thumbnail-scroll');
+          }
+          if (imageCount < 7) {
+            $('#wrap-preview').removeClass('thumbnail-scroll');
+          }
         }
-        if (imageCount < 7) {
-          $('#wrap-preview').removeClass('thumbnail-scroll');
-        }
-      }
-    });
+      });
+    }
   });
 
   if ($("#wrap-preview .preview-image img:first").attr("alt") !== 'image-default') {
@@ -428,5 +432,70 @@ $(document).ready(function () {
       showConfirmButton: false,
       timer: 1000,
     });
+  }
+
+  $('body').on('contextmenu', 'button.folder-container', function (event) {
+    event.preventDefault();
+    handleActiveItem(event, this);
+    $('#tooltip').css({
+      top: (event.clientY - 55) + 'px',
+      left: (event.clientX + 15) + 'px',
+      display: 'block'
+    });
+  });
+
+  $('body').on('click', '.tooltip-item',function () {
+    let mediaActive = $(".folder-container.active-item");
+    let ids = [];
+
+    $.each($(mediaActive), function (_i, _item) {
+        ids.push($(_item).data('id'));
+    });
+
+    $.ajax({
+      url: $(this).data('url'),
+      method: 'POST',
+      data: {
+        ids: ids
+      },
+      xhrFields: {
+        responseType: 'blob'
+      },
+      success: function (data, textStatus, jqXHR) {
+        let filename = jqXHR.getResponseHeader('Content-Disposition')
+          ? /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/.exec(jqXHR.getResponseHeader('Content-Disposition'))?.[1]?.replace(/['"]/g, '')
+          : "";
+        let downloadLink = document.createElement('a');
+        let url = window.URL.createObjectURL(data);
+        downloadLink.href = url;
+        downloadLink.download = filename;
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(downloadLink);
+      },
+      error: function(xhr, status, error) {
+        if (xhr.status === 500) {
+          showNotify(xhr['responseJSON'].message, 'error');
+        }
+      }
+    });
+  });
+
+  function handleActiveItem(event, _this) {
+    // handle btn shift
+    if (event.shiftKey) {
+      $(_this).addClass('active-item');
+    } else {
+      if ($(event.target).hasClass('icon-check')) {
+        // If clicking on the icon-check, remove the active-item class of that item
+        $(_this).removeClass('active-item');
+      } else {
+        // Remove the active-item class from all button.folder-container elements
+        $('button.folder-container').removeClass('active-item');
+        // Add the active-item class to the current item
+        $(_this).addClass('active-item');
+      }
+    }
   }
 })
