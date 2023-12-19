@@ -1,12 +1,12 @@
 <div class="card">
         <div class="card-header">
-            @can('create')
+            @can('create users')
                 <a href="{{ route('settings.users.create') }}" class="btn btn-success btn-sm">
                     <i class="fas fa-plus"></i>
                     {{ trans('packages/core::common.create') }}
                 </a>
             @endcan
-            @can('delete')
+            @can('delete users')
                 <button class="btn btn-sm bg-danger delete-all d-none ml-2" title="Delete" role="button" data-url="{{ route('settings.users.deleteAll') }}">
                     <i class="fas fa-trash"></i>
                     {{ trans('packages/core::common.delete') }}
@@ -18,7 +18,7 @@
         <table class="mt-3 table table-bordered table-hover table-striped" id="dataTable">
         <thead>
             <tr>
-                @can('delete')
+                @can('delete users')
                     <th width="3%" class="text-center">
                         <label class="user-checkbox-label">
                             <input class="input-check-all" name="" type="checkbox">
@@ -37,7 +37,7 @@
         <tbody>
         @foreach($users as $item)
             <tr>
-                @can('delete')
+                @can('delete users')
                     <td class="text-center">
                         <label class="user-checkbox-label">
                             <input class="checkboxes" name="id[]" type="checkbox" value="{{ $item->id }}" data-login-id="{{ Auth::id() }}" @if(Auth::id() == $item->id) disabled @endif>
@@ -48,7 +48,7 @@
                         <img width="50px" class="ms-auto" src="{{ getPathImage($item->medias[0]->image_sm) }}" alt="{{ $item->medias[0]->name }}">
                     </td>
                 <td>
-                    @can('edit')
+                    @can('edit users')
                         <a href="{{ route('settings.users.edit', ['user' => $item->id]) }}">{{ $item->username }}</a>
                     @else
                         {{ $item->username }}
@@ -67,13 +67,13 @@
                 </td>
                 <td class="text-center">{{ $item->created_at }}</td>
                 <td class="text-center">
-                    @can('edit')
+                    @can('edit users')
                         <a class="btn btn-sm bg-info" href="{{ route('settings.users.edit', ['user' => $item->id]) }}">
                             <i class="fas fa-pencil-alt"></i>
                         </a>
                     @endcan
                     @if(Auth::id() != $item->id)
-                        @can('delete')
+                        @can('delete users')
                             <button type="button" class="btn btn-sm bg-danger btn-delete-user" data-url="{{ route('settings.users.destroy', ['user' => $item->id]) }}">
                                 <i class="fas fa-trash"></i>
                             </button>

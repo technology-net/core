@@ -25,6 +25,7 @@ class PermissionRequest extends BaseRequest
                 'required',
                 Rule::unique('permissions')->ignore(request('id')),
             ],
+            'group_name' => 'required'
         ];
     }
 }
