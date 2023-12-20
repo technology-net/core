@@ -35,12 +35,12 @@ $(document).ready(function () {
 
   let page
 
-  $(document).on('click', '.pagination a', function(event) {
-    event.preventDefault()
-    page = $(this).attr('href').split('page=')[1]
-
-    getMoreUsers(page)
-  })
+  // $(document).on('click', '.pagination a', function(event) {
+  //   event.preventDefault()
+  //   page = $(this).attr('href').split('page=')[1]
+  //
+  //   getMoreUsers(page)
+  // })
 
   /** Delete a user **/
   $(document).on('click', '.btn-delete-user', function() {

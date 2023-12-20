@@ -52,18 +52,22 @@
                                 <input class="form-check-input" type="checkbox" id="permission-all" @if(count($permissions) == count($permissionSelected)) checked @endif>
                                 <label for="permission-all" class="form-check-label">{{ trans('packages/core::common.all') }}</label>
                             </div>
-                            <div class="row">
-                                @foreach($permissions as $item)
-                                    <div class="col-md-3">
-                                        <div class="form-check">
-                                            <input class="form-check-input permission-item"
-                                                   @if(in_array($item->name, $permissionSelected)) checked @endif
-                                                   type="checkbox" id="permission-{{ $item->id }}" name="permissions[]" value="{{ $item->name }}">
-                                            <label for="permission-{{ $item->id }}" class="form-check-label">{{ $item->name }}</label>
+                            @foreach($permissions->groupBy('group_name') as $groupName => $items)
+                                <hr>
+                                <label class="text-capitalize">{{ $groupName }}</label>
+                                <div class="row">
+                                    @foreach($items as $item)
+                                        <div class="col-md-3">
+                                            <div class="form-check">
+                                                <input class="form-check-input permission-item"
+                                                       @if(in_array($item->name, $permissionSelected)) checked @endif
+                                                       type="checkbox" id="permission-{{ $item->id }}" name="permissions[]" value="{{ $item->name }}">
+                                                <label for="permission-{{ $item->id }}" class="form-check-label">{{ $item->name }}</label>
+                                            </div>
                                         </div>
-                                    </div>
-                                @endforeach
-                            </div>
+                                    @endforeach
+                                </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>
@@ -79,7 +83,7 @@
                         @else
                             <i class="fas fa-plus"></i>
                         @endif
-                            {{ $label }}
+                        {{ $label }}
                     </button>
                 </div>
             </div>

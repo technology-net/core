@@ -17,7 +17,7 @@ class PermissionService
     {
         return Permission::query()
                 ->with('roles')
-                ->orderBy('created_at', 'desc')
+                ->orderBy('id', 'desc')
                 ->get();
     }
 

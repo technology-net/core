@@ -25,6 +25,7 @@ return [
     ],
     'role_permission' => [
         'title' => 'Roles and Permissions',
+        'group_name' => 'Group Name',
         'guard_name' => 'Guard Name',
         'roles' => [
             'title' => 'Roles',

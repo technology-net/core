@@ -37,7 +37,7 @@
                                 <div class="app-description" title="{{ $plugin->description }}">
                                     {{ $plugin->description }}
                                 </div>
-                                <div class="app-version">Version: {{ $plugin->version ?: '1.0.0' }}
+                                <div class="app-version">Version: {{ $plugin->version ?: 'dev-main' }}
                                 </div>
                                 <div class="app-actions">
                                     <button class="btn btn-warning btn-trigger-change-status

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use IBoot\Core\App\Exceptions\ServerErrorException;
 use IBoot\Core\App\Http\Requests\SystemSettingRequest;
 use IBoot\Core\App\Services\SystemSettingService;
+use IBoot\Core\App\Models\SystemSetting;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
@@ -29,6 +30,7 @@ class SystemSettingController extends Controller
      */
     public function index(): View|string
     {
+        $this->authorize('viewAny', SystemSetting::class);
         $systemSettings = $this->systemSetting->getLists();
 
         return view('packages/core::settings.system_settings.index', compact('systemSettings'));
@@ -36,6 +38,7 @@ class SystemSettingController extends Controller
 
     public function create(): View
     {
+        $this->authorize('create', SystemSetting::class);
         return view('packages/core::settings.system_settings.form');
     }
 
@@ -69,6 +72,7 @@ class SystemSettingController extends Controller
     {
         DB::beginTransaction();
         try {
+            $this->authorize('delete', SystemSetting::class);
             $this->systemSetting->deleteSystemSettings($id);
             DB::commit();
 

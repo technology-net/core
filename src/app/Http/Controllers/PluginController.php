@@ -57,6 +57,8 @@ class PluginController extends Controller
         try {
             DB::beginTransaction();
             $command = ['composer', 'require', $composer_name];
+            DB::reconnect();
+            Artisan::call('cms:environment');
             $this->installPackage($command);
             $this->storeMenuItems($menuItem, null, $namePackage);
             $this->pluginService->updateStatusPlugin($pluginId, Plugin::STATUS_INSTALLED);
@@ -123,6 +125,8 @@ class PluginController extends Controller
         try {
             DB::beginTransaction();
             $command = ['composer', 'remove', $input['composer_name']];
+            DB::reconnect();
+            Artisan::call('migrate:rollback');
             $this->installPackage($command);
             $this->menuItemService->removeMenu($namePackage);
             $this->pluginService->updateStatusPlugin($pluginId, Plugin::STATUS_UNINSTALLED);

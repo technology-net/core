@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use IBoot\Core\App\Http\Requests\MenuRequest;
 use IBoot\Core\App\Services\MenuItemService;
 use IBoot\Core\App\Services\MenuService;
+use IBoot\Core\App\Models\Menu;
 use Illuminate\Contracts\View\View;
 use IBoot\Core\App\Exceptions\ServerErrorException;
 use Illuminate\Http\Request;
@@ -35,6 +36,7 @@ class MenuController extends Controller
      */
     public function index(Request $request): View|string
     {
+        $this->authorize('viewAny', Menu::class);
         $menus = $this->menuService->getMenus();
 
         if ($request->ajax()) {
@@ -50,6 +52,7 @@ class MenuController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', Menu::class);
         return view('packages/core::settings.menus.form');
     }
 
@@ -58,6 +61,7 @@ class MenuController extends Controller
      */
     public function edit($id)
     {
+        $this->authorize('edit', Menu::class);
         $menu = $this->menuService->getById($id);
         $menuItems = $this->menuItemService
                 ->getLists()
@@ -94,6 +98,7 @@ class MenuController extends Controller
     {
         DB::beginTransaction();
         try {
+            $this->authorize('delete', Menu::class);
             $this->menuService->deleteById($id);
             DB::commit();
 

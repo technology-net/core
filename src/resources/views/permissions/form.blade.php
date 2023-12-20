@@ -36,7 +36,7 @@
             <input type="hidden" name="role_selected" value="{{ json_encode($roleSelected) }}">
             <div class="border-white bg-white p-5">
                 <div class="row">
-                    <div class="form-group col-md-12">
+                    <div class="form-group col-md-6">
                         <label for="{{ trans('packages/core::common.name') }}" class="control-label text-black" aria-required="true">
                             {{ trans('packages/core::common.name') }}
                             <strong class="text-required text-danger">*</strong>
@@ -45,6 +45,16 @@
                                placeholder="{{ trans('packages/core::common.name') }}"
                                validate-pattern="required" name="name" type="text" value="{{ old('name', $permission->name ?? null) }}">
                         <div id="error_name"></div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="{{ trans('packages/core::common.role_permission.group_name') }}" class="control-label text-black" aria-required="true">
+                            {{ trans('packages/core::common.role_permission.group_name') }}
+                            <strong class="text-required text-danger">*</strong>
+                        </label>
+                        <input class="form-control" autocomplete="off" label="{{ trans('packages/core::common.role_permission.group_name') }}" validate="true"
+                               placeholder="{{ trans('packages/core::common.role_permission.group_name') }}"
+                               validate-pattern="required" name="group_name" type="text" value="{{ old('group_name', $permission->group_name ?? null) }}">
+                        <div id="error_group_name"></div>
                     </div>
                     <div class="form-group col-md-12">
                         <label for="{{ trans('packages/core::common.role_permission.roles.title') }}" class="control-label text-black" aria-required="true">
