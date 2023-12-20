@@ -45,7 +45,7 @@
                     </td>
                 @endcan
                     <td class="text-center">
-                        <img width="50px" class="ms-auto" src="{{ getPathImage($item->medias[0]->image_sm) }}" alt="{{ $item->medias[0]->name }}">
+                        <img width="50px" class="ms-auto" src="{{ !empty($item->medias[0]) ? getPathImage($item->medias[0]->image_sm) : '/core/images/avatar-default.webp'}}" alt="{{ !empty($item->medias[0]) ? $item->medias[0]->name : 'avatar-default' }} ">
                     </td>
                 <td>
                     @can('edit users')
