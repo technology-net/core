@@ -25,7 +25,6 @@ class SetupEnvironmentCommand extends Command
      */
     public function handle(): void
     {
-        $this->publishVendor('Spatie\Permission\PermissionServiceProvider');
         $this->call('migrate');
         $this->seed('IBoot\\Core\\Database\\Seeders\\UserSeeder');
         $this->seed('IBoot\\Core\\Database\\Seeders\\PluginSeeder');
