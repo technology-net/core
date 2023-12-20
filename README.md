@@ -11,6 +11,11 @@ This is a core package management
 
 ```angular2html
 php artisan core:environment
+```
+
+If your need publish vendor
+
+```angular2html
 php artisan vendor:publish --provider="IBoot\Core\App\Providers\CoreServiceProvider" --force
 ```
 
