@@ -45,9 +45,8 @@ Route::middleware(['web'])->group(function () {
                 Route::post('users/delete-all', 'UserController@deleteAll')->name('users.deleteAll');
                 Route::resource('/menus', 'MenuController')->except(['show', 'store']);
                 Route::post('menus/delete-all', 'MenuController@deleteAll')->name('menus.deleteAll');
-                Route::resource('system_settings', 'SystemSettingController')->except(['show', 'store', 'edit']);
-                Route::post('system_settings/delete-all', 'SystemSettingController@deleteAll')->name('system_settings.deleteAll');
-                Route::post('system_settings/{id}/editable', 'SystemSettingController@editable')->name('system_settings.editable');
+                Route::resource('system_settings', 'SystemSettingController')->except(['show', 'store', 'edit', 'update']);
+                Route::post('system_settings/{id}/update', 'SystemSettingController@update')->name('system_settings.update');
             });
 
             Route::resource('roles', 'RoleController')->except(['show', 'store']);

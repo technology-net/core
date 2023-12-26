@@ -4,7 +4,6 @@ namespace IBoot\Core\App\Http\Controllers\Settings;
 
 use App\Http\Controllers\Controller;
 use IBoot\Core\App\Exceptions\ServerErrorException;
-use IBoot\Core\App\Http\Requests\SystemSettingRequest;
 use IBoot\Core\App\Services\SystemSettingService;
 use IBoot\Core\App\Models\SystemSetting;
 use Illuminate\Contracts\View\View;
@@ -25,15 +24,20 @@ class SystemSettingController extends Controller
         $this->systemSetting = $systemSetting;
     }
 
-    /**
-     * @return View|string
-     */
-    public function index(): View|string
+    public function index(Request $request)
     {
         $this->authorize('viewAny', SystemSetting::class);
-        $systemSettings = $this->systemSetting->getLists();
+        $systemSettings = $this->systemSetting->getLists($request->all());
+        $filesystemDisk = $this->systemSetting->getFileSystemDisk();
 
-        return view('packages/core::settings.system_settings.index', compact('systemSettings'));
+        if ($request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'html' => view('packages/core::settings.system_settings.include._list',  compact('systemSettings', 'filesystemDisk'))->render()
+            ]);
+        }
+
+        return view('packages/core::settings.system_settings.index', compact('systemSettings', 'filesystemDisk'));
     }
 
     public function create(): View
@@ -43,12 +47,12 @@ class SystemSettingController extends Controller
     }
 
     /**
-     * @param SystemSettingRequest $request
+     * @param Request $request
      * @param string $id
      * @return JsonResponse
      * @throws ServerErrorException
      */
-    public function update(SystemSettingRequest $request, string $id): JsonResponse
+    public function update(Request $request, string $id): JsonResponse
     {
         DB::beginTransaction();
         try {
@@ -74,51 +78,6 @@ class SystemSettingController extends Controller
         try {
             $this->authorize('delete', SystemSetting::class);
             $this->systemSetting->deleteSystemSettings($id);
-            DB::commit();
-
-            return responseSuccess(null, trans('packages/core::messages.delete_success'));
-        } catch (Exception $e) {
-            DB::rollback();
-            Log::error($e->getMessage(), ['file' => __FILE__, 'line' => __LINE__]);
-            throw new ServerErrorException(null, trans('packages/core::messages.action_error'));
-        }
-    }
-
-    /**
-     * @param Request $request
-     * @param $id
-     * @return JsonResponse
-     * @throws ServerErrorException
-     */
-    public function editable(Request $request, $id): JsonResponse
-    {
-        $cleanedJsonString = parseHtmlToJson($request['value']);
-        $request['value'] = $cleanedJsonString;
-
-        DB::beginTransaction();
-        try {
-            $this->systemSetting->createOrUpdateSystemSettings($id, $request->all());
-            DB::commit();
-
-            return responseSuccess(null, trans('packages/core::messages.save_success'));
-        } catch (Exception $e) {
-            DB::rollback();
-            Log::error($e->getMessage(), ['file' => __FILE__, 'line' => __LINE__]);
-            throw new ServerErrorException(null, trans('packages/core::messages.action_error'));
-        }
-    }
-
-    /**
-     * @param Request $request
-     * @return JsonResponse
-     * @throws ServerErrorException
-     */
-    public function deleteAll(Request $request): JsonResponse
-    {
-        $ids = $request->ids;
-        DB::beginTransaction();
-        try {
-            $this->systemSetting->deleteAllById($ids);
             DB::commit();
 
             return responseSuccess(null, trans('packages/core::messages.delete_success'));

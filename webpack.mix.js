@@ -17,6 +17,7 @@ mix
   .js(resourcesPathJs + 'menu.js', publicPath + 'js/menu.mix.js').version()
   .js(resourcesPathJs + 'role.js', publicPath + 'js/role.mix.js').version()
   .js(resourcesPathJs + 'permission.js', publicPath + 'js/permission.mix.js').version()
+  .js(resourcesPathJs + 'system-setting.js', publicPath + 'js/system-setting.mix.js').version()
   .js(resourcesPathJs + 'common.js', publicPath + 'js/common.mix.js').version()
   .css(resourcesPathCss + 'plugin.css', publicPath + 'css/plugin.mix.css').version()
   .css(resourcesPathCss + 'media.css', publicPath + 'css/media.mix.css').version()

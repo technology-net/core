@@ -28,34 +28,6 @@ if (!function_exists('isJSON'))
     }
 }
 
-/**
- * @param $jsonString
- * @return string
- */
-if (!function_exists('renderJsonAsHtml'))
-{
-    function renderJsonAsHtml($jsonString): string
-    {
-        $data = json_decode($jsonString);
-        if ($data === null && json_last_error() !== JSON_ERROR_NONE) {
-            return "Invalid JSON";
-        }
-
-        return json_encode($data, JSON_PRETTY_PRINT);
-    }
-}
-
-/**
- * @param $html
- * @return array|string|string[]
- */
-if (!function_exists('parseHtmlToJson'))
-{
-    function parseHtmlToJson($html) {
-        return str_replace(["\n", "\t", "\r", " "], "", $html);
-    }
-}
-
 if (!function_exists('convertSize')) {
     function convertSize($item): string
     {
@@ -102,6 +74,17 @@ if (!function_exists('levelOptions')) {
             '2' => trans('packages/core::common.high'),
             '3' => trans('packages/core::common.medium'),
             '4' => trans('packages/core::common.normal'),
+        ];
+    }
+}
+
+if (!function_exists('fileSystemOptions')) {
+    function fileSystemOptions(): array
+    {
+        return [
+            'disk_local' => trans('packages/core::common.disk_local'),
+            'disk_s3' => trans('packages/core::common.disk_s3'),
+            'disk_bunnycdn' => trans('packages/core::common.disk_bunnycdn'),
         ];
     }
 }
