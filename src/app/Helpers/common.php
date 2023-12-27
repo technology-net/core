@@ -1,5 +1,7 @@
 <?php
+
 use Illuminate\Support\Facades\Route;
+use IBoot\Core\App\Models\SystemSetting;
 
 if (!function_exists('isSidebarMenuActive')) {
     /**
@@ -92,6 +94,9 @@ if (!function_exists('fileSystemOptions')) {
 if (!function_exists('getPathImage')) {
     function getPathImage($path)
     {
+        if (config('filesystems.default') == SystemSetting::BUNNY_CDN) {
+            return config('core.media_url') . $path;
+        }
         return asset('storage' . $path);
     }
 }
