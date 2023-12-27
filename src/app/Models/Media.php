@@ -41,7 +41,7 @@ class Media extends BaseModel
         if (empty($this->is_directory)) {
             $mimeType = explode('/', $this->mime_type);
             if ($mimeType[1] === 'webp') {
-                $image = asset('storage' . $this->image_sm);
+                $image = getPathImage($this->image_sm);
             }
             $image = $this->getDefaultImage($mimeType[1], $image);
         }
@@ -58,7 +58,7 @@ class Media extends BaseModel
         if (empty($this->is_directory)) {
             $mimeType = explode('/', $this->mime_type);
             if ($mimeType[1] === 'webp') {
-                $image = asset('storage' . $this->image_md);
+                $image = getPathImage($this->image_md);
             }
             $image = $this->getDefaultImage($mimeType[1], $image);
         }

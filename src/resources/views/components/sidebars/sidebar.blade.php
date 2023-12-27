@@ -16,7 +16,7 @@
                 <img src="{{ !empty(session('avatar_' . session('user_id'))) ? getPathImage(session('avatar_' . session('user_id'))) : $avatar }}" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
-                <a href="#" class="d-block">{{ Auth::user()->name }}</a>
+                <a href="{{ route('settings.users.edit', ['user' => Auth::id()]) }}" class="d-block">{{ Auth::user()->name }}</a>
             </div>
         </div>
         <!-- Sidebar Menu -->

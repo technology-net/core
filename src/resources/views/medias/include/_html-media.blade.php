@@ -93,6 +93,7 @@
     </div>
 </div>
 
+
 <ul id="tooltip">
     <li>
         <i class="far fa-edit mr-2"></i>
@@ -109,6 +110,10 @@
         let ROUTE_SHOW = "{!! route('media.show', ['media' => '__folderId']) !!}";
         let MEDIA_IDX = "{!! route('media.index') !!}";
         let UPLOAD_FILE_URL = "{!! route('media.upload-files') !!}";
+        let MEDIA_URL = "{{ url('storage') }}";
+        @if(config('filesystems.default') == \IBoot\Core\App\Models\SystemSetting::BUNNY_CDN)
+            MEDIA_URL = "{{ config('core.media_url') }}";
+        @endif
     </script>
     <script type="text/javascript" src="{{ mix('core/js/media.mix.js') }}" defer></script>
 @endsection

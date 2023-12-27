@@ -10,6 +10,7 @@ class SystemSetting extends BaseModel
     use HasFactory, Notifiable;
 
     const FILE_SYSTEM = 'File System';
+    const BUNNY_CDN = 'disk_bunnycdn';
     protected $guarded = [];
 
     protected $table = 'system_settings';

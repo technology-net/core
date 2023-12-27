@@ -3,7 +3,6 @@ $(document).ready(function () {
   let lastPage = 1;
   let folderId = null;
   let parent = null;
-  let domain = location.origin;
   let lastItemMediaId = null;
 
   if (typeof IS_MEDIA !== 'undefined') {
@@ -349,7 +348,7 @@ $(document).ready(function () {
     if ($(this).data('avatar') == true) {
       html += `
         <div class="preview-avatar">
-          <img width="100%" src="${domain + '/storage' + objMedia[0].image_sm}" alt="${objMedia[0].name}">
+          <img width="100%" src="${MEDIA_URL + objMedia[0].image_sm}" alt="${objMedia[0].name}">
           <i class="fas fa-camera" id="openMedia" data-avatar="true"></i>
           <input type="hidden" name="media_id" value="${objMedia[0].id}">
         </div>
@@ -361,7 +360,7 @@ $(document).ready(function () {
         html += `
           <div class="col-md-4 item-thumbnail">
             <div class="preview-image">
-                <img width="100%" src="${domain + '/storage' + _item.image_sm}" alt="${_item.name}">
+                <img width="100%" src="${MEDIA_URL + _item.image_sm}" alt="${_item.name}">
                 <i class="far fa-times-circle remove-preview"></i>
                 <input type="hidden" name="media_id[]" value="${_item.id}">
             </div>
@@ -406,7 +405,7 @@ $(document).ready(function () {
       $('#wrap-preview').html(`
         <div class="col-md-4">
           <div class="preview-image">
-              <img width="100%" src="${domain + '/cms/images/image-default.png'}" alt="image-default">
+              <img width="100%" src="/cms/images/image-default.png" alt="image-default">
               <i class="far fa-times-circle remove-preview"></i>
           </div>
       </div>

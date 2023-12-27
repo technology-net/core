@@ -18,7 +18,7 @@ trait CommonUploader
     public function saveFile($fileName, $path): array|string
     {
         if (!empty($fileName)) {
-            $originalName = $fileName->getClientOriginalName();
+            $originalName = strtolower($fileName->getClientOriginalName());
             list($originalName, $extension) = explode('.', $originalName);
             $disk = $this->getDisk();
             $directory = $this->getDirectory($path) . $originalName . '/';
@@ -128,12 +128,15 @@ trait CommonUploader
 
         // Create an empty thumbnail image
         $variantsImageName = $originalName . '-' . time() . '-' . $newWidth . 'x' . $newHeight . '.webp';
-        imagejpeg($variantsImage, Storage::disk($disk)->path($directory . $variantsImageName), 100);
+        $pathLocal = Storage::disk('local')->path($variantsImageName);
 
-        $filePath = Storage::disk($disk)->path($directory . $variantsImageName);
-        $fileSize = filesize($filePath);
+        imagejpeg($variantsImage, $pathLocal);
+        $imagePath = $directory . $variantsImageName;
+        Storage::disk($disk)->put($imagePath, file_get_contents($pathLocal));
+        $fileSize = Storage::disk($disk)->size($imagePath);
 
         // Destroy the images to free up memory
+        Storage::disk('local')->delete($variantsImageName);
         imagedestroy($originalImage);
         imagedestroy($variantsImage);
 
@@ -162,22 +165,6 @@ trait CommonUploader
      */
     private function getDisk(): mixed
     {
-        $disk = SystemSetting::query()
-            ->where('key', 'filesystem_disk')
-            ->first();
-        if (!empty($disk)) {
-            $setting = SystemSetting::query()
-                ->where('key', $disk->value)
-                ->first();
-
-            config([
-                'filesystems.default' => $disk->value,
-            ]);
-            config([
-                'filesystems.disks.' . $setting->key  => json_decode($setting->value, true),
-            ]);
-        }
-
         return config('filesystems.default');
     }
 

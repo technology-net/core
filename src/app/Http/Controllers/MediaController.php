@@ -5,6 +5,7 @@ namespace IBoot\Core\App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Exception;
 use IBoot\Core\App\Exceptions\ServerErrorException;
+use IBoot\Core\App\Models\SystemSetting;
 use IBoot\Core\App\Services\MediaService;
 use IBoot\Core\App\Traits\CommonUploader;
 use Illuminate\Contracts\View\Factory;
@@ -14,6 +15,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class MediaController extends Controller
 {
@@ -88,13 +90,24 @@ class MediaController extends Controller
     public function downloadFile(Request $request)
     {
         $filePath = $this->mediaService->downloadFile($request->all());
+        $fileName = basename($filePath);
 
         if (str_contains($filePath, 'webp')) {
+            if (config('filesystems.default') == SystemSetting::BUNNY_CDN) {
+                $disk = $this->getDisk();
+                $fileContent = Storage::disk($disk)->get($filePath);
+
+                return response()->make($fileContent, 200, [
+                    'Content-Type' => 'application/octet-stream',
+                    'Content-Disposition' => 'attachment; filename="' . $fileName . '"',
+                ]);
+            }
+
             return response()->download($filePath);
         } else {
             return response()->make(file_get_contents($filePath), 200, [
                 'Content-Type' => 'text/plain',
-                'Content-Disposition' => 'inline; filename="' . basename($filePath) .'"',
+                'Content-Disposition' => 'inline; filename="' . $fileName .'"',
             ]);
         }
     }

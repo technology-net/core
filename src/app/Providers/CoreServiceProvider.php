@@ -2,11 +2,18 @@
 
 namespace IBoot\Core\App\Providers;
 
+use IBoot\Core\App\Models\SystemSetting;
 use IBoot\Core\App\View\Components\Sidebar;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Storage;
+use PlatformCommunity\Flysystem\BunnyCDN\BunnyCDNAdapter;
+use PlatformCommunity\Flysystem\BunnyCDN\BunnyCDNClient;
+use Illuminate\Filesystem\FilesystemAdapter;
+use League\Flysystem\Filesystem;
 
 class CoreServiceProvider extends ServiceProvider
 {
@@ -55,5 +62,46 @@ class CoreServiceProvider extends ServiceProvider
         Gate::guessPolicyNamesUsing(function ($modelClass) {
             return '\\IBoot\\Core\\App\\Policies\\' . class_basename($modelClass) . 'Policy';
         });
+
+        $this->setupDisk();
+
+        Storage::extend('bunnycdn', function ($app, $config) {
+            $adapter = new BunnyCDNAdapter(
+                new BunnyCDNClient(
+                    $config['storage_zone'],
+                    $config['api_key'],
+                    $config['region']
+                )
+            );
+
+            return new FilesystemAdapter(
+                new Filesystem($adapter, $config),
+                $adapter,
+                $config
+            );
+        });
+    }
+
+    private function setupDisk()
+    {
+        if (Schema::hasTable('system_settings')) {
+            $disk = SystemSetting::query()
+                ->where('key', 'filesystem_disk')
+                ->first();
+            if (!empty($disk)) {
+                $setting = SystemSetting::query()
+                    ->where('key', $disk->value)
+                    ->first();
+
+                config([
+                    'filesystems.default' => $disk->value,
+                ]);
+                config([
+                    'filesystems.disks.' . $setting->key  => json_decode($setting->value, true),
+                ]);
+            }
+        }
+
+        return config('filesystems.default');
     }
 }
