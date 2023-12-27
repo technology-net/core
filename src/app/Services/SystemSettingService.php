@@ -6,15 +6,27 @@ use IBoot\Core\App\Models\SystemSetting;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Arr;
 
 class SystemSettingService
 {
-    /**
-     * @return Collection|array
-     */
-    public function getLists(): Collection|array
+    public function getLists(array $inputs = array())
     {
-        return SystemSetting::query()->orderBy('created_at', 'desc')->get();
+        $key = Arr::get($inputs, 'key', '');
+        $isChange = Arr::get($inputs, 'is_change', false);
+
+        $query = SystemSetting::query()->orderBy('created_at', 'desc');
+
+        if (!empty($key)) {
+            $query = $query->where('key', $key)
+                ->orWhere('group_name', '!=', SystemSetting::FILE_SYSTEM);
+
+            if (!empty($isChange)) {
+                SystemSetting::query()->where('key', 'filesystem_disk')->update(['value' => $key]);
+            }
+        }
+
+        return $query->get()->groupBy('group_name');
     }
 
     /**
@@ -49,20 +61,16 @@ class SystemSettingService
     }
 
     /**
-     * @param $ids
-     * @return mixed
-     */
-    public function deleteAllById($ids): mixed
-    {
-        return SystemSetting::deleteByIds($ids);
-    }
-
-    /**
      * @param $id
      * @return Model|Collection|Builder|array|null
      */
     private function findById($id): Model|Collection|Builder|array|null
     {
         return SystemSetting::query()->findOrFail($id);
+    }
+
+    public function getFileSystemDisk()
+    {
+        return SystemSetting::query()->where('key', 'filesystem_disk')->first();
     }
 }

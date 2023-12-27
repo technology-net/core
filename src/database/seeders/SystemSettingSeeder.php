@@ -17,6 +17,7 @@ class SystemSettingSeeder extends Seeder
         SystemSetting::query()->truncate();
         SystemSetting::query()->insert([
             [
+                'group_name' => SystemSetting::FILE_SYSTEM,
                 'key' => 'filesystem_disk',
                 'value' => 'disk_local',
                 'deletable' => false,
@@ -24,6 +25,7 @@ class SystemSettingSeeder extends Seeder
                 'updated_at' => now()
             ],
             [
+                'group_name' => SystemSetting::FILE_SYSTEM,
                 'key' => 'disk_local',
                 'value' => json_encode([
                     'driver' => 'local',
@@ -35,6 +37,7 @@ class SystemSettingSeeder extends Seeder
                 'updated_at' => now()
             ],
             [
+                'group_name' => SystemSetting::FILE_SYSTEM,
                 'key' => 'disk_s3',
                 'value' => json_encode([
                     'driver' => 's3',
@@ -52,6 +55,7 @@ class SystemSettingSeeder extends Seeder
                 'updated_at' => now()
             ],
             [
+                'group_name' => SystemSetting::FILE_SYSTEM,
                 'key' => 'disk_bunnycdn',
                 'value' => json_encode([
                     'driver' => 'bunnycdn',

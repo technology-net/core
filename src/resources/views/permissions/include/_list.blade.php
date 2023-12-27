@@ -26,7 +26,7 @@
                     </th>
                 @endcan
                 <th width="15%">{{ trans('packages/core::common.name') }}</th>
-                <th width="15%">{{ trans('packages/core::common.role_permission.group_name') }}</th>
+                <th width="15%">{{ trans('packages/core::common.group_name') }}</th>
                 <th width="35%">{{ trans('packages/core::common.role_permission.roles.title') }}</th>
                 <th width="10%">{{ trans('packages/core::common.role_permission.guard_name') }}</th>
                 <th width="12%" class="text-center">{{ trans('packages/core::common.created_at') }}</th>

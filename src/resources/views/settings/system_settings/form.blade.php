@@ -42,6 +42,16 @@
                         <div id="error_key"></div>
                     </div>
                     <div class="form-group col-md-6">
+                        <label for="{{ trans('packages/core::common.group_name') }}" class="control-label text-black" aria-required="true">
+                            {{ trans('packages/core::common.group_name') }}
+                            <strong class="text-required text-danger">*</strong>
+                        </label>
+                        <input class="form-control" autocomplete="off" label="{{ trans('packages/core::common.group_name') }}" validate="true"
+                               placeholder="{{ trans('packages/core::common.group_name') }}"
+                               validate-pattern="required" name="group_name" type="text" value="{{ old('group_name', $systemSetting->group_name ?? null) }}">
+                        <div id="error_group_name"></div>
+                    </div>
+                    <div class="form-group col-md-12">
                         <label for="{{ trans('packages/core::settings.system_settings.value') }}" class="control-label required text-black" aria-required="true">
                             {{ trans('packages/core::settings.system_settings.value') }}
                             <strong class="text-required text-danger">*</strong>

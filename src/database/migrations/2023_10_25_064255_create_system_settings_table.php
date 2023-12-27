@@ -14,6 +14,7 @@ return new class extends Migration
         if (!Schema::hasTable('system_settings')) {
             Schema::create('system_settings', function (Blueprint $table) {
                 $table->id();
+                $table->string('group_name');
                 $table->string('key')->unique();
                 $table->text('value');
                 $table->boolean('deletable')->default(true);

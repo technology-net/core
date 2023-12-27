@@ -23,9 +23,9 @@ return [
     'media' => [
         'title' => 'Media Gallery'
     ],
+    'group_name' => 'Group Name',
     'role_permission' => [
         'title' => 'Roles and Permissions',
-        'group_name' => 'Group Name',
         'guard_name' => 'Guard Name',
         'roles' => [
             'title' => 'Roles',
@@ -40,4 +40,7 @@ return [
     'medium' => 'Medium',
     'normal' => 'Normal',
     'image' => 'Image',
+    'disk_local' => 'Local',
+    'disk_s3' => 'S3',
+    'disk_bunnycdn' => 'Bunny',
 ];

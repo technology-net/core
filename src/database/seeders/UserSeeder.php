@@ -21,6 +21,7 @@ class UserSeeder extends Seeder
             'email' => 'admin@icitech.net',
             'name' => 'Admin',
             'status' => User::STATUS_ACTIVATED,
+            'level' => User::SUPER_HIGH,
             'username' => 'admin',
             'password' => Hash::make('password'),
         ]);

@@ -1,18 +1,18 @@
 <div class="card">
-        <div class="card-header">
-            @can('create users')
-                <a href="{{ route('settings.users.create') }}" class="btn btn-success btn-sm">
-                    <i class="fas fa-plus"></i>
-                    {{ trans('packages/core::common.create') }}
-                </a>
-            @endcan
-            @can('delete users')
-                <button class="btn btn-sm bg-danger delete-all d-none ml-2" title="Delete" role="button" data-url="{{ route('settings.users.deleteAll') }}">
-                    <i class="fas fa-trash"></i>
-                    {{ trans('packages/core::common.delete') }}
-                </button>
-            @endcan
-        </div>
+    <div class="card-header">
+        @can('create users')
+            <a href="{{ route('settings.users.create') }}" class="btn btn-success btn-sm">
+                <i class="fas fa-plus"></i>
+                {{ trans('packages/core::common.create') }}
+            </a>
+        @endcan
+        @can('delete users')
+            <button class="btn btn-sm bg-danger delete-all d-none ml-2" title="Delete" role="button" data-url="{{ route('settings.users.deleteAll') }}">
+                <i class="fas fa-trash"></i>
+                {{ trans('packages/core::common.delete') }}
+            </button>
+        @endcan
+    </div>
 
     <div class="card-body">
         <table class="mt-3 table table-bordered table-hover table-striped" id="dataTable">
