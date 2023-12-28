@@ -4,6 +4,7 @@ namespace IBoot\Core\App\Http\Controllers\Settings;
 
 use App\Http\Controllers\Controller;
 use IBoot\Core\App\Exceptions\ServerErrorException;
+use IBoot\Core\App\Http\Middleware\CheckPermission;
 use IBoot\Core\App\Services\SystemSettingService;
 use IBoot\Core\App\Models\SystemSetting;
 use Illuminate\Contracts\View\View;
@@ -22,11 +23,13 @@ class SystemSettingController extends Controller
      */
     public function __construct(SystemSettingService $systemSetting) {
         $this->systemSetting = $systemSetting;
+        $this->middleware(CheckPermission::using('view system settings'))->only('index');
+        $this->middleware(CheckPermission::using('create system settings'))->only('create');
+        $this->middleware(CheckPermission::using('delete system settings'))->only('destroy');
     }
 
     public function index(Request $request)
     {
-        $this->authorize('viewAny', SystemSetting::class);
         $systemSettings = $this->systemSetting->getLists($request->all());
         $filesystemDisk = $this->systemSetting->getFileSystemDisk();
 
@@ -42,7 +45,6 @@ class SystemSettingController extends Controller
 
     public function create(): View
     {
-        $this->authorize('create', SystemSetting::class);
         return view('packages/core::settings.system_settings.form');
     }
 
@@ -76,7 +78,6 @@ class SystemSettingController extends Controller
     {
         DB::beginTransaction();
         try {
-            $this->authorize('delete', SystemSetting::class);
             $this->systemSetting->deleteSystemSettings($id);
             DB::commit();
 

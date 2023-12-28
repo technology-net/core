@@ -4,10 +4,10 @@ namespace IBoot\Core\App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use IBoot\Core\App\Exceptions\ServerErrorException;
+use IBoot\Core\App\Http\Middleware\CheckPermission;
 use IBoot\Core\App\Http\Requests\PermissionRequest;
 use IBoot\Core\App\Services\PermissionService;
 use IBoot\Core\App\Services\RoleService;
-use Spatie\Permission\Models\Permission;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
@@ -31,6 +31,10 @@ class PermissionController extends Controller
     {
         $this->permission = $permission;
         $this->role = $role;
+        $this->middleware(CheckPermission::using('view permissions'))->only('index');
+        $this->middleware(CheckPermission::using('create permissions'))->only('create');
+        $this->middleware(CheckPermission::using('edit permissions'))->only('edit');
+        $this->middleware(CheckPermission::using('delete permissions'))->only('destroy');
     }
 
     /**
@@ -38,7 +42,6 @@ class PermissionController extends Controller
      */
     public function index(): View|string
     {
-        $this->authorize('viewAny', Permission::class);
         $permissions = $this->permission->getLists();
 
         return view('packages/core::permissions.index', compact('permissions'));
@@ -46,7 +49,6 @@ class PermissionController extends Controller
 
     public function create(): View
     {
-        $this->authorize('create', Permission::class);
         $roles = $this->role->getLists();
 
         return view('packages/core::permissions.form', compact('roles'));
@@ -57,7 +59,6 @@ class PermissionController extends Controller
      */
     public function edit($id)
     {
-        $this->authorize('edit', Permission::class);
         $permission = $this->permission->getById($id)->load('roles');
         $roles = $this->role->getLists();
 
@@ -66,7 +67,7 @@ class PermissionController extends Controller
 
 
     /**
-     * @param RoleRequest $request
+     * @param PermissionRequest $request
      * @param string $id
      * @return JsonResponse
      * @throws ServerErrorException
@@ -95,7 +96,6 @@ class PermissionController extends Controller
     {
         DB::beginTransaction();
         try {
-            $this->authorize('delete', Permission::class);
             $this->permission->deletePermission($id);
             DB::commit();
 

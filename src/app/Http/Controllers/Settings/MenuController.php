@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use IBoot\Core\App\Http\Requests\MenuRequest;
 use IBoot\Core\App\Services\MenuItemService;
 use IBoot\Core\App\Services\MenuService;
-use IBoot\Core\App\Models\Menu;
 use Illuminate\Contracts\View\View;
 use IBoot\Core\App\Exceptions\ServerErrorException;
 use Illuminate\Http\Request;
@@ -14,6 +13,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Exception;
+use IBoot\Core\App\Http\Middleware\CheckPermission;
 class MenuController extends Controller
 {
     private MenuService $menuService;
@@ -26,6 +26,10 @@ class MenuController extends Controller
     {
         $this->menuService = $menuService;
         $this->menuItemService = $menuItemService;
+        $this->middleware(CheckPermission::using('view menus'))->only('index');
+        $this->middleware(CheckPermission::using('create menus'))->only('create');
+        $this->middleware(CheckPermission::using('edit menus'))->only('edit');
+        $this->middleware(CheckPermission::using('delete menus'))->only('destroy');
     }
 
     /**
@@ -36,7 +40,6 @@ class MenuController extends Controller
      */
     public function index(Request $request): View|string
     {
-        $this->authorize('viewAny', Menu::class);
         $menus = $this->menuService->getMenus();
 
         if ($request->ajax()) {
@@ -52,7 +55,6 @@ class MenuController extends Controller
      */
     public function create()
     {
-        $this->authorize('create', Menu::class);
         return view('packages/core::settings.menus.form');
     }
 
@@ -61,7 +63,6 @@ class MenuController extends Controller
      */
     public function edit($id)
     {
-        $this->authorize('edit', Menu::class);
         $menu = $this->menuService->getById($id);
         $menuItems = $this->menuItemService
                 ->getLists()
@@ -98,7 +99,6 @@ class MenuController extends Controller
     {
         DB::beginTransaction();
         try {
-            $this->authorize('delete', Menu::class);
             $this->menuService->deleteById($id);
             DB::commit();
 

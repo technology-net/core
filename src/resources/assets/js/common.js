@@ -18,7 +18,6 @@ $(document).ready(function () {
   $('body').on('change', '.editable', function () {
     let value = $(this).val();
     let name = $(this).attr('name');
-    console.log(name)
     let id = $(this).attr('data-id');
     let url = $(this).attr('data-url');
     let idError = name + '-' + id;

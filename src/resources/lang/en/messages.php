@@ -29,4 +29,5 @@ return [
     'delete_confirm' => 'Are you sure you want to delete record ?',
     'max_size' => 'File size exceeds maximum limit :num MB',
     'note' => ':field data for the system.',
+    '403_error' => 'You don\'t have permission to access this page.',
 ];

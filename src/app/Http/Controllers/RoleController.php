@@ -4,10 +4,10 @@ namespace IBoot\Core\App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use IBoot\Core\App\Exceptions\ServerErrorException;
+use IBoot\Core\App\Http\Middleware\CheckPermission;
 use IBoot\Core\App\Http\Requests\RoleRequest;
 use IBoot\Core\App\Services\PermissionService;
 use IBoot\Core\App\Services\RoleService;
-use Spatie\Permission\Models\Role;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
@@ -31,6 +31,10 @@ class RoleController extends Controller
     {
         $this->role = $role;
         $this->permission = $permission;
+        $this->middleware(CheckPermission::using('view roles'))->only('index');
+        $this->middleware(CheckPermission::using('create roles'))->only('create');
+        $this->middleware(CheckPermission::using('edit roles'))->only('edit');
+        $this->middleware(CheckPermission::using('delete roles'))->only('destroy');
     }
 
     /**
@@ -38,7 +42,6 @@ class RoleController extends Controller
      */
     public function index(): View|string
     {
-        $this->authorize('viewAny', Role::class);
         $roles = $this->role->getLists();
 
         return view('packages/core::roles.index', compact('roles'));
@@ -46,7 +49,6 @@ class RoleController extends Controller
 
     public function create(): View
     {
-        $this->authorize('create', Role::class);
         $permissions = $this->permission->getLists();
 
         return view('packages/core::roles.form', compact('permissions'));
@@ -57,7 +59,6 @@ class RoleController extends Controller
      */
     public function edit($id)
     {
-        $this->authorize('edit', Role::class);
         $role = $this->role->getById($id)->load('permissions');
         $permissions = $this->permission->getLists();
 
@@ -95,7 +96,6 @@ class RoleController extends Controller
     {
         DB::beginTransaction();
         try {
-            $this->authorize('delete', Role::class);
             $this->role->deleteRole($id);
             DB::commit();
 
