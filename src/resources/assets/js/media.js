@@ -443,6 +443,25 @@ $(document).ready(function () {
     });
   });
 
+  $('body').on('click', '.copy-address',function () {
+    let lastActive = $(".folder-container.active-item").last();
+    if (!$(lastActive).data('is_directory')) {
+      let dataMedia = $(lastActive).data('media');
+      let imageUrl = MEDIA_URL + dataMedia.image_lg;
+      let tempInput = $('<input>');
+      $('body').append(tempInput);
+      tempInput.val(imageUrl).select();
+      document.execCommand("copy");
+      tempInput.remove();
+      Swal.fire({
+        position: "top-end",
+        title: 'Copied to clipboard',
+        timer: 1000,
+        showConfirmButton: false
+      });
+    }
+  });
+
   $('body').on('click', '.tooltip-item',function () {
     let mediaActive = $(".folder-container.active-item");
     let ids = [];

@@ -95,9 +95,9 @@
 
 
 <ul id="tooltip">
-    <li>
-        <i class="far fa-edit mr-2"></i>
-        <span>Rename</span>
+    <li class="copy-address">
+        <i class="fas fa-copy mr-2"></i>
+        <span>Copy</span>
     </li>
     <li class="tooltip-item" data-url="{{ route('media.downloadFile') }}">
         <i class="fas fa-download mr-2"></i>
