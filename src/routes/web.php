@@ -3,9 +3,6 @@
 use IBoot\Core\App\Http\Middleware\Authenticate;
 use IBoot\Core\App\Http\Middleware\LoginMiddleware;
 use Illuminate\Support\Facades\Route;
-use Spatie\Permission\Middleware\RoleMiddleware;
-use Spatie\Permission\Middleware\PermissionMiddleware;
-use Spatie\Permission\Middleware\RoleOrPermissionMiddleware;
 
 Route::middleware(['web'])->group(function () {
     $prefix = config('core.route_prefix', 'admin');

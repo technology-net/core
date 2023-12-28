@@ -59,10 +59,6 @@ class CoreServiceProvider extends ServiceProvider
             return $user->hasRole('Supper Admin') ? true : null;
         });
 
-        Gate::guessPolicyNamesUsing(function ($modelClass) {
-            return '\\IBoot\\Core\\App\\Policies\\' . class_basename($modelClass) . 'Policy';
-        });
-
         $this->setupDisk();
 
         Storage::extend('bunnycdn', function ($app, $config) {

@@ -43,4 +43,6 @@ return [
     'disk_local' => 'Local',
     'disk_s3' => 'S3',
     'disk_bunnycdn' => 'Bunny',
+    '403_error' => '403 Forbidden',
+    'go_home' => 'Go to Home',
 ];
