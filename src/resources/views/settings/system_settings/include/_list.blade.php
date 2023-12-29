@@ -6,7 +6,7 @@
                     $textId = strtolower(str_replace(' ', '', $group));
                 @endphp
                 <li class="nav-item">
-                    <a class="nav-link{{ $loop->first ? ' active' : '' }}" id="tabs{{ $textId }}" data-toggle="pill" href="#{{ $textId }}" role="tab" aria-controls="custom-tabs-four-home" aria-selected="true">{{ $group }}</a>
+                    <a class="nav-link{{ $loop->first ? ' active' : '' }} tab-name" data-group="{{ $group }}" id="tabs{{ $textId }}" data-toggle="pill" href="#{{ $textId }}" role="tab" aria-controls="custom-tabs-four-home" aria-selected="true">{{ $group }}</a>
                 </li>
             @endforeach
         </ul>
@@ -19,9 +19,16 @@
                 @endphp
                 <div class="tab-pane fade{{ $loop->first ? ' show active' : '' }} tab-config" id="{{ $textId }}" role="tabpanel" aria-labelledby="tabs{{ $textId }}">
                     @if($group === IBoot\Core\App\Models\SystemSetting::FILE_SYSTEM)
-                        <select class="form-control" id="select-system" style="width: 18%">
+                        <select class="form-control select-config" style="width: 18%">
                             @foreach(fileSystemOptions() as $key => $option)
                                 <option value="{{ $key }}" @if(!empty($filesystemDisk) && $filesystemDisk->value == $key) selected @endif>{{ $option }}</option>
+                            @endforeach
+                        </select>
+                    @endif
+                    @if($group === IBoot\Core\App\Models\SystemSetting::EMAIL_CONFIG)
+                        <select class="form-control select-config" style="width: 18%">
+                            @foreach(emailConfigOptions() as $key => $option)
+                                <option value="{{ $key }}" @if(!empty($emailTransport) && $emailTransport->value == $key) selected @endif>{{ $option }}</option>
                             @endforeach
                         </select>
                     @endif
@@ -46,7 +53,7 @@
                                                             value="{{ $value }}" validate-pattern="required"
                                                             data-url="{{ route('settings.system_settings.update', $item->id) }}"
                                                             data-id="{{ $item->id }}" @cannot('edit system settings') readonly @endcannot
-                                                            data-value="json" @if($key === 'driver') readonly @endif
+                                                            data-value="json" @if(in_array($key, ['driver', 'transport'])) readonly @endif
                                                         >
                                                         <div id="error_{{ $key }}-{{ $item->id }}" ></div>
                                                     </div>

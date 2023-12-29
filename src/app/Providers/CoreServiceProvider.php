@@ -6,7 +6,6 @@ use IBoot\Core\App\Models\SystemSetting;
 use IBoot\Core\App\View\Components\Sidebar;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Pagination\Paginator;
-use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
@@ -14,6 +13,8 @@ use PlatformCommunity\Flysystem\BunnyCDN\BunnyCDNAdapter;
 use PlatformCommunity\Flysystem\BunnyCDN\BunnyCDNClient;
 use Illuminate\Filesystem\FilesystemAdapter;
 use League\Flysystem\Filesystem;
+use IBoot\Core\App\Console\Commands\SetupEnvironmentCommand;
+use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class CoreServiceProvider extends ServiceProvider
 {
@@ -44,38 +45,20 @@ class CoreServiceProvider extends ServiceProvider
         $this->loadMigrationsFrom(__DIR__ . '/../../database/migrations');
         $this->loadTranslationsFrom(__DIR__ . '/../../resources/lang', 'packages/core');
         $this->commands([
-            \IBoot\Core\App\Console\Commands\SetupEnvironmentCommand::class
+            SetupEnvironmentCommand::class
         ]);
 
-//        $this->publishes([
-//            __DIR__ . '/../../database/migrations' => database_path('migrations'),
-//            __DIR__ . '/../../database/seeders' => database_path('seeders'),
-//            __DIR__ . '/../../config' => config_path(),
-//            __DIR__ . '/../../lang' => lang_path(),
-//            __DIR__ . '/../../resources/views' => resource_path('packages/core'),
-//        ]);
-        $this->registerPolicies();
+        $this->publishes([
+            __DIR__ . '/../../config' => config_path(),
+        ]);
+
         Gate::before(function ($user, $ability) {
             return $user->hasRole('Supper Admin') ? true : null;
         });
 
         $this->setupDisk();
-
-        Storage::extend('bunnycdn', function ($app, $config) {
-            $adapter = new BunnyCDNAdapter(
-                new BunnyCDNClient(
-                    $config['storage_zone'],
-                    $config['api_key'],
-                    $config['region']
-                )
-            );
-
-            return new FilesystemAdapter(
-                new Filesystem($adapter, $config),
-                $adapter,
-                $config
-            );
-        });
+        $this->setupEmail();
+        $this->initBunnyCDN();
     }
 
     private function setupDisk()
@@ -97,7 +80,48 @@ class CoreServiceProvider extends ServiceProvider
                 ]);
             }
         }
-
         return config('filesystems.default');
+    }
+
+    private function setupEmail()
+    {
+        if (Schema::hasTable('system_settings')) {
+            $transport = SystemSetting::query()
+                ->where('key', 'transport')
+                ->first();
+            if (!empty($transport)) {
+                $setting = SystemSetting::query()
+                    ->where('key', $transport->value)
+                    ->first();
+
+                config([
+                    'mail.default' => $transport->value,
+                ]);
+
+                config([
+                    'mail.mailers.' . $setting->key  => json_decode($setting->value, true),
+                ]);
+            }
+        }
+        return config('mail.default');
+    }
+
+    private function initBunnyCDN()
+    {
+        Storage::extend('bunnycdn', function ($app, $config) {
+            $adapter = new BunnyCDNAdapter(
+                new BunnyCDNClient(
+                    $config['storage_zone'],
+                    $config['api_key'],
+                    $config['region']
+                )
+            );
+
+            return new FilesystemAdapter(
+                new Filesystem($adapter, $config),
+                $adapter,
+                $config
+            );
+        });
     }
 }

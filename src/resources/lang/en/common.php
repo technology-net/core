@@ -45,4 +45,6 @@ return [
     'disk_bunnycdn' => 'Bunny',
     '403_error' => '403 Forbidden',
     'go_home' => 'Go to Home',
+    'smtp' => 'SMTP',
+    'ses' => 'Amazon SES',
 ];

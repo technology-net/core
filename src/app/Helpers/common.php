@@ -91,6 +91,16 @@ if (!function_exists('fileSystemOptions')) {
     }
 }
 
+if (!function_exists('emailConfigOptions')) {
+    function emailConfigOptions(): array
+    {
+        return [
+            'smtp' => trans('packages/core::common.smtp'),
+            'ses' => trans('packages/core::common.ses'),
+        ];
+    }
+}
+
 if (!function_exists('getPathImage')) {
     function getPathImage($path)
     {

@@ -67,6 +67,42 @@ class SystemSettingSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now()
             ],
+            [
+                'group_name' => SystemSetting::EMAIL_CONFIG,
+                'key' => 'transport',
+                'value' => 'smtp',
+                'deletable' => false,
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+            [
+                'group_name' => SystemSetting::EMAIL_CONFIG,
+                'key' => 'smtp',
+                'value' => json_encode([
+                    'transport' => 'smtp',
+                    'host' => 'smtp.gmail.com',
+                    'port' => '587',
+                    'username' => 'ninhnk.hni@gmail.com',
+                    'password' => 'ucpq cijb wuls cqix',
+                    'encryption' => 'tls',
+                ]),
+                'deletable' => false,
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+            [
+                'group_name' => SystemSetting::EMAIL_CONFIG,
+                'key' => 'ses',
+                'value' => json_encode([
+                    'transport' => 'ses',
+                    'key' => '',
+                    'secret' => '',
+                    'region' => '',
+                ]),
+                'deletable' => false,
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
         ]);
     }
 }

@@ -31,16 +31,17 @@ class SystemSettingController extends Controller
     public function index(Request $request)
     {
         $systemSettings = $this->systemSetting->getLists($request->all());
-        $filesystemDisk = $this->systemSetting->getFileSystemDisk();
+        $filesystemDisk = $this->systemSetting->getFileSystemDisk('filesystem_disk');
+        $emailTransport = $this->systemSetting->getFileSystemDisk('transport');
 
         if ($request->ajax()) {
             return response()->json([
                 'success' => true,
-                'html' => view('packages/core::settings.system_settings.include._list',  compact('systemSettings', 'filesystemDisk'))->render()
+                'html' => view('packages/core::settings.system_settings.include._list',  compact('systemSettings', 'filesystemDisk', 'emailTransport'))->render()
             ]);
         }
 
-        return view('packages/core::settings.system_settings.index', compact('systemSettings', 'filesystemDisk'));
+        return view('packages/core::settings.system_settings.index', compact('systemSettings', 'filesystemDisk', 'emailTransport'));
     }
 
     public function create(): View

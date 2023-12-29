@@ -13,16 +13,33 @@ class SystemSettingService
     public function getLists(array $inputs = array())
     {
         $key = Arr::get($inputs, 'key', '');
+        if (!empty($key)) {
+            $keys = explode(',', $key);
+        }
         $isChange = Arr::get($inputs, 'is_change', false);
 
-        $query = SystemSetting::query()->orderBy('created_at', 'desc');
+        $query = SystemSetting::query()->orderBy('id');
 
-        if (!empty($key)) {
-            $query = $query->where('key', $key)
-                ->orWhere('group_name', '!=', SystemSetting::FILE_SYSTEM);
+        if (!empty($keys)) {
+            $query = $query->whereIn('key', $keys)
+                ->orWhereNotIn('group_name', [
+                    SystemSetting::FILE_SYSTEM, SystemSetting::EMAIL_CONFIG
+                ]);
 
             if (!empty($isChange)) {
-                SystemSetting::query()->where('key', 'filesystem_disk')->update(['value' => $key]);
+                // this code only handle for case key = filesystem_disk
+                if (in_array($keys[0], [
+                    SystemSetting::BUNNY_CDN, SystemSetting::S3, SystemSetting::LOCAL
+                ])) {
+                    SystemSetting::query()->where('key', 'filesystem_disk')->update(['value' => $keys[0]]);
+                }
+
+                // this code only handle for case key = transport
+                if (in_array($keys[1], [
+                    SystemSetting::TRANSPORT_SMTP, SystemSetting::TRANSPORT_SES
+                ])) {
+                    SystemSetting::query()->where('key', 'transport')->update(['value' => $keys[1]]);
+                }
             }
         }
 
@@ -69,8 +86,13 @@ class SystemSettingService
         return SystemSetting::query()->findOrFail($id);
     }
 
-    public function getFileSystemDisk()
+    public function getFileSystemDisk($value)
     {
-        return SystemSetting::query()->where('key', 'filesystem_disk')->first();
+        return $this->fistByValue($value);
+    }
+
+    private function fistByValue($value)
+    {
+        return SystemSetting::query()->where('key', $value)->first();
     }
 }
