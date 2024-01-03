@@ -5,6 +5,7 @@ namespace IBoot\Core\App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use IBoot\Core\App\Exceptions\UnauthorizedException;
 use IBoot\Core\App\Http\Requests\Auth\LoginRequest;
+use IBoot\Core\App\Http\Requests\Auth\PasswordRequest;
 use IBoot\Core\App\Models\User;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -14,6 +15,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class LoginController extends Controller
 {
@@ -74,6 +76,36 @@ class LoginController extends Controller
         }
 
         return redirect()->route('auth.index');
+    }
+
+    public function htmlChangePassword()
+    {
+        return view('packages/core::auth.first-time-password');
+    }
+
+    /**
+     * @param PasswordRequest $request
+     * @return JsonResponse
+     * @throws UnauthorizedException
+     */
+    public function changePasswordFirstTime(PasswordRequest $request): JsonResponse
+    {
+        $email = $request->get('email');
+        $password = $request->get('password');
+        $token = $request->get('token');
+        $newPassword = $request->get('new_password');
+
+        if (!empty($email) && !empty($password) && !empty($newPassword) && !empty($token)) {
+            $user = User::query()->where('email', $email)->first();
+            if (!empty($user) && Hash::check($password, $user->password)) {
+                $user->password = Hash::make($newPassword);
+                $user->save();
+
+                return responseSuccess(null, trans('packages/core::messages.save_success'));
+            }
+        }
+
+        throw new UnauthorizedException(null, trans('packages/core::messages.action_error'));
     }
 
     private function storeSession()

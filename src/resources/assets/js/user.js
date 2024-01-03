@@ -1,5 +1,6 @@
 $(document).ready(function () {
-  $(document).on('submit', '#submitFormUser',function (e) {
+  $('body').on('submit', '#submitFormUser',function (e) {
+    showLoading();
     e.preventDefault()
     let form = $(this)
     let url = form.attr('action')
@@ -29,6 +30,9 @@ $(document).ready(function () {
         if (jQxhr.status === 500) {
           showNotify(jQxhr['responseJSON'].message, 'error');
         }
+      },
+      complete: function () {
+        hideLoading();
       }
     })
   })

@@ -2,6 +2,7 @@
 
 namespace IBoot\Core\App\Services;
 
+use IBoot\Core\App\Mail\RegisterUser;
 use IBoot\Core\App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -9,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 
 class UserService
 {
@@ -76,6 +78,10 @@ class UserService
 
         $avatar = $user->medias->isNotEmpty() ? $user->medias[0]->image_sm : '';
         session()->put('avatar_' . $user->id, $avatar);
+
+        if (empty($id) && !empty($user)) {
+            Mail::to($user->email)->send(new RegisterUser($user));
+        }
 
         return $user;
     }

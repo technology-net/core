@@ -10,6 +10,8 @@ Route::middleware(['web'])->group(function () {
         Route::get('/', function () {
             return redirect()->route('auth.index');
         });
+        Route::get('/first-time-pass', 'LoginController@htmlChangePassword')->name('first-time-pass');
+        Route::post('/change-pass-first-time', 'LoginController@changePasswordFirstTime')->name('change-pass-first-time');
         Route::group(['as' => 'auth', 'prefix' => 'login'], function () {
             Route::get('', 'LoginController@index')->name('.index')
                 ->middleware(LoginMiddleware::class);

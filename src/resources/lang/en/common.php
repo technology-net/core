@@ -1,6 +1,8 @@
 <?php
 
 return [
+    'login' => 'Login',
+    'remember' => 'Remember Me',
     'create' => 'Create',
     'update' => 'Update',
     'delete' => 'Delete',
@@ -12,6 +14,9 @@ return [
     'insert' => 'Insert',
     'name' => 'Name',
     'email' => 'Email',
+    'password' => 'Password',
+    'new_password' => 'New Password',
+    'confirm_password' => 'Confirm Password',
     'created_at' => 'Created At',
     'status' => 'Status',
     'operations' => 'Operations',
