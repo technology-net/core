@@ -165,6 +165,7 @@ class PluginController extends Controller
             $process->run();
 
             session()->put('publishes', true);
+            session()->flash('publish_notify', trans('packages/core::messages.publish_notify'));
 
             return responseSuccess(null, trans('packages/core::messages.publishes'));
         } catch (Exception $e) {

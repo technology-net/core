@@ -19,6 +19,12 @@
     <div id="plugin-list">
         <div class="mb-3">
             @include('packages/core::partial.note', ['text' => trans('packages/core::plugin.plugin_note')])
+            @if(!empty(session('publish_notify')))
+                <div class="alert alert-success alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <p class="m-0"><i class="icon fas fa-check"></i>{!! session('publish_notify') !!}</p>
+                </div>
+            @endif
         </div>
         <div class="row">
             @foreach($plugins as $plugin)
