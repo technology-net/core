@@ -27,6 +27,7 @@ Route::middleware(['web'])->group(function () {
                     ->name('install-packages');
                 Route::get('/uninstallation', 'PluginController@uninstall')
                     ->name('uninstall-packages');
+                Route::get('/publish', 'PluginController@publisPackage')->name('publish');
             });
 
             Route::group(['as' => 'media.', 'prefix' => 'media'], function () {

@@ -60,6 +60,12 @@
                                             data-name_package="{{ $plugin->name_package }}"
                                             data-plugin="analytics">{{ trans('packages/core::plugin.deactivate') }}
                                     </button>
+                                    <button type="button" class="btn btn-primary btn-publish"
+                                        data-url="{{ route('plugins.publish') }}"
+                                        @if($plugin->is_default || $plugin->status !== Plugin::STATUS_INSTALLED) disabled @endif
+                                    >
+                                        @lang('packages/core::plugin.publish')
+                                    </button>
                                 </div>
                             </div>
                         </div>

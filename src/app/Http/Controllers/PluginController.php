@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
+use Illuminate\Support\Facades\File;
 
 class PluginController extends Controller
 {
@@ -125,6 +126,13 @@ class PluginController extends Controller
             $command = ['composer', 'remove', $input['composer_name']];
             DB::reconnect();
             Artisan::call('migrate:rollback');
+            Artisan::call('optimize');
+            $process = new Process(['composer', 'dump-autoload']);
+            $process->run();
+            $folderPath = base_path(Plugin::PACKAGE_CMS);
+            if (File::exists($folderPath)) {
+                File::deleteDirectory($folderPath);
+            }
             $this->installPackage($command);
             $this->menuItemService->removeMenu($namePackage);
             $this->pluginService->updateStatusPlugin($pluginId, Plugin::STATUS_UNINSTALLED);
@@ -139,6 +147,25 @@ class PluginController extends Controller
             trans('packages/core::messages.uninstall_package_success', ['package' => $namePackage]));
     }
 
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     * @throws ServerErrorException
+     */
+    public function publisPackage(): JsonResponse
+    {
+        try {
+            Artisan::call('vendor:publish', [
+                '--provider' => 'IBoot\CMS\Providers\CMSServiceProvider',
+                '--tag' => 'cms',
+                '--force' => true,
+            ]);
+
+            return responseSuccess(null, trans('packages/core::messages.publishes'));
+        } catch (Exception $e) {
+            throw new ServerErrorException(null, trans('packages/core::messages.action_error'));
+        }
+    }
 
     /**
      * Install or uninstall logic

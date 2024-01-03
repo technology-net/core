@@ -3,6 +3,7 @@
 namespace IBoot\Core\App\Console\Commands;
 
 use Illuminate\Console\Command;
+use Symfony\Component\Process\Process;
 
 class SetupEnvironmentCommand extends Command
 {
@@ -31,10 +32,15 @@ class SetupEnvironmentCommand extends Command
         $this->seed('IBoot\\Core\\Database\\Seeders\\MenuItemSeeder');
         $this->seed('IBoot\\Core\\Database\\Seeders\\SystemSettingSeeder');
         $this->seed('IBoot\\Core\\Database\\Seeders\\PermissionSeeder');
+        $this->publishVendor('IBoot\Core\App\Providers\CoreServiceProvider', 'config');
 
         if (!file_exists(public_path('storage'))) {
             $this->call('storage:link');
         }
+
+        $this->call('optimize');
+        $process = new Process(['composer', 'dump-autoload']);
+        $process->run();
 
         $this->info('Environment setup completed.');
     }
@@ -56,10 +62,11 @@ class SetupEnvironmentCommand extends Command
      * @param $provider
      * @return void
      */
-    protected function publishVendor($provider): void
+    protected function publishVendor($provider, $tag): void
     {
         $this->call('vendor:publish', [
             '--provider' => $provider,
+            '--tag' => $tag,
         ]);
 
         $this->info("$provider setup completed.");

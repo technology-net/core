@@ -35,6 +35,14 @@ $(document).ready(function () {
     callAjax(route_uninstall_package, data)
   })
 
+  $('body').on('click', '.btn-publish', function(e) {
+    e.preventDefault()
+    let url = $(this).data('url');
+    let data = {};
+
+    callAjax(url, data);
+  })
+
   function callAjax(url, data) {
     showLoading();
     $.ajax({

@@ -13,6 +13,8 @@ class Plugin extends BaseModel
     public const IS_DEFAULT = true;
     public const IS_NOT_DEFAULT = false;
 
+    public const PACKAGE_CMS = 'packages/cms';
+
     protected $table = 'plugins';
 
     protected $fillable = [

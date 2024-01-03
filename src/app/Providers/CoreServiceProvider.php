@@ -50,7 +50,7 @@ class CoreServiceProvider extends ServiceProvider
 
         $this->publishes([
             __DIR__ . '/../../config' => config_path(),
-        ]);
+        ], 'config');
 
         Gate::before(function ($user, $ability) {
             return $user->hasRole('Supper Admin') ? true : null;

@@ -30,4 +30,5 @@ return [
     'max_size' => 'File size exceeds maximum limit :num MB',
     'note' => ':field data for the system.',
     '403_error' => 'You don\'t have permission to access this page.',
+    'publishes' => 'Plugins publishes completed.'
 ];
