@@ -62,7 +62,7 @@
                                     </button>
                                     <button type="button" class="btn btn-primary btn-publish"
                                         data-url="{{ route('plugins.publish') }}"
-                                        @if($plugin->is_default || $plugin->status !== Plugin::STATUS_INSTALLED) disabled @endif
+                                        @if($plugin->is_default || $plugin->status !== Plugin::STATUS_INSTALLED || !empty(session('publishes'))) disabled @endif
                                     >
                                         @lang('packages/core::plugin.publish')
                                     </button>

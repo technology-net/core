@@ -126,12 +126,12 @@ class PluginController extends Controller
             $command = ['composer', 'remove', $input['composer_name']];
             DB::reconnect();
             Artisan::call('migrate:rollback');
-            Artisan::call('optimize');
             $process = new Process(['composer', 'dump-autoload']);
             $process->run();
             $folderPath = base_path(Plugin::PACKAGE_CMS);
             if (File::exists($folderPath)) {
                 File::deleteDirectory($folderPath);
+                session()->flush('publishes');
             }
             $this->installPackage($command);
             $this->menuItemService->removeMenu($namePackage);
@@ -160,6 +160,11 @@ class PluginController extends Controller
                 '--tag' => 'cms',
                 '--force' => true,
             ]);
+
+            $process = new Process(['composer', 'dump-autoload']);
+            $process->run();
+
+            session()->put('publishes', true);
 
             return responseSuccess(null, trans('packages/core::messages.publishes'));
         } catch (Exception $e) {
