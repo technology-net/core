@@ -16,6 +16,8 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Carbon;
 
 class LoginController extends Controller
 {
@@ -97,11 +99,26 @@ class LoginController extends Controller
 
         if (!empty($email) && !empty($password) && !empty($newPassword) && !empty($token)) {
             $user = User::query()->where('email', $email)->first();
-            if (!empty($user) && Hash::check($password, $user->password)) {
-                $user->password = Hash::make($newPassword);
-                $user->save();
+            $resetRecord = \DB::table('password_reset_tokens')->where('email', $email)->first();
 
-                return responseSuccess(null, trans('packages/core::messages.save_success'));
+            if (!empty($resetRecord)) {
+                // Nếu tồn tại token thì check tiếp đến password có khớp hay không?
+                if (!empty($user) && Hash::check($password, $user->password)) {
+                    $createdTime = Carbon::parse($resetRecord->created_at);
+                    // Nếu thời gian hiện tại - thời gian tạo token > config('auth.passwords.users.expire') thì báo lỗi token hết hạn
+                    if (now()->diffInMinutes($createdTime) > config('auth.passwords.users.expire')) {
+                        throw new UnauthorizedException(null, trans('packages/core::messages.token_expired'));
+                    }
+                    $user->password = Hash::make($newPassword);
+                    $user->save();
+                    Password::deleteToken($user);
+
+                    return responseSuccess(null, trans('packages/core::messages.save_success'));
+                } else {
+                    throw new UnauthorizedException(null, trans('packages/core::messages.password_incorrect'));
+                }
+            } else {
+                throw new UnauthorizedException(null, trans('packages/core::messages.token_used'));
             }
         }
 

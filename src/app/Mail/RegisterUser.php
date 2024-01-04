@@ -9,6 +9,8 @@ use Illuminate\Mail\Mailables\Address;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Password;
 
 class RegisterUser extends Mailable
 {
@@ -38,8 +40,14 @@ class RegisterUser extends Mailable
      */
     public function content(): Content
     {
+        $token = Str::random(60);
+        Password::createToken($this->user, $token);
+
         return new Content(
             markdown: 'packages/core::emails.users.register',
+            with: [
+                'token' => $token,
+            ],
         );
     }
 

@@ -59,6 +59,10 @@ class CoreServiceProvider extends ServiceProvider
         $this->setupDisk();
         $this->setupEmail();
         $this->initBunnyCDN();
+
+        config([
+            'auth.passwords.users.expire' => config('core.password_expire_tokens'),
+        ]);
     }
 
     private function setupDisk()

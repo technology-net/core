@@ -44,14 +44,22 @@ class UserService
      */
     public function createOrUpdateUser($id, array $inputs = array()): Model|Builder
     {
-        $inputs['password'] = Hash::make(config('core.password_default'));
         $mediaId = Arr::get($inputs, 'media_id', null);
         $roles = Arr::get($inputs, 'roles', []);
+        $password = Arr::get($inputs, 'password', null);
         if (!empty($inputs['role_selected'])) {
             $roleSelected = json_decode($inputs['role_selected'], true);
         }
-        unset($inputs['roles'], $inputs['role_selected']);
+        unset($inputs['roles'], $inputs['role_selected'], $inputs['password'], $inputs['confirm_password']);
 
+        if (empty($id)) {
+            $inputs['password'] = Hash::make(config('core.password_default'));
+        } else {
+            if (!empty($password)) {
+                $inputs['password'] = Hash::make($password);
+                auth()->logout();
+            }
+        }
         $user = User::query()->updateOrCreate(
             ['id' => $id],
             $inputs

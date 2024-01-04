@@ -7,7 +7,8 @@
             </div>
             <div class="card-body">
                 <form id="form_login" method="POST" action="{{ route('change-pass-first-time') }}" autocomplete="off">
-                    <input type="hidden" name="_token" value="{{ request()->get('token') }}">
+                    @csrf
+                    <input type="hidden" name="token" value="{{ request()->get('token') }}">
                     <input type="hidden" name="email" value="{{ request()->get('email') }}">
                     <div class="input-group my-2">
                         <input type="password" name="password" class="form-control" autocomplete="new-password" validate="true" label="@lang('packages/core::common.password')" placeholder="@lang('packages/core::common.password')"

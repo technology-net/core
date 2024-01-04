@@ -32,4 +32,7 @@ return [
     '403_error' => 'You don\'t have permission to access this page.',
     'publishes' => 'Plugins publishes completed.',
     'publish_notify' => 'Please run command <strong>php artisan optimize && composer dumpautoload</strong> to sync data.',
+    'password_incorrect' => 'Current password is not match.',
+    'token_used' => 'Token has been used.',
+    'token_expired' => 'Token has been expired.',
 ];

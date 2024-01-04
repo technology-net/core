@@ -9,4 +9,5 @@ return [
     'password_default' => 'password',
     'media_url' => 'https://iboot2.b-cdn.net',
     'mail_name' => 'ICI Administrator',
+    'password_expire_tokens' => 10,
 ];

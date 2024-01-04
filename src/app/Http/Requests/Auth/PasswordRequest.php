@@ -15,7 +15,7 @@ class PasswordRequest extends BaseRequest
     {
         return [
             'password' => 'required',
-            'new_password' => 'required|same:confirm_password|between:6,20',
+            'new_password' => 'required|same:confirm_password|between:6,20|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,20}$/',
         ];
     }
 }

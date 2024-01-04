@@ -11,7 +11,7 @@
 </p>
 
 <p>
-    Feel free to change your <a href="{{ route('first-time-pass', ['email' => $user->email, 'token' => csrf_token()]) }}">password</a> after login.
+    Please change your <a href="{{ route('first-time-pass', ['email' => $user->email, 'token' => $token]) }}">password</a> after login. Token expires in {{ config('core.password_expire_tokens') }} minutes.
 </p>
 
 <p style="margin-top: 40px;">Thanks,<br></p>

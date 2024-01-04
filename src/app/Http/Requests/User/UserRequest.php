@@ -16,17 +16,18 @@ class UserRequest extends BaseRequest
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, mixed>
-     */
     public function rules(): array
     {
-        return [
+        $rules = [
             'username' => 'required',
             'email' => 'required|email',
             'name' => 'required'
         ];
+
+        if (!empty(request('password'))) {
+            $rules['password'] = 'same:confirm_password|between:6,20|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,20}$/';
+        }
+
+        return $rules;
     }
 }

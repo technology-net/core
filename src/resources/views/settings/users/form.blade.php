@@ -93,6 +93,24 @@
                                     @endforeach
                                 </select>
                             </div>
+                            @if(!empty($user))
+                                <div class="form-group col-md-6">
+                                    <label for="password" class="control-label required" aria-required="true">
+                                        {{ trans('packages/core::common.password') }}
+                                    </label>
+                                    <input class="form-control" autocomplete="off" label="{{ trans('packages/core::common.password') }}" validate="true"
+                                           validate-pattern="required" name="password" type="password" placeholder="{{ trans('packages/core::common.password') }}">
+                                    <div id="error_password"></div>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="password" class="control-label required" aria-required="true">
+                                        {{ trans('packages/core::common.confirm_password') }}
+                                    </label>
+                                    <input class="form-control" autocomplete="off" label="{{ trans('packages/core::common.confirm_password') }}" validate="true"
+                                           validate-pattern="required" name="confirm_password" type="password" placeholder="{{ trans('packages/core::common.confirm_password') }}">
+                                    <div id="error_confirm_password"></div>
+                                </div>
+                            @endif
                             <div class="form-group col-md-12">
                                 <label for="{{ trans('packages/core::common.role_permission.roles.title') }}" class="control-label text-black" aria-required="true">
                                     {{ trans('packages/core::common.role_permission.roles.title') }}
