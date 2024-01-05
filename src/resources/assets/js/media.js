@@ -28,7 +28,7 @@ $(document).ready(function () {
     $(this).addClass('active')
   })
 
-  $(document).on('click', '#btn-grid', function () {
+  $(document).on('click', '#btn-grid, .js-refresh', function () {
     resetInfoFolder()
     activeGrid()
     getFolders(folderId, page, parent)
@@ -39,7 +39,7 @@ $(document).ready(function () {
         }
       })
     $('#btn-list').removeClass('active')
-    $(this).addClass('active')
+    $('#btn-grid').addClass('active')
   })
 
   $(document).on('click', 'button.folder-container', function (event) {
@@ -192,6 +192,7 @@ $(document).ready(function () {
   })
 
   function getFolders(folderId, page, parent) {
+    showLoading()
     return new Promise(function(resolve, reject) {
       $.ajax({
         type: 'GET',
@@ -205,6 +206,7 @@ $(document).ready(function () {
         {
           lastPage = response.data.last_page
           resolve(response)
+          hideLoading()
         },
         error: function(err) {
           reject(err)

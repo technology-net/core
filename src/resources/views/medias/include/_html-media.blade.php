@@ -13,15 +13,11 @@
                     </label>
                     <input id='input-file' type='file' name="files[]" multiple class="d-none"/>
                 </div>
-                <button class="btn btn-success btn-sm js-download-action mr-2" type="button">
-                    <i class="fas fa-download"></i>
-                    Download
-                </button>
                 <button class="btn btn-success btn-sm js-create-folder-action mr-2" type="button" data-toggle="modal"
                         data-target="#makeFolder">
                     <i class="fas fa-folder-plus"></i> {{ trans('packages/core::common.f_folder', ['field' => trans('packages/core::common.create')]) }}
                 </button>
-                <button class="btn btn-success btn-sm js-change-action" data-type="refresh">
+                <button class="btn btn-success btn-sm js-refresh" data-type="refresh">
                     <i class="fas fa-sync"></i> Refresh
                 </button>
             </div>
