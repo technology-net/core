@@ -31,6 +31,11 @@ $(document).ready(function () {
   $(document).on('click', '#btn-grid, .js-refresh', function () {
     resetInfoFolder()
     activeGrid()
+    if ($(this).hasClass('js-refresh')) {
+      folderId = null
+      page = 1
+      parent = null
+    }
     getFolders(folderId, page, parent)
       .then(res => {
         if (res.data.data.length > 0) {
@@ -89,6 +94,7 @@ $(document).ready(function () {
           html: $('<a/>', {
             href: '#',
             'data-folder': folderId,
+            'data-parent': parent,
             'class': 'change-folder',
             text: folderName
           })
@@ -108,7 +114,7 @@ $(document).ready(function () {
       }
     });
     let lastElement = $(".breadcrumb-item:last");
-    parent = lastElement.prev().find("a").attr("data-folder");
+    parent = lastElement.find("a").attr("data-parent");
     getFolders(folderId, page, parent)
       .then(res => {
         if (res.data.data.length > 0) {
@@ -293,12 +299,12 @@ $(document).ready(function () {
             $('#btn-list').trigger('click');
           }
         } else {
-          showNotify(response.message, 'error');;
+          showNotify(response.message, 'error');
         }
       },
       error: function (jQxhr) {
         if (jQxhr.status === 500) {
-          showNotify(jQxhr['responseJSON'].message, 'error');;
+          showNotify(jQxhr['responseJSON'].message, 'error');
         }
       }
     })
@@ -437,6 +443,11 @@ $(document).ready(function () {
 
   $('body').on('contextmenu', 'button.folder-container', function (event) {
     event.preventDefault();
+    if ($(this).data('is_directory')) {
+      $('.copy-address').hide();
+    } else {
+      $('.copy-address').show();
+    }
     handleActiveItem(event, this);
     $('#tooltip').css({
       top: (event.clientY - 55) + 'px',
@@ -464,7 +475,7 @@ $(document).ready(function () {
     }
   });
 
-  $('body').on('click', '.tooltip-item',function () {
+  $('body').on('click', '.download-file',function () {
     let mediaActive = $(".folder-container.active-item");
     let ids = [];
 
@@ -498,6 +509,44 @@ $(document).ready(function () {
         if (xhr.status === 500) {
           showNotify(xhr['responseJSON'].message, 'error');
         }
+      }
+    });
+  });
+
+  $('body').on('click', '.delete-file',function () {
+    let mediaActive = $(".folder-container.active-item");
+    let ids = [];
+    $.each($(mediaActive), function (_i, _item) {
+      ids.push($(_item).data('id'));
+    });
+    showLoading();
+    $.ajax({
+      url: $(this).data('url'),
+      method: 'POST',
+      data: {
+        ids: ids,
+        parent_id: $('#fill-media').attr('data-parent_id'),
+        parent: parent
+      },
+      success: function (response) {
+        if (response.success) {
+          $('#fill-media').html(response.html);
+          showMessages(response.message);
+          page = 1;
+          if ($('#btn-list').hasClass('active')) {
+            $('#btn-list').trigger('click');
+          }
+        } else {
+          showNotify(response.message, 'error');
+        }
+      },
+      error: function(xhr, status, error) {
+        if (xhr.status === 500) {
+          showNotify(xhr['responseJSON'].message, 'error');
+        }
+      },
+      complete: function () {
+        hideLoading();
       }
     });
   });

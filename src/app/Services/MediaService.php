@@ -39,16 +39,26 @@ class MediaService
         return Media::query()->find($id);
     }
 
-    public function newMedia($file, $image, $disk, $parentId): Model
+    /**
+     * @param $file
+     * @param $image
+     * @param $disk
+     * @param $parentId
+     * @param $now
+     * @return Model
+     */
+    public function newMedia($file, $image, $disk, $parentId, $now): Model
     {
         $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
         $extensions = $file->getClientOriginalExtension();
         $mimeType = $file->getMimeType();
         $name = $file->getClientOriginalName();
+        $originalName = explode('.', $name)[0] . '_' . $now;
         if (in_array(strtolower($extensions), $allowedExtensions)) {
             $mimeType = 'image/webp';
-            $originalName = explode('.', $name);
-            $name = $originalName[0] . '.webp';
+            $name = $originalName . '.webp';
+        } else {
+            $name = $originalName . '.' . $extensions;
         }
         return Media::query()->create([
             'name' => $name,
@@ -107,7 +117,7 @@ class MediaService
      * @param array $inputs
      * @return string
      */
-    public function downloadFile(array $inputs = array())
+    public function downloadFile(array $inputs = array()): string
     {
         $ids = Arr::get($inputs, 'ids', []);
         $medias = Media::query()->whereIn('id', $ids)->get();
@@ -120,10 +130,41 @@ class MediaService
                 $filePath = Storage::disk($disk)->path($path);
             }
         } else {
-            $filePath = '/home/ninhnk/work/iboot-code/storage/app/public/uploads/77e44cc9995db23c0fc61ac6a6a4d985/77e44cc9995db23c0fc61ac6a6a4d985-1702458929-564x1128.webp';
+            dd('chua co code');
         }
 
         return $filePath;
+    }
+
+    public function deleteFiles(array $inputs = array())
+    {
+        $ids = Arr::get($inputs, 'ids', []);
+        $medias = Media::query()->whereIn('id', $ids)->get();
+        foreach ($medias as $media) {
+            $this->deleteFolderRecursive($media);
+        }
+
+        return true;
+    }
+
+    /**
+     * @param $media
+     * @return void
+     */
+    private function deleteFolderRecursive($media): void
+    {
+        $disk = $this->getDisk();
+        foreach ($media->children as $child) {
+            $this->deleteFolderRecursive($child);
+        }
+        if (empty($media->is_directory)) {
+            $folderName = explode('.', $media->name);
+            $path = $this->getDirectory('/uploads/' . $folderName[0]);
+            if (Storage::disk($disk)->exists($path)) {
+                Storage::disk($disk)->deleteDirectory($path);
+            }
+        }
+        $media->delete();
     }
 
     /**

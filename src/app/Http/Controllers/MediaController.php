@@ -59,7 +59,9 @@ class MediaController extends Controller
     }
 
     /**
-     * @throws Exception
+     * @param Request $request
+     * @return JsonResponse|void
+     * @throws ServerErrorException
      */
     public function uploadFiles(Request $request)
     {
@@ -69,10 +71,11 @@ class MediaController extends Controller
                 $files = $request->file('files');
                 $disk = $this->getDisk();
                 $datas = [];
+                $now = time();
 
                 foreach ($files as $file) {
-                    $image = $this->saveFile($file, '/uploads/');
-                    $datas[] = $this->mediaService->newMedia($file, $image, $disk, $request->parent_id);
+                    $image = $this->saveFile($file, '/uploads/', $now);
+                    $datas[] = $this->mediaService->newMedia($file, $image, $disk, $request->parent_id, $now);
                 }
                 $medias = collect($datas)->sortByDesc('created_at')->sortByDesc('id');
 
@@ -117,6 +120,27 @@ class MediaController extends Controller
      * @return JsonResponse
      * @throws ServerErrorException
      */
+    public function deleteFiles(Request $request): JsonResponse
+    {
+        DB::beginTransaction();
+        try {
+            $this->mediaService->deleteFiles($request->all());
+            DB::commit();
+
+            return $this->responseHtml($request->all(), null, trans('packages/core::messages.delete_success'));
+
+        } catch (Exception $e) {
+            DB::rollback();
+            Log::error($e->getMessage(), ['file' => __FILE__, 'line' => __LINE__]);
+            throw new ServerErrorException(null, trans('packages/core::messages.action_error'));
+        }
+    }
+
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     * @throws ServerErrorException
+     */
     public function createFolder(Request $request): JsonResponse
     {
         DB::beginTransaction();
@@ -138,14 +162,14 @@ class MediaController extends Controller
      * @param array $inputs
      * @return JsonResponse
      */
-    private function responseHtml(array $inputs = array(), $data = null): JsonResponse
+    private function responseHtml(array $inputs = array(), $data = null, $message = null): JsonResponse
     {
         $medias = $this->mediaService->getMedia($inputs['parent_id']);
 
         return response()->json([
             'success' => true,
             'data' => $data,
-            'message' => trans('packages/core::messages.save_success'),
+            'message' => !empty($message) ? $message : trans('packages/core::messages.save_success'),
             'html' => view('packages/core::medias.show_folder', [
                 'media' => $medias,
                 'id' => $inputs['parent_id'],

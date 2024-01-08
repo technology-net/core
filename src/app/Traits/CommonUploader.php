@@ -12,14 +12,16 @@ trait CommonUploader
     /**
      * @param $fileName
      * @param $path
+     * @param $now
      * @return array|string
      * @throws Exception
      */
-    public function saveFile($fileName, $path): array|string
+    public function saveFile($fileName, $path, $now): array|string
     {
         if (!empty($fileName)) {
             $originalName = strtolower($fileName->getClientOriginalName());
             list($originalName, $extension) = explode('.', $originalName);
+            $originalName = $originalName . '_' . $now;
             $disk = $this->getDisk();
             $directory = $this->getDirectory($path) . $originalName . '/';
             $path = $path . $originalName . '/';
@@ -30,12 +32,12 @@ trait CommonUploader
             }
             $contents = file_get_contents($fileName->getRealPath());
             if (in_array(strtolower($extension), $this->allowedExtensions)) {
-                $imageName = $this->generateVariantsImage($contents, $directory, $originalName, $path,);
+                $imageName = $this->generateVariantsImage($contents, $directory, $originalName, $path);
                 $imageMd = $this->generateVariantsImage($contents, $directory, $originalName, $path, ['width' => 800, 'height' => 450]);
                 $imageSm = $this->generateVariantsImage($contents, $directory, $originalName, $path, ['width' => 300, 'height' => 300], true);
             } else {
                 $imageName = [
-                    'file_path' => $originalName . '-' . time() . '.' . $extension,
+                    'file_path' => $originalName . '.' . $extension,
                     'file_size' => $fileName->getSize(),
                 ];
                 // Save the image to the specified directory on the selected disk
@@ -127,7 +129,7 @@ trait CommonUploader
         }
 
         // Create an empty thumbnail image
-        $variantsImageName = $originalName . '-' . time() . '-' . $newWidth . 'x' . $newHeight . '.webp';
+        $variantsImageName = $originalName . '-' . $newWidth . 'x' . $newHeight . '.webp';
         $pathLocal = Storage::disk('local')->path($variantsImageName);
 
         imagejpeg($variantsImage, $pathLocal);

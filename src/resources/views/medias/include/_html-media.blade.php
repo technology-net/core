@@ -28,7 +28,7 @@
             <div class="d-flex align-items-center justify-content-between">
                 <ol class="folder-breadcrumb p-2 m-0">
                     <li class="breadcrumb-item">
-                        <a href="#" data-folder="" class="change-folder">
+                        <a href="#" data-folder="" data-parent="" class="change-folder">
                              <i class="fas fa-folder"></i>
                             All media
                         </a>
@@ -92,12 +92,16 @@
 
 <ul id="tooltip">
     <li class="copy-address">
-        <i class="fas fa-copy mr-2"></i>
-        <span>Copy</span>
+        <i class="fas fa-link mr-2"></i>
+        <span>Copy link</span>
     </li>
-    <li class="tooltip-item" data-url="{{ route('media.downloadFile') }}">
+    <li class="download-file" data-url="{{ route('media.downloadFile') }}">
         <i class="fas fa-download mr-2"></i>
         <span>Download</span>
+    </li>
+    <li class="delete-file" data-url="{{ route('media.deleteFiles') }}">
+        <i class="fas fa-trash mr-2"></i>
+        <span>@lang('packages/core::common.delete')</span>
     </li>
 </ul>
 @include('packages/core::medias.include._modal-make-folder')
