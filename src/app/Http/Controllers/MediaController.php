@@ -74,8 +74,8 @@ class MediaController extends Controller
                 $now = time();
 
                 foreach ($files as $file) {
-                    $image = $this->saveFile($file, '/uploads/', $now);
-                    $datas[] = $this->mediaService->newMedia($file, $image, $disk, $request->parent_id, $now);
+                    $image = $this->saveFile($file, '/uploads/', $request->parent_id);
+                    $datas[] = $this->mediaService->newMedia($file, $image, $disk, $request->parent_id);
                 }
                 $medias = collect($datas)->sortByDesc('created_at')->sortByDesc('id');
 

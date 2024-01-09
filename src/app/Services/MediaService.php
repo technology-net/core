@@ -44,16 +44,15 @@ class MediaService
      * @param $image
      * @param $disk
      * @param $parentId
-     * @param $now
      * @return Model
      */
-    public function newMedia($file, $image, $disk, $parentId, $now): Model
+    public function newMedia($file, $image, $disk, $parentId): Model
     {
         $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
         $extensions = $file->getClientOriginalExtension();
         $mimeType = $file->getMimeType();
         $name = $file->getClientOriginalName();
-        $originalName = explode('.', $name)[0] . '_' . $now;
+        $originalName = $this->generateUniqueName(explode('.', $name)[0], $parentId);
         if (in_array(strtolower($extensions), $allowedExtensions)) {
             $mimeType = 'image/webp';
         }
@@ -73,35 +72,20 @@ class MediaService
 
     /**
      * @param array $inputs
-     * @return null
+     * @return Model|Builder|null
      */
-    public function makeFolder(array $inputs = array())
+    public function makeFolder(array $inputs = array()): Model|Builder|null
     {
         $name = Arr::get($inputs, 'name', '');
         $parent = Arr::get($inputs, 'parent_id', null);
         if (!empty($name)) {
-            $existingFolders = Media::query()
-                ->where('parent_id', $parent)
-                ->where('name', 'LIKE', $name . '%')
-                ->get();
-
-            if ($existingFolders->isNotEmpty()) {
-                $maxIdx = 0;
-                foreach ($existingFolders as $item) {
-                    if (preg_match('/\((\d+)\)$/', $item->name, $matches)) {
-                        $index = (int)$matches[1];
-                        if ($index > $maxIdx) {
-                            $maxIdx = $index;
-                        }
-                    }
-                }
-                $name = $name . '(' . ($maxIdx + 1) . ')';
-            }
+            $name = $this->generateUniqueName($name, $parent);
 
             return $this->createOrUpdate(
                 ['id' => 0],
                 [
                     'name' => $name,
+                    'disk' => $this->getDisk(),
                     'parent_id' => $parent,
                     'is_directory' => Media::IS_DIRECTORY,
                 ]
@@ -165,12 +149,12 @@ class MediaService
         foreach ($media->children as $child) {
             $this->deleteFolderRecursive($child);
         }
-        if (empty($media->is_directory)) {
-            $path = $this->getDirectory('/uploads/' . $media->name);
-            if (Storage::disk($disk)->exists($path)) {
-                Storage::disk($disk)->deleteDirectory($path);
-            }
+        $folder = $this->getFolderName($media->parent_id);
+        $path = $this->getDirectory('/uploads/' . $folder . $media->name);
+        if (Storage::disk($disk)->exists($path)) {
+            Storage::disk($disk)->deleteDirectory($path);
         }
+
         $media->delete();
     }
 

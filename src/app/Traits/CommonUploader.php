@@ -2,6 +2,7 @@
 namespace IBoot\Core\App\Traits;
 
 use Exception;
+use IBoot\Core\App\Models\Media;
 use IBoot\Core\App\Models\SystemSetting;
 use Illuminate\Support\Facades\Storage;
 
@@ -12,19 +13,21 @@ trait CommonUploader
     /**
      * @param $fileName
      * @param $path
-     * @param $now
+     * @param $parentId
      * @return array|string
      * @throws Exception
      */
-    public function saveFile($fileName, $path, $now): array|string
+    public function saveFile($fileName, $path, $parentId): array|string
     {
         if (!empty($fileName)) {
             $originalName = strtolower($fileName->getClientOriginalName());
             list($originalName, $extension) = explode('.', $originalName);
-            $originalName = $originalName . '_' . $now;
+            $originalName = $this->generateUniqueName($originalName, $parentId);
             $disk = $this->getDisk();
-            $directory = $this->getDirectory($path) . $originalName . '/';
-            $path = $path . $originalName . '/';
+            $folder = $this->getFolderName($parentId);
+            $directory = $this->getDirectory($path) . $folder . $originalName . '/';
+            $path = $path . $folder . $originalName . '/';
+
             $this->checkMaxSize($fileName);
             // Create a folder if it doesn't exist
             if (!Storage::disk($disk)->exists($directory)) {
@@ -188,5 +191,55 @@ trait CommonUploader
         if ($file->getSize() > $size) {
             throw new Exception(trans('packages/core::messages.max_size', [ 'num' => $megabyte]));
         }
+    }
+
+    /**
+     * @param $name
+     * @param $parent
+     * @return mixed
+     */
+    private function generateUniqueName($name, $parent): mixed
+    {
+        $existName = Media::query()
+            ->where('parent_id', $parent)
+            ->where('name', 'LIKE', $name . '%')
+            ->get();
+
+        if ($existName->isNotEmpty()) {
+            $maxIdx = 0;
+            foreach ($existName as $item) {
+                if (preg_match('/\((\d+)\)$/', $item->name, $matches)) {
+                    $index = (int)$matches[1];
+                    if ($index > $maxIdx) {
+                        $maxIdx = $index;
+                    }
+                }
+            }
+            $name = $name . '(' . ($maxIdx + 1) . ')';
+        }
+
+        return $name;
+    }
+
+    /**
+     * @param $parentId
+     * @return string
+     */
+    public function getFolderName($parentId): string
+    {
+        $path = '';
+
+        while ($parentId) {
+            $folder = Media::query()->where('id', $parentId)->first();
+
+            if (!$folder) {
+                break;
+            }
+
+            $path = $folder->name . '/' . $path;
+            $parentId = $folder->parent_id;
+        }
+
+        return $path;
     }
 }
