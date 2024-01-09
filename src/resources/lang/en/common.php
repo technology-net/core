@@ -52,4 +52,6 @@ return [
     'go_home' => 'Go to Home',
     'smtp' => 'SMTP',
     'ses' => 'Amazon SES',
+    'copy_link' => 'Copy link',
+    'rename' => 'Rename',
 ];

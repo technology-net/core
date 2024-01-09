@@ -550,6 +550,52 @@ $(document).ready(function () {
       }
     });
   });
+  $('body').on('click', '.rename-file',function () {
+    let lastActive = $(".folder-container.active-item").last();
+    let media = lastActive.data('media');
+    $('#rename-form').find('input[name="name"]').val(media.name);
+    $('#rename-form').find('input[name="id"]').val(media.id);
+    $('#rename').modal('show');
+  });
+
+  $('body').on('submit', '#rename-form',function (e) {
+    e.preventDefault();
+    let form = $(this);
+    let formData = new FormData(form[0]);
+    let input = $(this).find('input[name="name"]');
+    let name = $(input).attr('name');
+    let messages = '';
+    if ($(input).val() === '') {
+      messages = VALIDATE_MESSAGE.required.replace(':attribute', name);
+      showError('name-mod', messages);
+      return false;
+    }
+    $('#rename').modal('hide');
+    $.ajax({
+      url: $(this).attr('action'),
+      method: $(this).attr('method'),
+      data: formData,
+      cache: false,
+      contentType: false,
+      processData: false,
+      success: function (response) {
+        if (response.success) {
+          form[0].reset();
+          showMessages(response.message);
+        } else {
+          showNotify(response.message, 'error');
+        }
+      },
+      error: function(xhr, status, error) {
+        if (xhr.status === 500) {
+          showNotify(xhr['responseJSON'].message, 'error');
+        }
+      },
+      complete: function () {
+        hideLoading();
+      }
+    });
+  });
 
   function handleActiveItem(event, _this) {
     // handle btn shift

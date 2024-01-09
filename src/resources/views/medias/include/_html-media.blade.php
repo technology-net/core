@@ -93,7 +93,7 @@
 <ul id="tooltip">
     <li class="copy-address">
         <i class="fas fa-link mr-2"></i>
-        <span>Copy link</span>
+        <span>@lang('packages/core::common.copy_link')</span>
     </li>
     <li class="download-file" data-url="{{ route('media.downloadFile') }}">
         <i class="fas fa-download mr-2"></i>
@@ -103,8 +103,13 @@
         <i class="fas fa-trash mr-2"></i>
         <span>@lang('packages/core::common.delete')</span>
     </li>
+    <li class="rename-file">
+        <i class="fas fa-pencil-alt mr-2"></i>
+        <span>@lang('packages/core::common.rename')</span>
+    </li>
 </ul>
 @include('packages/core::medias.include._modal-make-folder')
+@include('packages/core::medias.include._modal-rename')
 @section('media-js')
     <script>
         let ROUTE_SHOW = "{!! route('media.show', ['media' => '__folderId']) !!}";

@@ -141,6 +141,27 @@ class MediaController extends Controller
      * @return JsonResponse
      * @throws ServerErrorException
      */
+    public function renameFile(Request $request): JsonResponse
+    {
+        DB::beginTransaction();
+        try {
+            $this->mediaService->renameFile($request->all());
+            DB::commit();
+
+            return responseSuccess(null, trans('plugin/cms::messages.save_success'));
+
+        } catch (Exception $e) {
+            DB::rollback();
+            Log::error($e->getMessage(), ['file' => __FILE__, 'line' => __LINE__]);
+            throw new ServerErrorException(null, trans('packages/core::messages.action_error'));
+        }
+    }
+
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     * @throws ServerErrorException
+     */
     public function createFolder(Request $request): JsonResponse
     {
         DB::beginTransaction();

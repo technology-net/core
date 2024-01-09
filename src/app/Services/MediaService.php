@@ -56,12 +56,10 @@ class MediaService
         $originalName = explode('.', $name)[0] . '_' . $now;
         if (in_array(strtolower($extensions), $allowedExtensions)) {
             $mimeType = 'image/webp';
-            $name = $originalName . '.webp';
-        } else {
-            $name = $originalName . '.' . $extensions;
         }
+
         return Media::query()->create([
-            'name' => $name,
+            'name' => $originalName,
             'disk' => $disk,
             'mime_type' => $mimeType,
             'image_lg' => $image['image_lg']['file_path'],
@@ -136,7 +134,11 @@ class MediaService
         return $filePath;
     }
 
-    public function deleteFiles(array $inputs = array())
+    /**
+     * @param array $inputs
+     * @return bool
+     */
+    public function deleteFiles(array $inputs = array()): bool
     {
         $ids = Arr::get($inputs, 'ids', []);
         $medias = Media::query()->whereIn('id', $ids)->get();
@@ -145,6 +147,12 @@ class MediaService
         }
 
         return true;
+    }
+
+    public function renameFile(array $inputs = array())
+    {
+        $id = Arr::get($inputs, 'id', '');
+        $name = Arr::get($inputs, 'name', '');
     }
 
     /**
@@ -158,8 +166,7 @@ class MediaService
             $this->deleteFolderRecursive($child);
         }
         if (empty($media->is_directory)) {
-            $folderName = explode('.', $media->name);
-            $path = $this->getDirectory('/uploads/' . $folderName[0]);
+            $path = $this->getDirectory('/uploads/' . $media->name);
             if (Storage::disk($disk)->exists($path)) {
                 Storage::disk($disk)->deleteDirectory($path);
             }

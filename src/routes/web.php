@@ -39,6 +39,7 @@ Route::middleware(['web'])->group(function () {
                 Route::post('/folders', 'MediaController@createFolder')->name('create-folder');
                 Route::post('/downloadFile', 'MediaController@downloadFile')->name('downloadFile');
                 Route::post('/deleteFiles', 'MediaController@deleteFiles')->name('deleteFiles');
+                Route::post('/renameFile', 'MediaController@renameFile')->name('renameFile');
             });
 
             Route::group(['as' => 'settings.', 'prefix' => 'settings', 'namespace' => 'Settings'], function () {
