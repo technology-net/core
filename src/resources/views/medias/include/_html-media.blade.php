@@ -99,13 +99,13 @@
         <i class="fas fa-download mr-2"></i>
         <span>Download</span>
     </li>
-    <li class="delete-file" data-url="{{ route('media.deleteFiles') }}">
-        <i class="fas fa-trash mr-2"></i>
-        <span>@lang('packages/core::common.delete')</span>
-    </li>
     <li class="rename-file">
         <i class="fas fa-pencil-alt mr-2"></i>
         <span>@lang('packages/core::common.rename')</span>
+    </li>
+    <li class="delete-file" data-url="{{ route('media.deleteFiles') }}">
+        <i class="fas fa-trash mr-2"></i>
+        <span>@lang('packages/core::common.delete')</span>
     </li>
 </ul>
 @include('packages/core::medias.include._modal-make-folder')

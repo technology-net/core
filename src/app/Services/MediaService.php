@@ -105,7 +105,7 @@ class MediaService
         $medias = Media::query()->whereIn('id', $ids)->get();
         $disk = $this->getDisk();
         $filePath = '';
-
+        // nếu danh sách media không trống, chỉ có 1 phần tử và không phải là thư mục
         if ($medias->isNotEmpty() && $medias->count() == 1 && !$medias[0]->is_directory) {
             $path = $this->getDirectory($medias[0]->image_lg);
             if (Storage::disk($disk)->exists($path)) {
@@ -133,10 +133,71 @@ class MediaService
         return true;
     }
 
-    public function renameFile(array $inputs = array())
+    /**
+     * @param array $inputs
+     * @return void
+     */
+    public function renameFile(array $inputs = array()): void
     {
         $id = Arr::get($inputs, 'id', '');
-        $name = Arr::get($inputs, 'name', '');
+        $media = Media::query()->find($id);
+        $parentId = $media->parent_id;
+        $originalName = $media->name;
+        $inputName = Arr::get($inputs, 'name', '');
+        // nếu tên mới khác tên gốc thì mới update dữ liệu
+        if ($originalName != $inputName) {
+            // Tạo tên mới đảm bảo là duy nhất trong thư mục cha
+            $newName = $this->generateUniqueName($inputName, $parentId);
+            $disk = $this->getDisk();
+            $folder = $this->getFolderName($parentId);
+            $folderUpload = '/uploads/';
+            // Lấy đường dẫn thư mục cũ và mới
+            $directory = $this->getDirectory($folderUpload) . $folder . $originalName . '/';
+            $newDirectory = $this->getDirectory($folderUpload) . $folder . $newName . '/';
+            // Kiểm tra nếu thư mục cũ tồn tại
+            if (Storage::disk($disk)->exists($directory)) {
+                $fileInNewDirectories = Storage::disk($disk)->files($directory);
+                if (!empty($fileInNewDirectories)) {
+                    foreach ($fileInNewDirectories as $file) {
+                        // Tạo đường dẫn mới cho từng file
+                        $newFile = str_replace($originalName, $newName, $file);
+
+                        // Đổi tên file trong storage
+                        Storage::disk($disk)->move($file, $newFile);
+                    }
+                }
+                // Đổi tên folder trong storage
+                Storage::disk($disk)->move($directory, $newDirectory);
+                // xóa folder cũ
+                Storage::disk($disk)->deleteDirectory($directory);
+                // Cập nhật CSDL cho các bản ghi con
+                $childrens = $media->children->where('is_directory', Media::IS_NOT_DIRECTORY);
+                if ($childrens->isNotEmpty()) {
+                    foreach ($childrens as $child) {
+                        $imageLg = !empty($child->image_lg) ? str_replace($originalName, $newName, $child->image_lg) : '';
+                        $imageMd = !empty($child->image_md) ? str_replace($originalName, $newName, $child->image_md) : '';
+                        $imageSm = !empty($child->image_sm) ? str_replace($originalName, $newName, $child->image_sm) : '';
+
+                        $child->update([
+                            'image_lg' => $imageLg,
+                            'image_md' => $imageMd,
+                            'image_sm' => $imageSm,
+                        ]);
+                    }
+                }
+            }
+
+            if ($media->is_directory == Media::IS_DIRECTORY) {
+                $prepareData = [
+                    'name' => $newName
+                ];
+            } else {
+                $prepareData = $this->prepareDataImage($media, $originalName, $newName);
+                $prepareData['name'] = $newName;
+            }
+
+            $media->update($prepareData);
+        }
     }
 
     /**
@@ -166,5 +227,18 @@ class MediaService
     private function createOrUpdate(array $conditions = array(), array $datas = array()): Model|Builder
     {
         return Media::query()->updateOrCreate($conditions, $datas);
+    }
+
+    private function prepareDataImage($data, $from, $to)
+    {
+        $imageLg = !empty($data->image_lg) ? str_replace($from, $to, $data->image_lg) : '';
+        $imageMd = !empty($data->image_md) ? str_replace($from, $to, $data->image_md) : '';
+        $imageSm = !empty($data->image_sm) ? str_replace($from, $to, $data->image_sm) : '';
+
+        return [
+            'image_lg' => $imageLg,
+            'image_md' => $imageMd,
+            'image_sm' => $imageSm,
+        ];
     }
 }

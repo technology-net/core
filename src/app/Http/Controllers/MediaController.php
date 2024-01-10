@@ -148,7 +148,7 @@ class MediaController extends Controller
             $this->mediaService->renameFile($request->all());
             DB::commit();
 
-            return responseSuccess(null, trans('plugin/cms::messages.save_success'));
+            return $this->responseHtml($request->all());
 
         } catch (Exception $e) {
             DB::rollback();

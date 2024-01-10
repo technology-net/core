@@ -239,12 +239,7 @@ $(document).ready(function () {
       contentType: false,
       success: function(response) {
         if (response.success) {
-          $('#fill-media').html(response.html);
-          showMessages(response.message);
-          page = 1;
-          if ($('#btn-list').hasClass('active')) {
-            $('#btn-list').trigger('click');
-          }
+          renderAgainHtml(response);
         } else {
           showNotify(response.message, 'error');
         }
@@ -292,12 +287,7 @@ $(document).ready(function () {
         $('#makeFolder').modal('hide');
         form[0].reset();
         if (response.success) {
-          $('#fill-media').html(response.html);
-          showMessages(response.message);
-          page = 1;
-          if ($('#btn-list').hasClass('active')) {
-            $('#btn-list').trigger('click');
-          }
+          renderAgainHtml(response);
         } else {
           showNotify(response.message, 'error');
         }
@@ -530,12 +520,7 @@ $(document).ready(function () {
       },
       success: function (response) {
         if (response.success) {
-          $('#fill-media').html(response.html);
-          showMessages(response.message);
-          page = 1;
-          if ($('#btn-list').hasClass('active')) {
-            $('#btn-list').trigger('click');
-          }
+          renderAgainHtml(response);
         } else {
           showNotify(response.message, 'error');
         }
@@ -562,6 +547,8 @@ $(document).ready(function () {
     e.preventDefault();
     let form = $(this);
     let formData = new FormData(form[0]);
+    formData.append('parent_id', $('#fill-media').attr('data-parent_id'))
+    formData.append('parent', parent);
     let input = $(this).find('input[name="name"]');
     let name = $(input).attr('name');
     let messages = '';
@@ -570,7 +557,6 @@ $(document).ready(function () {
       showError('name-mod', messages);
       return false;
     }
-    $('#rename').modal('hide');
     $.ajax({
       url: $(this).attr('action'),
       method: $(this).attr('method'),
@@ -581,7 +567,8 @@ $(document).ready(function () {
       success: function (response) {
         if (response.success) {
           form[0].reset();
-          showMessages(response.message);
+          $('#rename').modal('hide');
+          renderAgainHtml(response);
         } else {
           showNotify(response.message, 'error');
         }
@@ -612,5 +599,14 @@ $(document).ready(function () {
         $(_this).addClass('active-item');
       }
     }
+  }
+
+  function renderAgainHtml(response) {
+    $('#fill-media').html(response.html);
+    page = 1;
+    if ($('#btn-list').hasClass('active')) {
+      $('#btn-list').trigger('click');
+    }
+    showMessages(response.message);
   }
 })

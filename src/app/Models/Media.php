@@ -24,6 +24,8 @@ class Media extends BaseModel
         'size_format',
     ];
 
+    protected $with = ['children'];
+
     /**
      * @return HasMany
      */
